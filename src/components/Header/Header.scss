@@ -1,0 +1,46 @@
+@use '../../styles/variables' as v;
+
+.header {
+  display: flex;
+  background-color: v.$color-primary;
+  &-logo {
+    width: 8rem;
+  }
+  &-position {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    &-left {
+      text-align: left;
+    }
+    &-right {
+      padding: 1.5rem 1rem;
+    }
+  }
+  &-nav-list {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    list-style-type: none;
+    padding: 2rem 1rem;
+    cursor: pointer;
+    &-link {
+      &-dir {
+        text-decoration: none;
+        color: v.$color-bg;
+        font-size: 1.8rem;
+      }
+    }
+  }
+  &-button {
+    cursor: pointer;
+    margin: 1rem;
+    background-color: v.$color-button;
+    color: v.$color-bg;
+    border: 1px solid v.$color-button;
+    border-radius: 0.3rem;
+    padding: 0.3rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+}
