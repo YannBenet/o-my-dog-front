@@ -1,4 +1,4 @@
-@use '../../styles/variables' as v;
+@use '../../../styles/variables' as v;
 
 .footer {
   background-color: v.$color-primary;
@@ -9,9 +9,10 @@
     list-style-type: none;
     &-list {
       cursor: pointer;
-      text-decoration: none;
       &-link {
+        text-decoration: none;
         color: v.$color-bg;
+        font-size: 0.8rem;
       }
       &-link:hover {
         font-weight: bold;

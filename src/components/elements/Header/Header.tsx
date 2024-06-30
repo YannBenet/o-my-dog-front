@@ -12,7 +12,7 @@ function Header() {
           <nav className="header-nav">
             <ul className="header-nav-list">
               <li className="header-nav-list-link">
-                <a href="#" className="header-nav-list-link-dir">
+                <a href="/" className="header-nav-list-link-dir">
                   Acceuil
                 </a>
               </li>

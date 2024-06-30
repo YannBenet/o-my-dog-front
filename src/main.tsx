@@ -7,24 +7,27 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import Root from './components/layouts/Root';
-
+import Home from './components/Page/Home';
+import Contact from './components/Page/Contact';
+import LegalInformation from './components/Page/LegalInformation';
+import WhoAreWe from './components/Page/QuiSommeNous';
+import GeneralCondition from './components/Page/GeneralCondition';
+import DataProtection from './components/Page/DataProtection';
 import './styles/index.scss';
-import Contact from './components/Page/contact';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-/* ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-); */
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
+      <Route index element={<Home />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/WhoAReWE" element={<WhoAreWe />} />
+      <Route path="/LegalInformation" element={<LegalInformation />} />
+      <Route path="/GeneralCondition" element={<GeneralCondition />} />
+      <Route path="/DataProtection" element={<DataProtection />} />
     </Route>
   )
 );
