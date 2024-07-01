@@ -2,8 +2,8 @@
 
 import '../../styles/index.scss';
 import './Home.scss';
-import SearchBar from '../elements/Search/Search';
-import FirstSelection from '../elements/FirstSearch/FirstSelection';
+import SearchBar from '../elements/SearchBar/SearchBar';
+import FirstSelection from '../elements/FirstSelection/FirstSelection';
 
 import firstList from '../../data/pet-sitters';
 

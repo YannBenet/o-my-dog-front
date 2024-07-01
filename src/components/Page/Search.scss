@@ -1,0 +1,58 @@
+@use '../.././styles/variables' as v;
+
+.search-container {
+  width: 80%;
+  margin: 0 auto;
+  & h3 {
+    margin: 2rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+  }
+  &-result-card {
+    height: 12rem;
+    display: flex;
+    margin: 1rem 0;
+    border: 2px solid v.$color-primary;
+    border-radius: 1rem;
+    &-img {
+      width: 35%;
+      & img {
+        border-radius: 0.9rem 0 0 0.9rem;
+        max-height: 100%;
+        max-width: 100%;
+        border: 2px solid v.$color-primary;
+      }
+    }
+    &-text {
+      width: 100%;
+      position: relative;
+    }
+    &-text h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 0.3rem;
+    }
+    &-text h6 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.3rem;
+    }
+    &-description {
+      max-height: 4rem;
+      overflow: scroll;
+      & p {
+        padding: 0.3rem;
+      }
+    }
+    &-button {
+      position: absolute;
+      bottom: 0.5rem;
+      right: 1rem;
+      background-color: v.$color-primary;
+      color: v.$color-bg;
+      border-radius: 1rem;
+      border-color: v.$color-button;
+      padding: 0.3rem;
+    }
+  }
+}

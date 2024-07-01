@@ -80,8 +80,8 @@ export default [
   },
   {
     id: 17,
-    firstname: 'Antoine',
-    lastname: 'David',
+    firstname: 'Antonin',
+    lastname: 'Divad',
     email: 'antoine.david@example.com',
     city: 'Dijon',
     phone_number: '0678901235',

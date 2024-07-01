@@ -1,5 +1,5 @@
 /* eslint-disable import/no-absolute-path */
-import './Search.scss';
+import './SearchBar.scss';
 
 import bannerOne from '/images/bannerOne.jpg';
 import bannerTwo from '/images/bannerTwo.jpg';

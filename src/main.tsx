@@ -15,6 +15,7 @@ import GeneralCondition from './components/Page/GeneralCondition';
 import DataProtection from './components/Page/DataProtection';
 import Inscription from './components/Page/Inscription';
 import Connexion from './components/Page/Connexion';
+import Search from './components/Page/Search';
 import './styles/index.scss';
 
 const root = ReactDOM.createRoot(
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
       <Route path="/DataProtection" element={<DataProtection />} />
       <Route path="/Connexion" element={<Connexion />} />
       <Route path="/Inscription" element={<Inscription />} />
+      <Route path="/Search" element={<Search />} />
     </Route>
   )
 );

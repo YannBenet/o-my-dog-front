@@ -17,7 +17,7 @@ function Header() {
                 </a>
               </li>
               <li className="header-nav-list-link">
-                <a href="#" className="header-nav-list-link-dir">
+                <a href="/Search" className="header-nav-list-link-dir">
                   Recherche
                 </a>
               </li>
