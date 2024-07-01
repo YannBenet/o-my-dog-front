@@ -14,7 +14,7 @@
       text-align: left;
     }
     &-right {
-      padding: 1.5rem 1rem;
+      padding: 2.7rem 1rem;
     }
   }
   &-nav-list {
@@ -39,8 +39,9 @@
     color: v.$color-bg;
     border: 1px solid v.$color-button;
     border-radius: 0.3rem;
-    padding: 0.3rem;
+    padding: 0.5rem;
     font-size: 1.1rem;
     font-weight: bold;
+    text-decoration: none;
   }
 }

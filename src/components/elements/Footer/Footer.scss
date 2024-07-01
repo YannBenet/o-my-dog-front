@@ -2,17 +2,18 @@
 
 .footer {
   background-color: v.$color-primary;
-  height: 2rem;
+  margin-top: 2rem;
   &-container {
     display: flex;
     justify-content: space-around;
     list-style-type: none;
     &-list {
       cursor: pointer;
+      padding: 1rem;
       &-link {
         text-decoration: none;
         color: v.$color-bg;
-        font-size: 0.8rem;
+        font-size: 1.1rem;
       }
       &-link:hover {
         font-weight: bold;

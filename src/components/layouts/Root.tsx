@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import '../../styles/index.scss';
 import Footer from '../elements/Footer/Footer';
 import Header from '../elements/Header/Header';
-import SearchBar from '../elements/Search/Search';
 
 function Root() {
   // récup URL pour surveiller changement de page

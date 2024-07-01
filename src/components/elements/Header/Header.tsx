@@ -25,12 +25,12 @@ function Header() {
           </nav>
         </section>
         <section className="header-position-right">
-          <button className="header-button" type="button">
+          <a href="/Inscription" className="header-button">
             inscription
-          </button>
-          <button className="header-button" type="button">
+          </a>
+          <a href="/Connexion" className="header-button">
             connexion
-          </button>
+          </a>
         </section>
       </section>
     </header>

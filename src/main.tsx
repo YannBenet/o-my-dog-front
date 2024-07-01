@@ -13,6 +13,8 @@ import LegalInformation from './components/Page/LegalInformation';
 import WhoAreWe from './components/Page/QuiSommeNous';
 import GeneralCondition from './components/Page/GeneralCondition';
 import DataProtection from './components/Page/DataProtection';
+import Inscription from './components/Page/Inscription';
+import Connexion from './components/Page/Connexion';
 import './styles/index.scss';
 
 const root = ReactDOM.createRoot(
@@ -28,6 +30,8 @@ const router = createBrowserRouter(
       <Route path="/LegalInformation" element={<LegalInformation />} />
       <Route path="/GeneralCondition" element={<GeneralCondition />} />
       <Route path="/DataProtection" element={<DataProtection />} />
+      <Route path="/Connexion" element={<Connexion />} />
+      <Route path="/Inscription" element={<Inscription />} />
     </Route>
   )
 );

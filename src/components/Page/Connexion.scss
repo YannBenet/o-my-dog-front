@@ -1,0 +1,44 @@
+@use '../../styles/variables' as v;
+
+.container {
+  &-connexion {
+    width: 70%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 3rem;
+    & h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    &-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 50%;
+      margin: 0 auto;
+      &-button {
+        background-color: v.$color-primary;
+        color: v.$color-bg;
+        border-radius: 1rem;
+        border-color: v.$color-button;
+      }
+    }
+  }
+  &-switch {
+    margin: 2rem;
+    &-text {
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    &-button {
+      background-color: v.$color-primary;
+      padding: 0.5rem;
+      border-radius: 1rem;
+      text-decoration: none;
+      color: v.$color-bg;
+      font-size: 1.5rem;
+      border: 2px solid;
+      border-color: v.$color-button;
+    }
+  }
+}

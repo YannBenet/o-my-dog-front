@@ -42,6 +42,9 @@ function SearchBar() {
             className="search-banner-form-input"
             placeholder="animaux"
           />
+          <button type="submit" className="search-banner-form-button">
+            Validé
+          </button>
         </form>
       </section>
     </section>

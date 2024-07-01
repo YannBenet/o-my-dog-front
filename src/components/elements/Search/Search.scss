@@ -15,12 +15,21 @@
       border: 1px solid v.$color-primary;
       border-radius: 0.5rem;
       color: v.$color-bg;
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: v.$color-primary;
     }
     &-position {
       position: absolute;
       bottom: 0.3rem;
-      left: 19rem;
+      left: 15rem;
+    }
+    &-button {
+      background-color: v.$color-primary;
+      border-radius: 1rem;
+      border: 1px solid rgb(62, 127, 224);
+      cursor: pointer;
+      padding: 0 1rem;
+      color: v.$color-bg;
+      font-weight: bold;
     }
   }
 }
