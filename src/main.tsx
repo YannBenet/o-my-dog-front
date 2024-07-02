@@ -16,6 +16,9 @@ import DataProtection from './components/Page/DataProtection';
 import Inscription from './components/Page/Inscription';
 import Connexion from './components/Page/Connexion';
 import Search from './components/Page/Search';
+import Profile from './components/Page/PersonalProfile';
+import EditProfil from './components/Page/EditProfile';
+import PetSitterProfile from './components/Page/PetSitterProfile';
 import './styles/index.scss';
 
 const root = ReactDOM.createRoot(
@@ -34,13 +37,12 @@ const router = createBrowserRouter(
       <Route path="/Connexion" element={<Connexion />} />
       <Route path="/Inscription" element={<Inscription />} />
       <Route path="/Search" element={<Search />} />
+      <Route path="Profil" element={<Profile />} />
+      <Route path="/Profil/EditProfil" element={<EditProfil />} />
+      <Route path="/PetSitter" element={<PetSitterProfile />} />
     </Route>
   )
 );
 
 // On injecte notre application dans le DOM
-root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);
+root.render(<RouterProvider router={router} />);

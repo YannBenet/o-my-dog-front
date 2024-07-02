@@ -13,11 +13,15 @@
     border-radius: 1rem;
     background-color: v.$color-primary;
     color: v.$color-bg;
+    & a {
+      text-decoration: none;
+    }
     & img {
       border-radius: 1rem 1rem 0 0;
     }
     & h3,
     h4 {
+      color: v.$color-bg;
       padding: 0.8rem;
     }
     & h3 {

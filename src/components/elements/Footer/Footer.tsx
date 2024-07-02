@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { NavLink } from 'react-router-dom';
 import './Footer.scss';
 
 function Footer() {
@@ -6,29 +7,35 @@ function Footer() {
     <footer className="footer">
       <ul className="footer-container">
         <li className="footer-container-list">
-          <a className="footer-container-list-link" href="/contact">
+          <NavLink className="footer-container-list-link" to="/contact">
             Contact
-          </a>
+          </NavLink>
         </li>
         <li className="footer-container-list">
-          <a className="footer-container-list-link" href="/WhoAreWe">
+          <NavLink className="footer-container-list-link" to="/WhoAreWe">
             Qui somme nous?
-          </a>
+          </NavLink>
         </li>
         <li className="footer-container-list">
-          <a className="footer-container-list-link" href="/LegalInformation">
+          <NavLink
+            className="footer-container-list-link"
+            to="/LegalInformation"
+          >
             Mentions légals
-          </a>
+          </NavLink>
         </li>
         <li className="footer-container-list">
-          <a className="footer-container-list-link" href="/GeneralCondition">
+          <NavLink
+            className="footer-container-list-link"
+            to="/GeneralCondition"
+          >
             Condition générales
-          </a>
+          </NavLink>
         </li>
         <li className="footer-container-list">
-          <a className="footer-container-list-link" href="/DataProtection">
+          <NavLink className="footer-container-list-link" to="/DataProtection">
             Protection des données
-          </a>
+          </NavLink>
         </li>
       </ul>
     </footer>

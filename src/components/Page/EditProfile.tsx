@@ -1,9 +1,9 @@
-import './Inscription.scss';
+import './EditProfile.scss';
 
-function Inscription() {
+function EditProfil() {
   return (
     <section className="container-inscription">
-      <h2>Inscription</h2>
+      <h2>Modifier mon profil</h2>
       <section>
         <form action="submit" className="container-inscription-form">
           <input
@@ -51,4 +51,4 @@ function Inscription() {
   );
 }
 
-export default Inscription;
+export default EditProfil;
