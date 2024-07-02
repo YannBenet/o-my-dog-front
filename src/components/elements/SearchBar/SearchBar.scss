@@ -1,0 +1,35 @@
+@use '../../../styles/variables' as v;
+
+.search-banner {
+  width: 100%;
+  position: relative;
+  &-img {
+    display: flex;
+    &-solo {
+      width: 34%;
+    }
+  }
+  &-form {
+    &-input {
+      margin: 0.3rem;
+      border: 1px solid v.$color-primary;
+      border-radius: 0.5rem;
+      color: v.$color-bg;
+      background-color: v.$color-primary;
+    }
+    &-position {
+      position: absolute;
+      bottom: 0.3rem;
+      left: 15rem;
+    }
+    &-button {
+      background-color: v.$color-primary;
+      border-radius: 1rem;
+      border: 1px solid rgb(62, 127, 224);
+      cursor: pointer;
+      padding: 0 1rem;
+      color: v.$color-bg;
+      font-weight: bold;
+    }
+  }
+}
