@@ -19,6 +19,7 @@ import Search from './components/Page/Search';
 import Profile from './components/Page/PersonalProfile';
 import EditProfil from './components/Page/EditProfile';
 import PetSitterProfile from './components/Page/PetSitterProfile';
+import Availability from './components/Page/Availability';
 import './styles/index.scss';
 
 const root = ReactDOM.createRoot(
@@ -40,6 +41,7 @@ const router = createBrowserRouter(
       <Route path="Profil" element={<Profile />} />
       <Route path="/Profil/EditProfil" element={<EditProfil />} />
       <Route path="/PetSitter" element={<PetSitterProfile />} />
+      <Route path="/Availability" element={<Availability />} />
     </Route>
   )
 );

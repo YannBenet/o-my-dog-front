@@ -1,4 +1,4 @@
-import './EditProfile.scss';
+import '../PageStyle/EditProfile.scss';
 
 function EditProfil() {
   return (

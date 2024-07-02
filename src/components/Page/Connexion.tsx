@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { NavLink } from 'react-router-dom';
-import './Connexion.scss';
+import '../PageStyle/Connexion.scss';
 
 function Connexion() {
   return (

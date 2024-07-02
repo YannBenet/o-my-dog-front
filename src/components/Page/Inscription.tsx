@@ -1,4 +1,4 @@
-import './Inscription.scss';
+import '../PageStyle/Inscription.scss';
 
 function Inscription() {
   return (

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-absolute-path */
-import './PersonalProfile.scss';
+import '../PageStyle/PersonalProfile.scss';
 import PhotoProfil from '/images/profil.jpg';
 
 function PetSitterProfile() {

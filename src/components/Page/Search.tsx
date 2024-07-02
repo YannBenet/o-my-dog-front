@@ -1,4 +1,4 @@
-import './Search.scss';
+import '../PageStyle/Search.scss';
 import { NavLink } from 'react-router-dom';
 import profil from '../../../public/images/profil.jpg';
 import SearchBar from '../elements/SearchBar/SearchBar';

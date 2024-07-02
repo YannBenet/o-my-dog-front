@@ -1,7 +1,7 @@
 /* eslint-disable import/no-absolute-path */
 
 import { NavLink } from 'react-router-dom';
-import './PersonalProfile.scss';
+import '../PageStyle/PersonalProfile.scss';
 import PhotoProfil from '/images/profil.jpg';
 
 function Profile() {
@@ -27,7 +27,7 @@ function Profile() {
             Faire garder mon animal
           </button>
         </NavLink>
-        <NavLink to="/Disponibilité">
+        <NavLink to="/Availability">
           <button type="button" className="profile-link-button">
             Proposer mes disponibilité de garde
           </button>
