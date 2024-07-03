@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 
 import '../../styles/index.scss';
-import './Home.scss';
+import '../PageStyle/Home.scss';
 import SearchBar from '../elements/SearchBar/SearchBar';
 import FirstSelection from '../elements/FirstSelection/FirstSelection';
 

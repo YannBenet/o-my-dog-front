@@ -26,6 +26,20 @@
     &-text {
       width: 100%;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      & a {
+        text-decoration: none;
+        position: absolute;
+        bottom: 0.5rem;
+        right: 1rem;
+        background-color: v.$color-primary;
+        color: v.$color-bg;
+        border-radius: 1rem;
+        border-color: v.$color-button;
+        padding: 0.3rem;
+      }
     }
     &-text h4 {
       font-size: 1.1rem;
@@ -43,16 +57,6 @@
       & p {
         padding: 0.3rem;
       }
-    }
-    &-button {
-      position: absolute;
-      bottom: 0.5rem;
-      right: 1rem;
-      background-color: v.$color-primary;
-      color: v.$color-bg;
-      border-radius: 1rem;
-      border-color: v.$color-button;
-      padding: 0.3rem;
     }
   }
 }

@@ -1,4 +1,5 @@
-import './Search.scss';
+import '../PageStyle/Search.scss';
+import { NavLink } from 'react-router-dom';
 import profil from '../../../public/images/profil.jpg';
 import SearchBar from '../elements/SearchBar/SearchBar';
 
@@ -31,12 +32,13 @@ function Search() {
                 <h6>Disponibilité</h6>
                 <p>du 15-07-2024 au 30-07-2024</p>
               </div>
-              <button
+              <NavLink
+                to="/PetSitter"
                 type="button"
                 className="search-container-result-card-button"
               >
                 Voir Profile
-              </button>
+              </NavLink>
             </div>
           </article>
           <article className="search-container-result-card">
@@ -61,12 +63,13 @@ function Search() {
                 <h6>Disponibilité</h6>
                 <p>du 15-07-2024 au 30-07-2024</p>
               </div>
-              <button
+              <NavLink
+                to="/PetSitter"
                 type="button"
                 className="search-container-result-card-button"
               >
                 Voir Profile
-              </button>
+              </NavLink>
             </div>
           </article>
           <article className="search-container-result-card">
@@ -86,12 +89,13 @@ function Search() {
                 <h6>Disponibilité</h6>
                 <p>du 15-07-2024 au 30-07-2024</p>
               </div>
-              <button
+              <NavLink
+                to="/PetSitter"
                 type="button"
                 className="search-container-result-card-button"
               >
                 Voir Profile
-              </button>
+              </NavLink>
             </div>
           </article>
         </section>

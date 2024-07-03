@@ -37,6 +37,7 @@ function SearchBar() {
             className="search-banner-form-input"
             placeholder="date"
           />
+          {/* TODO transformer l'input en select */}
           <input
             type="text"
             className="search-banner-form-input"

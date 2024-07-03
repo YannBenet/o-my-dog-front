@@ -6,7 +6,8 @@
   &-img {
     display: flex;
     &-solo {
-      width: 34%;
+      max-width: 34%;
+      overflow: hidden;
     }
   }
   &-form {
@@ -20,7 +21,7 @@
     &-position {
       position: absolute;
       bottom: 0.3rem;
-      left: 15rem;
+      //left: 10rem;
     }
     &-button {
       background-color: v.$color-primary;

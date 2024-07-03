@@ -1,8 +1,9 @@
 @use '../../../styles/variables' as v;
-
 .header {
   display: flex;
   background-color: v.$color-primary;
+  min-height: 9rem;
+  height: 9rem;
   &-logo {
     width: 8rem;
   }
@@ -14,7 +15,10 @@
       text-align: left;
     }
     &-right {
-      padding: 2.7rem 1rem;
+      margin-right: 5rem;
+      padding: 1rem 1rem;
+      position: relative;
+      z-index: 1;
     }
   }
   &-nav-list {
@@ -43,5 +47,58 @@
     font-size: 1.1rem;
     font-weight: bold;
     text-decoration: none;
+    &-connected {
+      visibility: hidden;
+    }
+    &-picture {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 20% 20% 20% 20%;
+      border: 2px solid v.$color-button;
+      background-color: v.$color-primary;
+      box-shadow: inset 0 0rem 1rem v.$color-button;
+      overflow: hidden;
+      cursor: pointer;
+      &-disconnect {
+        visibility: hidden;
+        width: 5rem;
+        height: 5rem;
+      }
+      & img {
+        height: 100%;
+      }
+    }
+  }
+}
+.connect {
+  position: absolute;
+  top: 7rem;
+  right: -2.5rem;
+  &-navBar {
+    background-color: v.$color-primary;
+    color: v.$color-bg;
+    border: 2px solid v.$color-button;
+    border-radius: 0.3rem;
+    padding: 0.5rem;
+    width: 12rem;
+    &-hidden {
+      visibility: hidden;
+    }
+    & li {
+      list-style-type: none;
+      padding: 0;
+    }
+    &-menu {
+      cursor: pointer;
+      text-decoration: none;
+      color: v.$color-bg;
+      &-closed {
+        background-color: v.$color-button;
+        border-radius: 1rem;
+        border: 2px solid v.$color-button;
+        padding: 0.2rem;
+        cursor: pointer;
+      }
+    }
   }
 }

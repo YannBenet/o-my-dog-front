@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import './Connexion.scss';
+import { NavLink } from 'react-router-dom';
+import '../PageStyle/Connexion.scss';
 
 function Connexion() {
   return (
@@ -8,9 +9,9 @@ function Connexion() {
         <p className="container-switch-text">
           Si vous n'avez pas de compte veuillez en créer un!
         </p>
-        <a href="/Inscription" className="container-switch-button">
+        <NavLink to="/Inscription" className="container-switch-button">
           Inscription
-        </a>
+        </NavLink>
       </div>
       <h2>Se connecter</h2>
       <form action="submit" className="container-connexion-form">

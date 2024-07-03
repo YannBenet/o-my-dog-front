@@ -20,6 +20,7 @@
       border-color: v.$color-primary;
     }
     &-button {
+      cursor: pointer;
       background-color: v.$color-primary;
       color: v.$color-bg;
       border-radius: 1rem;
