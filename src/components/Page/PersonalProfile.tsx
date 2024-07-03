@@ -50,7 +50,7 @@ function Profile() {
         </div>
         <section className="profile-available-entrie">
           <div className="profile-available-entrie-title">
-            <h4>Mes Disponibilitées :</h4>
+            <h4>Mes Disponibilités :</h4>
           </div>
           <div className="profile-available-entrie-period">
             <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">

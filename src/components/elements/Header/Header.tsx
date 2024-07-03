@@ -22,7 +22,7 @@ function Header() {
             <ul className="header-nav-list">
               <li className="header-nav-list-link">
                 <NavLink to="/" className="header-nav-list-link-dir">
-                  Acceuil
+                  Accueil
                 </NavLink>
               </li>
               <li className="header-nav-list-link">
@@ -72,7 +72,7 @@ function Header() {
             >
               <li>
                 <NavLink to="/" className="connect-navBar-menu">
-                  Acceuil
+                  Accueil
                 </NavLink>
               </li>
               <li>
