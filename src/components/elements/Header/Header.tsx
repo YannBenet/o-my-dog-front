@@ -15,7 +15,9 @@ function Header() {
 
   return (
     <header className="header">
-      <img src={logo} className="header-logo" alt="logo" />
+      <a href="/" alt="lien pour la page accueil">
+        <img src={logo} className="header-logo" alt="logo" />
+      </a>
       <section className="header-position">
         <section className="header-position-left">
           <nav className="header-nav">
@@ -32,7 +34,7 @@ function Header() {
               </li>
               {/* attention au hidden mon profil sera accessible que si connecté */}
               <li className="header-nav-list-link">
-                <NavLink to="/Profil" className="header-nav-list-link-dir">
+                <NavLink to="/Profile" className="header-nav-list-link-dir">
                   Mon profil
                 </NavLink>
               </li>
@@ -81,13 +83,13 @@ function Header() {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/profil" className="connect-navBar-menu">
+                <NavLink to="/profile" className="connect-navBar-menu">
                   Mon profil
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="/profil/editprofil"
+                  to="/profile/editprofile"
                   className="connect-navBar-menu"
                 >
                   Modification profil
