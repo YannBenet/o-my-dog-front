@@ -22,7 +22,6 @@ import Availability from './components/Page/Availability';
 import AboutUs from './components/Page/QuiSommeNous';
 import './styles/index.scss';
 
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
