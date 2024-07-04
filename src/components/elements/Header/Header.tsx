@@ -15,9 +15,9 @@ function Header() {
 
   return (
     <header className="header">
-      <a href="/" alt="lien pour la page accueil">
+      <NavLink to="/">
         <img src={logo} className="header-logo" alt="logo" />
-      </a>
+      </NavLink>
       <section className="header-position">
         <section className="header-position-left">
           <nav className="header-nav">
