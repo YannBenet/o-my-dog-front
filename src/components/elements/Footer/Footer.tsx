@@ -12,7 +12,7 @@ function Footer() {
           </NavLink>
         </li>
         <li className="footer-container-list">
-          <NavLink className="footer-container-list-link" to="/WhoAreWe">
+          <NavLink className="footer-container-list-link" to="/AboutUs">
             Qui sommes-nous?
           </NavLink>
         </li>
