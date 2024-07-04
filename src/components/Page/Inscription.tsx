@@ -38,12 +38,12 @@ function Inscription() {
           />
           <input
             type="text"
-            placeholder="vérifiacation Mot de Passe"
+            placeholder="vérification Mot de Passe"
             className="container-inscription-form-input"
           />
 
           <button type="submit" className="container-inscription-form-button">
-            Validé
+            Valider
           </button>
         </form>
       </section>

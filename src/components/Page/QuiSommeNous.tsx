@@ -1,6 +1,6 @@
 import '../../styles/index.scss';
 
-function WhoAreWe() {
+function AboutUs() {
   return (
     <div>
       <h3>Qui somme nous ?</h3>
@@ -13,4 +13,4 @@ function WhoAreWe() {
   );
 }
 
-export default WhoAreWe;
+export default AboutUs;

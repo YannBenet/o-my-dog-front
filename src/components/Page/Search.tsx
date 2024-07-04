@@ -8,14 +8,14 @@ function Search() {
     <section>
       <SearchBar />
       <section className="search-container">
-        <h3> Il y as 3 pet-sitter correspondant à votre recherche</h3>
+        <h3> Il y a 3 pet-sitter correspondant à votre recherche</h3>
         <section className="search-container-result">
           <article className="search-container-result-card">
             <div className="search-container-result-card-img">
               <img src={profil} alt="profil" />
             </div>
             <div className="search-container-result-card-text">
-              <h4>Nom Prenom</h4>
+              <h4>Nom Prénom</h4>
               <h6>description</h6>
               <div className="search-container-result-card-description">
                 <p>
@@ -29,7 +29,7 @@ function Search() {
                 </p>
               </div>
               <div className="search-container-result-card-date">
-                <h6>Disponibilité</h6>
+                <h6>Disponibilités</h6>
                 <p>du 15-07-2024 au 30-07-2024</p>
               </div>
               <NavLink
@@ -37,7 +37,7 @@ function Search() {
                 type="button"
                 className="search-container-result-card-button"
               >
-                Voir Profile
+                Voir Profil
               </NavLink>
             </div>
           </article>
@@ -46,7 +46,7 @@ function Search() {
               <img src={profil} alt="profil" />
             </div>
             <div className="search-container-result-card-text">
-              <h4>Nom Prenom</h4>
+              <h4>Nom Prénom</h4>
               <h6>description</h6>
               <div className="search-container-result-card-description">
                 <p>
@@ -60,7 +60,7 @@ function Search() {
                 </p>
               </div>
               <div className="search-container-result-card-date">
-                <h6>Disponibilité</h6>
+                <h6>Disponibilités</h6>
                 <p>du 15-07-2024 au 30-07-2024</p>
               </div>
               <NavLink
@@ -68,7 +68,7 @@ function Search() {
                 type="button"
                 className="search-container-result-card-button"
               >
-                Voir Profile
+                Voir Profil
               </NavLink>
             </div>
           </article>
@@ -77,7 +77,7 @@ function Search() {
               <img src={profil} alt="profil" />
             </div>
             <div className="search-container-result-card-text">
-              <h4>Nom Prenom</h4>
+              <h4>Nom Prénom</h4>
               <h6>description</h6>
               <div className="search-container-result-card-description">
                 <p>
@@ -86,7 +86,7 @@ function Search() {
                 </p>
               </div>
               <div className="search-container-result-card-date">
-                <h6>Disponibilité</h6>
+                <h6>Disponibilités</h6>
                 <p>du 15-07-2024 au 30-07-2024</p>
               </div>
               <NavLink
@@ -94,7 +94,7 @@ function Search() {
                 type="button"
                 className="search-container-result-card-button"
               >
-                Voir Profile
+                Voir Profil
               </NavLink>
             </div>
           </article>

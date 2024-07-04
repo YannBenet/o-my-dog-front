@@ -1,6 +1,6 @@
 import '../../styles/index.scss';
 
-function GeneralCondition() {
+function GeneralConditions() {
   return (
     <div>
       <h3>Conditions Générales</h3>
@@ -13,4 +13,4 @@ function GeneralCondition() {
   );
 }
 
-export default GeneralCondition;
+export default GeneralConditions;

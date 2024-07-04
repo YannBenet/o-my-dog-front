@@ -15,7 +15,7 @@ function Profile() {
         />
 
         <div className="profile-container-info">
-          <h2>Nom: ....... Prenom: .....</h2>
+          <h2>Nom: ....... Prénom: .....</h2>
           <p>numéro de téléphone: ....</p>
           <p>adresse mail: ....</p>
         </div>
@@ -29,7 +29,7 @@ function Profile() {
         </NavLink>
         <NavLink to="/Availability">
           <button type="button" className="profile-link-button">
-            Proposer mes disponibilité de garde
+            Proposer mes disponibilités de garde
           </button>
         </NavLink>
       </section>

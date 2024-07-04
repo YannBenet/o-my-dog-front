@@ -13,7 +13,7 @@ function Footer() {
         </li>
         <li className="footer-container-list">
           <NavLink className="footer-container-list-link" to="/WhoAreWe">
-            Qui somme nous?
+            Qui sommes-nous?
           </NavLink>
         </li>
         <li className="footer-container-list">
@@ -21,7 +21,7 @@ function Footer() {
             className="footer-container-list-link"
             to="/LegalInformation"
           >
-            Mentions légals
+            Mentions légales
           </NavLink>
         </li>
         <li className="footer-container-list">
@@ -29,7 +29,7 @@ function Footer() {
             className="footer-container-list-link"
             to="/GeneralCondition"
           >
-            Condition générales
+            Conditions générales
           </NavLink>
         </li>
         <li className="footer-container-list">

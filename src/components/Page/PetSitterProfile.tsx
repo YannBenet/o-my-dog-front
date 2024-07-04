@@ -15,7 +15,7 @@ function PetSitterProfile() {
 
         <div className="profile-container-info">
           <p className="profile-container-info-contact">Pour le contacter</p>
-          <h2>Nom: ....... Prenom: .....</h2>
+          <h2>Nom: ....... Prénom: .....</h2>
           <p>numéro de téléphone: ....</p>
           <p>adresse mail: ....</p>
         </div>
@@ -48,7 +48,7 @@ function PetSitterProfile() {
         </div>
         <section className="profile-available-entrie">
           <div className="profile-available-entrie-title">
-            <h4>Ses Disponibilitées :</h4>
+            <h4>Ses Disponibilités :</h4>
           </div>
           <div className="profile-available-entrie-period">
             <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">

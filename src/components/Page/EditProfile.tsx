@@ -1,6 +1,6 @@
 import '../PageStyle/EditProfile.scss';
 
-function EditProfil() {
+function EditProfile() {
   return (
     <section className="container-inscription">
       <h2>Modifier mon profil</h2>
@@ -32,13 +32,13 @@ function EditProfil() {
             className="container-inscription-form-input"
           />
           <input
-            type="text"
+            type="password"
             placeholder="Mot de Passe"
             className="container-inscription-form-input"
           />
           <input
-            type="text"
-            placeholder="vérifiacation Mot de Passe"
+            type="password"
+            placeholder="confirmation Mot de Passe"
             className="container-inscription-form-input"
           />
 
@@ -51,4 +51,4 @@ function EditProfil() {
   );
 }
 
-export default EditProfil;
+export default EditProfile;
