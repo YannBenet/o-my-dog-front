@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import { signinUser } from '../../api';
 import '../PageStyle/Inscription.scss';
@@ -10,16 +11,17 @@ function Inscription() {
     city: '',
     phone_number: '',
     password: '',
+    // repeatPassword: '',
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: string; value: string } }) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
       const response = await signinUser(formData);
@@ -52,10 +54,10 @@ function Inscription() {
           />
           <input
             type="text"
-            name="phone_number"
-            placeholder="Numéro de Téléphone"
+            name="email"
+            placeholder="email"
             className="container-inscription-form-input"
-            value={formData.phone_number}
+            value={formData.email}
             onChange={handleChange}
           />
           <input
@@ -68,10 +70,10 @@ function Inscription() {
           />
           <input
             type="text"
-            name="email"
-            placeholder="email"
+            name="phone_number"
+            placeholder="Numéro de Téléphone"
             className="container-inscription-form-input"
-            value={formData.email}
+            value={formData.phone_number}
             onChange={handleChange}
           />
           <input
@@ -86,7 +88,7 @@ function Inscription() {
             type="text"
             placeholder="vérification Mot de Passe"
             className="container-inscription-form-input"
-            value={formData.firstname}
+            value={formData.repeatPassword}
             onChange={handleChange}
           /> */}
 

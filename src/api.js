@@ -14,9 +14,9 @@ export const fetchData = async () => {
   }
 };
 
-export const signinUser = async () => {
+export const signinUser = async (formData) => {
   try {
-    const responce = await axios.post(`${API_URL}/users/signin`);
+    const responce = await axios.post(`${API_URL}/users/signin`, formData);
     return responce.data;
   } catch (error) {
     console.error('Error post data', error);
@@ -24,12 +24,28 @@ export const signinUser = async () => {
   }
 };
 
-export const loginUser = async () => {
+export const loginUser = async (formData) => {
   try {
-    const responce = await axios.post(`${API_URL}/users/login`);
+    const responce = await axios.post(`${API_URL}/users/login`, formData);
     return responce.data;
   } catch (error) {
     console.error('Error post data', error);
+    throw error;
+  }
+};
+
+export const getUser = async (id) => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Token not found');
+  }
+  try {
+    const response = await axios.get(`${API_URL}/users/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user profile', error);
     throw error;
   }
 };

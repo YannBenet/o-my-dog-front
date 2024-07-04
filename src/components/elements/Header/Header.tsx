@@ -2,9 +2,11 @@
 // eslint-disable-next-line import/no-absolute-path
 import logo from '/logoOMyDog.png';
 import './Header.scss';
-import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { NavLink, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import profilePicture from '../../../../public/images/profil.jpg';
+import { PetSitter } from '../../../@types';
+import { getUser } from '../../../api';
 
 function Header() {
   const [isVisible, setIsVisible] = useState(true);
@@ -12,6 +14,21 @@ function Header() {
 
   const handleClick = () => setIsVisible(!isVisible);
   const handleConnect = () => setConnect(!connect);
+
+  const { id } = useParams();
+  const [user, setUser] = useState<PetSitter | null>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = await getUser(id); // appel de la fonstion API avec l'id
+        setUser(userData);
+      } catch (error) {
+        console.error('Error fetching user data', error);
+      }
+    };
+    fetchUserData();
+  }, [id]);
 
   return (
     <header className="header">
@@ -107,15 +124,6 @@ function Header() {
                   déconnexion
                 </NavLink>
               </li>
-              {/* <li>
-                <button
-                  type="button"
-                  className="connect-navBar-menu-closed"
-                  onClick={handleClick}
-                >
-                  Fermer le menu
-                </button>
-              </li> */}
             </ul>
           </nav>
         </section>

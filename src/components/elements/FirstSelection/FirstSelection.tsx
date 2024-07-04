@@ -19,8 +19,9 @@ function FirstSelection() {
         const result = await fetchData();
         setData(result);
         setLoading(false);
-      } catch (err) {
-        setFetchError(err);
+      } catch (error) {
+        // setFetchError(error);
+        console.error('Error post data', error);
         setLoading(false);
       }
     };

@@ -38,7 +38,7 @@ const router = createBrowserRouter(
       <Route path="/Connexion" element={<Connexion />} />
       <Route path="/Inscription" element={<Inscription />} />
       <Route path="/Search" element={<Search />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/profile/:id" element={<Profile />} />
       <Route path="/profile/EditProfile" element={<EditProfile />} />
       <Route path="/PetSitter" element={<PetSitterProfile />} />
       <Route path="/Availability" element={<Availability />} />

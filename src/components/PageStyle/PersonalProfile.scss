@@ -22,6 +22,10 @@
     }
     &-info {
       padding: 1rem 1.8rem;
+      &-category {
+        font-size: 0.8rem;
+        font-weight: 300;
+      }
       &-contact {
         text-align: center;
         background-color: v.$color-primary;
