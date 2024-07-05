@@ -51,7 +51,7 @@ function Header() {
               </li>
               {/* attention au hidden mon profil sera accessible que si connecté */}
               <li className="header-nav-list-link">
-                <NavLink to="/Profile" className="header-nav-list-link-dir">
+                <NavLink to="/Profile/:id" className="header-nav-list-link-dir">
                   Mon profil
                 </NavLink>
               </li>
@@ -59,29 +59,35 @@ function Header() {
           </nav>
         </section>
         <section className="header-position-right">
-          <NavLink
-            to="/Inscription"
-            className={!connect ? 'header-button' : 'header-button-connected'}
-          >
-            inscription
-          </NavLink>
-          <NavLink
-            to="/Connexion"
-            className={!connect ? 'header-button' : 'header-button-connected'}
-          >
-            connexion
-          </NavLink>
-          <button
-            type="button"
-            className={
-              connect
-                ? 'header-button-picture'
-                : 'header-button-picture-disconnect '
-            }
-            onClick={handleClick}
-          >
-            <img src={profilePicture} alt="profil" />
-          </button>
+          {!user && (
+            <NavLink
+              to="/Inscription"
+              className={connect ? 'header-button' : 'header-button-connected'}
+            >
+              inscription
+            </NavLink>
+          )}
+          {!user && (
+            <NavLink
+              to="/Connexion"
+              className={connect ? 'header-button' : 'header-button-connected'}
+            >
+              connexion
+            </NavLink>
+          )}
+          {user && (
+            <button
+              type="button"
+              className={
+                connect
+                  ? 'header-button-picture'
+                  : 'header-button-picture-disconnect '
+              }
+              onClick={handleClick}
+            >
+              <img src={profilePicture} alt="profil" />
+            </button>
+          )}
           {/* menu qui s'ouvre et se ferme suivant l'appui sur la photo de son profil dans le header */}
           <nav className="connect">
             <ul
@@ -100,7 +106,7 @@ function Header() {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/profile" className="connect-navBar-menu">
+                <NavLink to="/Profile/:id" className="connect-navBar-menu">
                   Mon profil
                 </NavLink>
               </li>

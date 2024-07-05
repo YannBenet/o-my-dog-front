@@ -37,7 +37,10 @@ function Connexion() {
 
       const userId = decodedToken.data.id;
       console.log(userId);
-
+      setFormData({
+        email: '',
+        password: '',
+      });
       navigate(`/profile/${userId}`);
     } catch (error) {
       console.error('Erreur lors de la connexion', error);

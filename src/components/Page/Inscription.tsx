@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { signinUser } from '../../api';
 import '../PageStyle/Inscription.scss';
 
@@ -13,7 +14,7 @@ function Inscription() {
     password: '',
     // repeatPassword: '',
   });
-
+  const navigate = useNavigate();
   const handleChange = (e: { target: { name: string; value: string } }) => {
     const { name, value } = e.target;
     setFormData({
@@ -26,6 +27,15 @@ function Inscription() {
     try {
       const response = await signinUser(formData);
       console.log('inscription réussie', response);
+      setFormData({
+        firstname: '',
+        lastname: '',
+        email: '',
+        city: '',
+        phone_number: '',
+        password: '',
+      });
+      navigate('/Connexion');
     } catch (error) {
       console.error("Erreur lors de l'inscription", error);
     }
