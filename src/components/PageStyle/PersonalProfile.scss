@@ -1,0 +1,89 @@
+@use '../../styles/variables' as v;
+
+.profile {
+  width: 100%;
+  margin: 1rem 0;
+  &-selected {
+    text-align: center;
+    background-color: v.$color-primary;
+    color: v.$color-bg;
+    border: 2px solid v.$color-button;
+    border-radius: 1rem;
+    width: 25%;
+    margin: 0 auto;
+  }
+  &-container {
+    display: flex;
+    height: 20vh;
+    &-photo {
+      max-height: 70%;
+      border: 2px solid v.$color-primary;
+      border-radius: 50%;
+    }
+    &-info {
+      padding: 1rem 1.8rem;
+      &-category {
+        font-size: 0.8rem;
+        font-weight: 300;
+      }
+      &-contact {
+        text-align: center;
+        background-color: v.$color-primary;
+        color: v.$color-bg;
+        border: 2px solid v.$color-button;
+        border-radius: 1rem;
+      }
+    }
+  }
+  &-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    height: 20vh;
+    &-button {
+      height: 9rem;
+      width: 15rem;
+      cursor: pointer;
+      margin: 1rem;
+      background-color: v.$color-primary;
+      color: v.$color-bg;
+      border: 2px solid v.$color-button;
+      border-radius: 1rem;
+      padding: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  }
+  &-available {
+    margin: 2rem 0;
+    &-description {
+      border: 2px solid v.$color-button;
+      border-radius: 1rem;
+      margin-bottom: 2rem;
+      padding: 1rem 3rem;
+      &-text {
+        height: 10vh;
+        overflow: scroll;
+      }
+      & h3 {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+    }
+    &-entrie {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      &-title {
+        margin: auto 0;
+      }
+      &-period {
+        border: 2px solid v.$color-button;
+        border-radius: 1rem;
+        padding: 1rem;
+      }
+    }
+  }
+}

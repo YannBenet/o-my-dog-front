@@ -1,0 +1,23 @@
+@use '../../../styles/variables' as v;
+
+.footer {
+  background-color: v.$color-primary;
+  margin-top: 2rem;
+  &-container {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    &-list {
+      cursor: pointer;
+      padding: 1rem;
+      &-link {
+        text-decoration: none;
+        color: v.$color-bg;
+        font-size: 1.1rem;
+      }
+      &-link:hover {
+        font-weight: bold;
+      }
+    }
+  }
+}
