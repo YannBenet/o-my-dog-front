@@ -12,7 +12,7 @@ function Inscription() {
     city: '',
     phone_number: '',
     password: '',
-    // repeatPassword: '',
+    repeatPassword: '',
   });
   const navigate = useNavigate();
   const handleChange = (e: { target: { name: string; value: string } }) => {
@@ -34,6 +34,7 @@ function Inscription() {
         city: '',
         phone_number: '',
         password: '',
+        repeatPassword: '',
       });
       navigate('/Connexion');
     } catch (error) {
@@ -94,13 +95,14 @@ function Inscription() {
             value={formData.password}
             onChange={handleChange}
           />
-          {/* <input
+          <input
             type="text"
-            placeholder="vérification Mot de Passe"
+            name="repeatPassword"
+            placeholder="Confirmation Mot de Passe"
             className="container-inscription-form-input"
             value={formData.repeatPassword}
             onChange={handleChange}
-          /> */}
+          />
 
           <button type="submit" className="container-inscription-form-button">
             Valider

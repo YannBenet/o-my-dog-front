@@ -18,9 +18,12 @@ function FirstSelection() {
       try {
         const result = await fetchData();
         setData(result);
+        console.log(result);
+
         setLoading(false);
       } catch (error) {
-        // setFetchError(error);
+        setFetchError(error);
+        // eslint-disable-next-line no-console
         console.error('Error post data', error);
         setLoading(false);
       }
@@ -31,8 +34,8 @@ function FirstSelection() {
   if (loading) return <p>Loading...</p>;
   if (fetchError) return <p>Error fetching data: {fetchError}</p>;
   const listPetSitter = data.map((petSitter: PetSitter) => (
-    <article className="selection-card">
-      <Link to="/PetSitter" className="selecttion-card-link">
+    <article className="selection-card" key={petSitter.email}>
+      <Link to={`/PetSitter/${petSitter.id}`} className="selecttion-card-link">
         <img src={profil} alt="profil" />
         <h3>
           {petSitter.firstname} {petSitter.lastname}

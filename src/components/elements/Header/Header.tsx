@@ -23,6 +23,7 @@ function Header() {
       try {
         const userData = await getUser(id); // appel de la fonstion API avec l'id
         setUser(userData);
+        console.log(userData);
       } catch (error) {
         console.error('Error fetching user data', error);
       }
@@ -50,11 +51,11 @@ function Header() {
                 </NavLink>
               </li>
               {/* attention au hidden mon profil sera accessible que si connecté */}
-              <li className="header-nav-list-link">
+              {/* <li className="header-nav-list-link">
                 <NavLink to="/Profile/:id" className="header-nav-list-link-dir">
                   Mon profil
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </section>

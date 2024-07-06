@@ -33,7 +33,6 @@ function Connexion() {
       localStorage.setItem('token', token);
       // recuperation de l'id pour redirection sur page profil
       const decodedToken = jwtDecode(token);
-      console.log(decodedToken);
 
       const userId = decodedToken.data.id;
       console.log(userId);
