@@ -9,7 +9,6 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 function Availability() {
   const [value, setValue] = useState<Value>(new Date());
-
   useEffect(() => {
     setValue([
       new Date('2024-07-11T22:00:00.000Z'),

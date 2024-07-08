@@ -20,7 +20,6 @@ const getUser = async (id: string | undefined) => {
       throw new Error('Données de profil non charger');
     }
     const data = await response.json();
-    console.log(data);
     const transformedData = { petSitter: data };
 
     return PetSitterResponseSchema.parse(transformedData); // Utilisez `parse` pour valider les données
@@ -45,43 +44,54 @@ function Profile() {
   const user = data?.petSitter;
   return (
     <section className="profile">
-      <section className="profile-container">
-        <img
-          src={PhotoProfil}
-          alt="profil"
-          className="profile-container-photo"
-        />
+      <section className="profile-top">
+        <section className="profile-container">
+          <img
+            src={PhotoProfil}
+            alt="profil"
+            className="profile-container-photo"
+          />
+          <div className="profile-container-info">
+            <h2 className="profile-container-info-category">
+              <span>Nom:</span>
+              {user?.firstname}
+            </h2>
 
-        <div className="profile-container-info">
-          <p className="profile-container-info-category">Nom:</p>
-          <h2>{user?.firstname}</h2>
-          <p className="profile-container-info-category">Prénom:</p>
-          <h2>{user?.lastname}</h2>
-          <p>numéro de téléphone:</p>
-          <h2>{user?.phone_number}</h2>
-          <p>adresse mail:</p>
-          <h2>{user?.email}</h2>
-        </div>
-      </section>
+            <h2 className="profile-container-info-category">
+              <span>Prénom:</span>
+              {user?.lastname}
+            </h2>
+            <h2 className="profile-container-info-category">
+              <span>numéro de téléphone:</span>
+              {user?.phone_number}
+            </h2>
+            <h2 className="profile-container-info-category">
+              <span>adresse mail:</span>
+              {user?.email}
+            </h2>
+          </div>
+        </section>
 
-      <section className="profile-link">
-        <NavLink to="/Search">
-          <button type="button" className="profile-link-button">
-            Faire garder mon animal
-          </button>
-        </NavLink>
-        <NavLink to="/Availability">
-          <button type="button" className="profile-link-button">
-            Proposer mes disponibilités de garde
-          </button>
-        </NavLink>
+        <section className="profile-link">
+          <NavLink to="/Search">
+            <button type="button" className="profile-link-button">
+              Faire garder mon animal
+            </button>
+          </NavLink>
+          <NavLink to="/Availability">
+            <button type="button" className="profile-link-button">
+              Proposer mes disponibilités de garde
+            </button>
+          </NavLink>
+        </section>
       </section>
       <section className="profile-available">
         <div className="profile-available-description">
           <h3>Ma description</h3>
-          <div className="profile-available-description-text">
-            {/* <p>{user?.description}</p> */}
-          </div>
+          {/* <div className="profile-available-description-text">
+            il faut revoir la mise en page du profil User
+            <p>{user?.description}</p>
+          </div> */}
         </div>
         {/* {user?.date_start && ( */}
         <section className="profile-available-entrie">
