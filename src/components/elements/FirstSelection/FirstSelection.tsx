@@ -1,24 +1,59 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable import/no-absolute-path */
 import { Link } from 'react-router-dom';
-import { PetSitter } from '../../../@types';
-import './FirstSearch.scss';
-import profil from '/images/profil.jpg';
+import { useQuery } from '@tanstack/react-query';
 
-type PetSittersProps = {
-  firstList: PetSitter[];
+import './FirstSearch.scss';
+import profil from '../../../../public/images/profil.jpg';
+import { PetSittersResponseSchema } from '../../../schema/petSitter.schema';
+
+const API_URL = 'http://localhost:5000/api';
+const fetchPetSittersHighlight = async () => {
+  const response = await fetch(`${API_URL}/announcements/highlight`);
+  const data = await response.json();
+  const transformedData = { petSitters: data };
+
+  try {
+    return PetSittersResponseSchema.parse(transformedData); // Utilisez `parse` pour valider les données
+  } catch (error) {
+    console.error('Error parsing data:', error);
+    throw error; // Rejette l'erreur pour que React Query la capture
+  }
 };
 
-function FirstSelection({ firstList }: PetSittersProps) {
-  const listPetSitter = firstList.map((petSitter) => (
-    <article className="selection-card">
-      <Link to="/PetSitter" className="selecttion-card-link">
-        <img src={profil} alt="profil" />
-        <h3>
-          {petSitter.firstname} {petSitter.lastname}
-        </h3>
-        <h4>{petSitter.city}</h4>
-      </Link>
+function FirstSelection() {
+  const isLoggedIn = localStorage.getItem('token') !== null;
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['petSitters'],
+    queryFn: fetchPetSittersHighlight,
+  });
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+  if (isError) {
+    return <p>Erreur de chargement des données !</p>;
+  }
+  const listPetSitter = data?.petSitters.map((petSitter) => (
+    <article className="selection-card" key={petSitter.announcement_id}>
+      {isLoggedIn && (
+        <Link
+          to={`/PetSitter/${petSitter.announcement_id}`}
+          className="selecttion-card-link"
+        >
+          <img src={profil} alt="profil" />
+          <h3>
+            {petSitter.firstname} {petSitter.lastname}
+          </h3>
+          <h4>{petSitter.city}</h4>
+        </Link>
+      )}
+      {!isLoggedIn && (
+        <Link to="/Connexion" className="selecttion-card-link">
+          <img src={profil} alt="profil" />
+          <h3>
+            {petSitter.firstname} {petSitter.lastname}
+          </h3>
+          <h4>{petSitter.city}</h4>
+        </Link>
+      )}
     </article>
   ));
 

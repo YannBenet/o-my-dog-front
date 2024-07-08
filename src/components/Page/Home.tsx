@@ -5,8 +5,6 @@ import '../PageStyle/Home.scss';
 import SearchBar from '../elements/SearchBar/SearchBar';
 import FirstSelection from '../elements/FirstSelection/FirstSelection';
 
-import firstList from '../../data/pet-sitters';
-
 function Home() {
   return (
     <section className="home-main">
@@ -23,7 +21,7 @@ function Home() {
           exercitationem neque? Quod, ratione.
         </p>
       </article>
-      <FirstSelection firstList={firstList} />
+      <FirstSelection />
     </section>
   );
 }
