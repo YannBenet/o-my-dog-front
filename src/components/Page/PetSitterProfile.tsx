@@ -1,8 +1,56 @@
 /* eslint-disable import/no-absolute-path */
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import { PetSitterSelection } from '../../schema/petSitter.schema';
 import '../PageStyle/PersonalProfile.scss';
+import { z } from 'zod';
 import PhotoProfil from '/images/profil.jpg';
 
+const fetchPetSitter = async (id: string | undefined) => {
+  console.log('fetching petsitter with ID:', id);
+
+  try {
+    const response = await fetch(
+      `${import.meta.env.API_URL}/announcements/${id}`
+    );
+    if (!response.ok) {
+      throw new Error("Ce Pet-Sitter n'est pas disponible");
+    }
+    const data = await response.json();
+    console.log('response data', data);
+
+    const parseData = PetSitterSelection.parse(data);
+    console.log('Données après validation', parseData);
+
+    return parseData;
+  } catch (error) {
+    console.error('Erreur de chargement des données du petsitter', error);
+    if (error instanceof z.ZodError) {
+      console.error('Erreur de validation Zod:', error.errors);
+    }
+    throw error;
+  }
+};
 function PetSitterProfile() {
+  const { id } = useParams();
+  console.log('ID de usePArams', id);
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['petSitter', id],
+    queryFn: () => fetchPetSitter(id),
+  });
+  if (isLoading) {
+    return <p>LOADING.....</p>;
+  }
+  if (isError) {
+    return <p>Erreur de chargement de la page</p>;
+  }
+  const user = data;
+  if (!user) {
+    return <p>Profil non trouvé</p>;
+  }
+  console.log(user);
+
   return (
     <section className="profile">
       <h2 className="profile-selected">Profil Selectionné</h2>
@@ -15,35 +63,21 @@ function PetSitterProfile() {
 
         <div className="profile-container-info">
           <p className="profile-container-info-contact">Pour le contacter</p>
-          <h2>Nom: ....... Prénom: .....</h2>
-          <p>numéro de téléphone: ....</p>
-          <p>adresse mail: ....</p>
+          <p>Nom:</p>
+          <h2>{user.firstname}</h2>
+          <p>Prénom:</p>
+          <h2>{user.lastname}</h2>
+          <p>numéro de téléphone:</p>
+          <h2>{user.phone_number}</h2>
+          <p>adresse mail:</p>
+          <h2>{user.email}</h2>
         </div>
       </section>
       <section className="profile-available">
         <div className="profile-available-description">
           <h3>Sa description</h3>
           <div className="profile-available-description-text">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Laudantium illo obcaecati itaque pariatur sint labore est nisi!
-              Vel illum reiciendis repellendus incidunt aspernatur animi quasi,
-              excepturi velit! Mollitia, officiis asperiores corrupti voluptate
-              consectetur totam hic ipsam, architecto quod, dicta explicabo.
-              Provident possimus quae rem. Natus optio, beatae culpa dicta
-              magnam in velit laborum? Debitis, cum est ut adipisci tempore
-              aliquam praesentium tenetur laboriosam nisi molestias illum porro
-              vel numquam impedit placeat aliquid mollitia optio, at a deserunt
-              reprehenderit ducimus. In illum expedita ipsum tempora, ut,
-              inventore ratione libero laudantium, perspiciatis voluptates
-              beatae dolor. Fugiat nisi ratione quisquam quidem dolore vitae rem
-              voluptate maxime assumenda excepturi reiciendis optio quis ipsum
-              maiores, laboriosam ut debitis, deleniti amet? Facilis earum quasi
-              velit rem praesentium architecto facere laudantium nulla corrupti.
-              Explicabo voluptatum labore ipsum quia, porro quo distinctio fugit
-              aspernatur, quod est tenetur maxime, autem adipisci. Facilis, et
-              velit amet cum nulla ducimus itaque!
-            </p>
+            <p>{user.description}</p>
           </div>
         </div>
         <section className="profile-available-entrie">
@@ -52,26 +86,26 @@ function PetSitterProfile() {
           </div>
           <div className="profile-available-entrie-period">
             <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-              du: 10/07/2024
+              du: {user.date_start}
             </p>
             <p className="profile-available-entrie-period-date profile-available-entrie-period-date-off">
-              au: 10/07/2024
+              au: {user.date_end}
             </p>
           </div>
           <div className="profile-available-entrie-period">
             <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-              du: 10/07/2024
+              du: {user.date_start}
             </p>
             <p className="profile-available-entrie-period-date profile-available-entrie-period-date-off">
-              au: 10/07/2024
+              au: {user.date_end}
             </p>
           </div>
           <div className="profile-available-entrie-period">
             <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-              du: 10/07/2024
+              du: {user.date_start}
             </p>
             <p className="profile-available-entrie-period-date profile-available-entries-period-date-off">
-              au: 10/07/2024
+              au: {user.date_end}
             </p>
           </div>
         </section>

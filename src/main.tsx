@@ -6,6 +6,9 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
+// import React Query
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+// import des routes et composents
 import Root from './components/layouts/Root';
 import Home from './components/Page/Home';
 import Contact from './components/Page/Contact';
@@ -26,6 +29,9 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+// Création du "client"
+const queryClient = new QueryClient();
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
@@ -37,10 +43,14 @@ const router = createBrowserRouter(
       <Route path="/DataProtection" element={<DataProtection />} />
       <Route path="/Connexion" element={<Connexion />} />
       <Route path="/Inscription" element={<Inscription />} />
+      {/* search à faire */}
       <Route path="/Search" element={<Search />} />
       <Route path="/profile/:id" element={<Profile />} />
+      {/* EditProfile à faire */}
       <Route path="/profile/EditProfile" element={<EditProfile />} />
-      <Route path="/PetSitter" element={<PetSitterProfile />} />
+      {/* PetSitter/id en cours */}
+      <Route path="/PetSitter/:id" element={<PetSitterProfile />} />
+      {/* Availability à faire */}
       <Route path="/Availability" element={<Availability />} />
     </Route>
   )
@@ -49,6 +59,8 @@ const router = createBrowserRouter(
 // On injecte notre application dans le DOM
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>
 );

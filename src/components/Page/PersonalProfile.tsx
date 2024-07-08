@@ -1,32 +1,47 @@
-/* eslint-disable import/no-absolute-path */
-import React, { useEffect, useState } from 'react';
 import { useParams, NavLink } from 'react-router-dom';
-import { getUser } from '../../api';
+// import shcema zod et react query
+import { useQuery } from '@tanstack/react-query';
+import { PetSitterResponseSchema } from '../../schema/petSitter.schema';
 import '../PageStyle/PersonalProfile.scss';
-import PhotoProfil from '/images/profil.jpg';
-import { PetSitter } from '../../@types';
+import PhotoProfil from '../../../public/images/profil.jpg';
 
-function Profile() {
-  // recupération de l'id via l'URL
-  const { id } = useParams();
-  const [user, setUser] = useState<PetSitter | null>(null);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await getUser(id); // appel de la fonstion API avec l'id
-        setUser(userData);
-      } catch (error) {
-        console.error('Error fetching user data', error);
-      }
-    };
-    fetchUserData();
-  }, [id]);
-
-  if (!user) {
-    return <div> Pas de donnée, Domage </div>;
+const getUser = async (id: string | undefined) => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Token not found');
   }
+  try {
+    const response = await fetch(`${import.meta.env.API_URL}/users/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
+    if (!response.ok) {
+      throw new Error('Données de profil non charger');
+    }
+    const data = await response.json();
+    console.log(data);
+    const transformedData = { petSitter: data };
+
+    return PetSitterResponseSchema.parse(transformedData); // Utilisez `parse` pour valider les données
+  } catch (error) {
+    console.error('Error parsing data:', error);
+    throw error; // Rejette l'erreur pour que React Query la capture
+  }
+};
+function Profile() {
+  const { id } = useParams();
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['user', id],
+    queryFn: () => getUser(id),
+  });
+  if (isLoading) {
+    return <p>LOADING.....</p>;
+  }
+  if (isError) {
+    return <p> Erreur de chargement Profil</p>;
+  }
+  const user = data?.petSitter;
   return (
     <section className="profile">
       <section className="profile-container">
@@ -38,13 +53,13 @@ function Profile() {
 
         <div className="profile-container-info">
           <p className="profile-container-info-category">Nom:</p>
-          <h2>{user.firstname}</h2>
+          <h2>{user?.firstname}</h2>
           <p className="profile-container-info-category">Prénom:</p>
-          <h2>{user.lastname}</h2>
+          <h2>{user?.lastname}</h2>
           <p>numéro de téléphone:</p>
-          <h2>{user.phone_number}</h2>
+          <h2>{user?.phone_number}</h2>
           <p>adresse mail:</p>
-          <h2>{user.email}</h2>
+          <h2>{user?.email}</h2>
         </div>
       </section>
 
@@ -64,40 +79,42 @@ function Profile() {
         <div className="profile-available-description">
           <h3>Ma description</h3>
           <div className="profile-available-description-text">
-            <p>{user.description}</p>
+            {/* <p>{user?.description}</p> */}
           </div>
         </div>
-        {user.date_start && (
-          <section className="profile-available-entrie">
-            <div className="profile-available-entrie-title">
-              <h4>Mes Disponibilités :</h4>
-            </div>
-            <div className="profile-available-entrie-period">
-              <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-                du: {user.date_start}
-              </p>
-              <p className="profile-available-entrie-period-date profile-available-entrie-period-date-off">
-                au: {user.date_end}
-              </p>
-            </div>
-            <div className="profile-available-entrie-period">
-              <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-                du: 10/07/2024
-              </p>
-              <p className="profile-available-entrie-period-date profile-available-entrie-period-date-off">
-                au: 10/07/2024
-              </p>
-            </div>
-            <div className="profile-available-entrie-period">
-              <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-                du: 10/07/2024
-              </p>
-              <p className="profile-available-entrie-period-date profile-available-entries-period-date-off">
-                au: 10/07/2024
-              </p>
-            </div>
-          </section>
-        )}
+        {/* {user?.date_start && ( */}
+        <section className="profile-available-entrie">
+          <div className="profile-available-entrie-title">
+            <h4>Mes Disponibilités :</h4>
+          </div>
+          <div className="profile-available-entrie-period">
+            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
+              du:
+              {/* {user.date_start} */}
+            </p>
+            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-off">
+              au:
+              {/* {user.date_end} */}
+            </p>
+          </div>
+          <div className="profile-available-entrie-period">
+            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
+              du: 10/07/2024
+            </p>
+            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-off">
+              au: 10/07/2024
+            </p>
+          </div>
+          <div className="profile-available-entrie-period">
+            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
+              du: 10/07/2024
+            </p>
+            <p className="profile-available-entrie-period-date profile-available-entries-period-date-off">
+              au: 10/07/2024
+            </p>
+          </div>
+        </section>
+        {/* )} */}
       </section>
     </section>
   );

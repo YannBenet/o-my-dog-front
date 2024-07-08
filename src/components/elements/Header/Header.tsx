@@ -2,34 +2,18 @@
 // eslint-disable-next-line import/no-absolute-path
 import logo from '/logoOMyDog.png';
 import './Header.scss';
-import { NavLink, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
 import profilePicture from '../../../../public/images/profil.jpg';
-import { PetSitter } from '../../../@types';
-import { getUser } from '../../../api';
 
 function Header() {
+  const isLoggedIn = localStorage.getItem('token') !== null;
+
   const [isVisible, setIsVisible] = useState(true);
   const [connect, setConnect] = useState(true);
 
   const handleClick = () => setIsVisible(!isVisible);
   const handleConnect = () => setConnect(!connect);
-
-  const { id } = useParams();
-  const [user, setUser] = useState<PetSitter | null>(null);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await getUser(id); // appel de la fonstion API avec l'id
-        setUser(userData);
-        console.log(userData);
-      } catch (error) {
-        console.error('Error fetching user data', error);
-      }
-    };
-    fetchUserData();
-  }, [id]);
 
   return (
     <header className="header">
@@ -50,17 +34,11 @@ function Header() {
                   Recherche
                 </NavLink>
               </li>
-              {/* attention au hidden mon profil sera accessible que si connecté */}
-              {/* <li className="header-nav-list-link">
-                <NavLink to="/Profile/:id" className="header-nav-list-link-dir">
-                  Mon profil
-                </NavLink>
-              </li> */}
             </ul>
           </nav>
         </section>
         <section className="header-position-right">
-          {!user && (
+          {!isLoggedIn && (
             <NavLink
               to="/Inscription"
               className={connect ? 'header-button' : 'header-button-connected'}
@@ -68,7 +46,7 @@ function Header() {
               inscription
             </NavLink>
           )}
-          {!user && (
+          {!isLoggedIn && (
             <NavLink
               to="/Connexion"
               className={connect ? 'header-button' : 'header-button-connected'}
@@ -76,7 +54,7 @@ function Header() {
               connexion
             </NavLink>
           )}
-          {user && (
+          {isLoggedIn && (
             <button
               type="button"
               className={

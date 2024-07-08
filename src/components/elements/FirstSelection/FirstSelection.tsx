@@ -1,39 +1,36 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable import/no-absolute-path */
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { PetSitter } from '../../../@types';
-import './FirstSearch.scss';
-import profil from '/images/profil.jpg';
+import { useQuery } from '@tanstack/react-query';
 
-import { fetchData } from '../../../api';
+import './FirstSearch.scss';
+import profil from '../../../../public/images/profil.jpg';
+import { PetSittersResponseSchema } from '../../../schema/petSitter.schema';
+
+const fetchPetSittersHighlight = async () => {
+  const response = await fetch(
+    `${import.meta.env.API_URL}/announcements/highlight`
+  );
+  const data = await response.json();
+  const transformedData = { petSitters: data };
+  try {
+    return PetSittersResponseSchema.parse(transformedData); // Utilisez `parse` pour valider les données
+  } catch (error) {
+    console.error('Error parsing data:', error);
+    throw error; // Rejette l'erreur pour que React Query la capture
+  }
+};
 
 function FirstSelection() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [fetchError, setFetchError] = useState(null);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const result = await fetchData();
-        setData(result);
-        console.log(result);
-
-        setLoading(false);
-      } catch (error) {
-        setFetchError(error);
-        // eslint-disable-next-line no-console
-        console.error('Error post data', error);
-        setLoading(false);
-      }
-    };
-    getData();
-  }, []);
-
-  if (loading) return <p>Loading...</p>;
-  if (fetchError) return <p>Error fetching data: {fetchError}</p>;
-  const listPetSitter = data.map((petSitter: PetSitter) => (
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['petSitters'],
+    queryFn: fetchPetSittersHighlight,
+  });
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+  if (isError) {
+    return <p>Erreur de chargement des données !</p>;
+  }
+  const listPetSitter = data?.petSitters.map((petSitter) => (
     <article className="selection-card" key={petSitter.email}>
       <Link to={`/PetSitter/${petSitter.id}`} className="selecttion-card-link">
         <img src={profil} alt="profil" />

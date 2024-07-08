@@ -1,8 +1,34 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signinUser } from '../../api';
 import '../PageStyle/Inscription.scss';
+
+const signinUser = async (formData: {
+  firstname: string;
+  lastname: string;
+  email: string;
+  city: string;
+  phone_number: string;
+  password: string;
+  repeatPassword: string;
+}) => {
+  try {
+    const response = await fetch(`${import.meta.env.API_URL}/users/signin`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+    if (!response.ok) {
+      throw new Error('Inscription échoué!');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error post data', error);
+  }
+};
 
 function Inscription() {
   const [formData, setFormData] = useState({
@@ -27,6 +53,7 @@ function Inscription() {
     try {
       const response = await signinUser(formData);
       console.log('inscription réussie', response);
+      // Réinitialisation du formulaire après inscription réussi
       setFormData({
         firstname: '',
         lastname: '',

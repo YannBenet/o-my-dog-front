@@ -1,10 +1,29 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-console */
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import '../PageStyle/Connexion.scss';
 import { jwtDecode } from 'jwt-decode';
-import { loginUser } from '../../api';
+import { useQueryClient } from '@tanstack/react-query';
+import '../PageStyle/Connexion.scss';
+
+const loginUser = async (formData: { email: string; password: string }) => {
+  try {
+    const response = await fetch(`${import.meta.env.API_URL}/users/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+    if (!response.ok) {
+      throw new Error('Connexion échoué');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error posting data', error);
+  }
+};
 
 function Connexion() {
   const [formData, setFormData] = useState({
@@ -13,6 +32,8 @@ function Connexion() {
   });
 
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const handleChange = (e: { target: { name: string; value: string } }) => {
     const { name, value } = e.target;
     setFormData({
@@ -20,6 +41,7 @@ function Connexion() {
       [name]: value,
     });
   };
+
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
@@ -30,16 +52,23 @@ function Connexion() {
       if (!token || typeof token !== 'string') {
         throw new Error('Invalid token specified: must be a string');
       }
+      // stockage du token JWT dans localStorage
       localStorage.setItem('token', token);
       // recuperation de l'id pour redirection sur page profil
       const decodedToken = jwtDecode(token);
 
       const userId = decodedToken.data.id;
       console.log(userId);
+
+      // effacer les données précédentes du cache de React Query
+      queryClient.invalidateQueries('user');
+
+      // Réinitialisation du formulaire aprés la connexion réussi
       setFormData({
         email: '',
         password: '',
       });
+      // Redirection vers la page profil de l'utilisatuer connecté
       navigate(`/profile/${userId}`);
     } catch (error) {
       console.error('Erreur lors de la connexion', error);
