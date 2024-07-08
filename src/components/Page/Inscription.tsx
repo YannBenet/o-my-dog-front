@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-console */
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { createPath, useNavigate } from 'react-router-dom';
 import '../PageStyle/Inscription.scss';
 
 const API_URL = 'http://localhost:5000/api';
@@ -81,25 +81,6 @@ function Inscription() {
     }
   };
 
-  const handleBlur = () => {
-    const selectedCity = citySuggestions.find(
-      (city) => city.nom === formData.city
-    );
-    if (selectedCity) {
-      setFormData({
-        ...formData,
-        department_label: selectedCity.departement.nom,
-      });
-      setError('');
-    } else {
-      setFormData({
-        ...formData,
-        department_label: '',
-      });
-      setError('Veuillez sélectionner une ville valide dans la liste.');
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const selectedCity = citySuggestions.find(
@@ -109,8 +90,14 @@ function Inscription() {
       setError('Veuillez sélectionner une ville valide dans la liste.');
       return;
     }
+
+    const updatedFormData = {
+      ...formData,
+      department_label: selectedCity.departement.nom,
+    };
+
     try {
-      const response = await signinUser(formData);
+      const response = await signinUser(updatedFormData);
       console.log('Inscription réussie', response);
       // Réinitialisation du formulaire après inscription réussie
       setFormData({
@@ -168,7 +155,7 @@ function Inscription() {
             className="container-inscription-form-input"
             value={formData.city}
             onChange={handleChange}
-            onBlur={handleBlur}
+            // onBlur={handleBlur}
             list="city-suggestions"
           />
           <datalist id="city-suggestions">
