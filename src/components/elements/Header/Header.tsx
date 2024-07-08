@@ -2,18 +2,19 @@
 // eslint-disable-next-line import/no-absolute-path
 import logo from '/logoOMyDog.png';
 import './Header.scss';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import profilePicture from '../../../../public/images/profil.jpg';
 
 function Header() {
   const isLoggedIn = localStorage.getItem('token') !== null;
-
+  const { id } = useParams();
   const [isVisible, setIsVisible] = useState(true);
-  const [connect, setConnect] = useState(true);
 
   const handleClick = () => setIsVisible(!isVisible);
-  const handleConnect = () => setConnect(!connect);
+  const handleDeconnect = () => {
+    localStorage.removeItem('token');
+  };
 
   return (
     <header className="header">
@@ -39,78 +40,74 @@ function Header() {
         </section>
         <section className="header-position-right">
           {!isLoggedIn && (
-            <NavLink
-              to="/Inscription"
-              className={connect ? 'header-button' : 'header-button-connected'}
-            >
-              inscription
-            </NavLink>
-          )}
-          {!isLoggedIn && (
-            <NavLink
-              to="/Connexion"
-              className={connect ? 'header-button' : 'header-button-connected'}
-            >
-              connexion
-            </NavLink>
+            <div className="header-buttons">
+              <NavLink to="/Inscription" className="header-buttons-button">
+                inscription
+              </NavLink>
+
+              <NavLink to="/Connexion" className="header-buttons-button">
+                connexion
+              </NavLink>
+            </div>
           )}
           {isLoggedIn && (
             <button
               type="button"
-              className={
-                connect
-                  ? 'header-button-picture'
-                  : 'header-button-picture-disconnect '
-              }
+              className="header-buttons-button-picture"
               onClick={handleClick}
             >
               <img src={profilePicture} alt="profil" />
             </button>
           )}
           {/* menu qui s'ouvre et se ferme suivant l'appui sur la photo de son profil dans le header */}
-          <nav className="connect">
-            <ul
+          {isLoggedIn && (
+            <nav
               className={
                 !isVisible ? 'connect-navBar' : 'connect-navBar-hidden'
               }
             >
-              <li>
-                <NavLink to="/" className="connect-navBar-menu">
-                  Accueil
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/Search" className="connect-navBar-menu">
-                  Recherche
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/Profile/:id" className="connect-navBar-menu">
-                  Mon profil
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/profile/editprofile"
-                  className="connect-navBar-menu"
-                >
-                  Modification profil
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/"
-                  className="connect-navBar-menu"
-                  onClick={() => {
-                    handleConnect();
-                    handleClick();
-                  }}
-                >
-                  déconnexion
-                </NavLink>
-              </li>
-            </ul>
-          </nav>
+              <ul>
+                <li>
+                  <NavLink to="/" className="connect-navBar-menu">
+                    Accueil
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/Search" className="connect-navBar-menu">
+                    Recherche
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={`/Profile/${id}`}
+                    className="connect-navBar-menu"
+                  >
+                    Mon profil
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/profile/editprofile"
+                    className="connect-navBar-menu"
+                  >
+                    Modification profil
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/"
+                    className="connect-navBar-menu"
+                    onClick={() => {
+                      handleDeconnect();
+                      handleClick();
+                    }}
+                  >
+                    déconnexion
+                  </NavLink>
+                </li>
+              </ul>
+            </nav>
+          )}
         </section>
       </section>
     </header>

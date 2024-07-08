@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-absolute-path */
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -6,21 +7,22 @@ import '../PageStyle/PersonalProfile.scss';
 import { z } from 'zod';
 import PhotoProfil from '/images/profil.jpg';
 
+const API_URL = 'http://localhost:5000/api';
 const fetchPetSitter = async (id: string | undefined) => {
-  console.log('fetching petsitter with ID:', id);
-
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Token not found');
+  }
   try {
-    const response = await fetch(
-      `${import.meta.env.API_URL}/announcements/${id}`
-    );
+    const response = await fetch(`${API_URL}/announcements/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!response.ok) {
       throw new Error("Ce Pet-Sitter n'est pas disponible");
     }
     const data = await response.json();
-    console.log('response data', data);
 
     const parseData = PetSitterSelection.parse(data);
-    console.log('Données après validation', parseData);
 
     return parseData;
   } catch (error) {

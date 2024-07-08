@@ -5,13 +5,14 @@ import { PetSitterResponseSchema } from '../../schema/petSitter.schema';
 import '../PageStyle/PersonalProfile.scss';
 import PhotoProfil from '../../../public/images/profil.jpg';
 
+const API_URL = 'http://localhost:5000/api';
 const getUser = async (id: string | undefined) => {
   const token = localStorage.getItem('token');
   if (!token) {
     throw new Error('Token not found');
   }
   try {
-    const response = await fetch(`${import.meta.env.API_URL}/users/${id}`, {
+    const response = await fetch(`${API_URL}/users/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 

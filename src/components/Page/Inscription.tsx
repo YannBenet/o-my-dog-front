@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../PageStyle/Inscription.scss';
 
+const API_URL = 'http://localhost:5000/api';
 const signinUser = async (formData: {
   firstname: string;
   lastname: string;
@@ -14,7 +15,7 @@ const signinUser = async (formData: {
   repeatPassword: string;
 }) => {
   try {
-    const response = await fetch(`${import.meta.env.API_URL}/users/signin`, {
+    const response = await fetch(`${API_URL}/users/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

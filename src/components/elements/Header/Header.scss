@@ -15,10 +15,11 @@
       text-align: left;
     }
     &-right {
-      margin-right: 5rem;
+      // margin-right: 5rem;
       padding: 1rem 1rem;
       position: relative;
       z-index: 1;
+      width: 30%;
     }
   }
   &-nav-list {
@@ -36,36 +37,40 @@
       }
     }
   }
-  &-button {
-    cursor: pointer;
-    margin: 1rem;
-    background-color: v.$color-button;
-    color: v.$color-bg;
-    border: 1px solid v.$color-button;
-    border-radius: 0.3rem;
-    padding: 0.5rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    text-decoration: none;
-    &-connected {
-      visibility: hidden;
-    }
-    &-picture {
-      width: 5rem;
-      height: 5rem;
-      border-radius: 20% 20% 20% 20%;
-      border: 2px solid v.$color-button;
-      background-color: v.$color-primary;
-      box-shadow: inset 0 0rem 1rem v.$color-button;
-      overflow: hidden;
+  &-buttons {
+    width: 100%;
+    padding-top: 2rem;
+    &-button {
       cursor: pointer;
-      &-disconnect {
+      margin: 1rem;
+      background-color: v.$color-button;
+      color: v.$color-bg;
+      border: 1px solid v.$color-button;
+      border-radius: 0.3rem;
+      padding: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-decoration: none;
+      &-connected {
         visibility: hidden;
+      }
+      &-picture {
         width: 5rem;
         height: 5rem;
-      }
-      & img {
-        height: 100%;
+        border-radius: 20% 20% 20% 20%;
+        border: 2px solid v.$color-button;
+        background-color: v.$color-primary;
+        box-shadow: inset 0 0rem 1rem v.$color-button;
+        overflow: hidden;
+        cursor: pointer;
+        &-disconnect {
+          visibility: hidden;
+          width: 5rem;
+          height: 5rem;
+        }
+        & img {
+          height: 100%;
+        }
       }
     }
   }
@@ -79,10 +84,13 @@
     color: v.$color-bg;
     border: 2px solid v.$color-button;
     border-radius: 0.3rem;
-    padding: 0.5rem;
+    padding: 0.3rem 0 0.5rem 0.3rem;
     width: 12rem;
     &-hidden {
       visibility: hidden;
+    }
+    & ul {
+      padding-left: 0.5rem;
     }
     & li {
       list-style-type: none;

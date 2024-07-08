@@ -7,9 +7,10 @@ import { jwtDecode } from 'jwt-decode';
 import { useQueryClient } from '@tanstack/react-query';
 import '../PageStyle/Connexion.scss';
 
+const API_URL = 'http://localhost:5000/api';
 const loginUser = async (formData: { email: string; password: string }) => {
   try {
-    const response = await fetch(`${import.meta.env.API_URL}/users/login`, {
+    const response = await fetch(`${API_URL}/users/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

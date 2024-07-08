@@ -5,12 +5,12 @@ import './FirstSearch.scss';
 import profil from '../../../../public/images/profil.jpg';
 import { PetSittersResponseSchema } from '../../../schema/petSitter.schema';
 
+const API_URL = 'http://localhost:5000/api';
 const fetchPetSittersHighlight = async () => {
-  const response = await fetch(
-    `${import.meta.env.API_URL}/announcements/highlight`
-  );
+  const response = await fetch(`${API_URL}/announcements/highlight`);
   const data = await response.json();
   const transformedData = { petSitters: data };
+
   try {
     return PetSittersResponseSchema.parse(transformedData); // Utilisez `parse` pour valider les données
   } catch (error) {
@@ -20,6 +20,7 @@ const fetchPetSittersHighlight = async () => {
 };
 
 function FirstSelection() {
+  const isLoggedIn = localStorage.getItem('token') !== null;
   const { data, isLoading, isError } = useQuery({
     queryKey: ['petSitters'],
     queryFn: fetchPetSittersHighlight,
@@ -31,14 +32,28 @@ function FirstSelection() {
     return <p>Erreur de chargement des données !</p>;
   }
   const listPetSitter = data?.petSitters.map((petSitter) => (
-    <article className="selection-card" key={petSitter.email}>
-      <Link to={`/PetSitter/${petSitter.id}`} className="selecttion-card-link">
-        <img src={profil} alt="profil" />
-        <h3>
-          {petSitter.firstname} {petSitter.lastname}
-        </h3>
-        <h4>{petSitter.city}</h4>
-      </Link>
+    <article className="selection-card" key={petSitter.announcement_id}>
+      {isLoggedIn && (
+        <Link
+          to={`/PetSitter/${petSitter.announcement_id}`}
+          className="selecttion-card-link"
+        >
+          <img src={profil} alt="profil" />
+          <h3>
+            {petSitter.firstname} {petSitter.lastname}
+          </h3>
+          <h4>{petSitter.city}</h4>
+        </Link>
+      )}
+      {!isLoggedIn && (
+        <Link to="/Connexion" className="selecttion-card-link">
+          <img src={profil} alt="profil" />
+          <h3>
+            {petSitter.firstname} {petSitter.lastname}
+          </h3>
+          <h4>{petSitter.city}</h4>
+        </Link>
+      )}
     </article>
   ));
 
