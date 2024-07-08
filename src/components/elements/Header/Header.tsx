@@ -8,7 +8,6 @@ import profilePicture from '../../../../public/images/profil.jpg';
 
 function Header() {
   const isLoggedIn = localStorage.getItem('token') !== null;
-  const { id } = useParams();
   const [isVisible, setIsVisible] = useState(true);
 
   const handleClick = () => setIsVisible(!isVisible);
