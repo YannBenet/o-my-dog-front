@@ -58,6 +58,7 @@ function Connexion() {
       const decodedToken = jwtDecode(token);
 
       const userId = decodedToken.data.id;
+      localStorage.setItem('userId', userId);
       console.log(userId);
 
       // effacer les données précédentes du cache de React Query

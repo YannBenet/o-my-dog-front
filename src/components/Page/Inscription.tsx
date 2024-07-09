@@ -42,7 +42,7 @@ function Inscription() {
     repeatPassword: '',
   });
   const navigate = useNavigate();
-  const handleChange = (e: { target: { name: string; value: string } }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
