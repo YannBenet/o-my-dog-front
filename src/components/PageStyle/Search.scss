@@ -1,4 +1,40 @@
-@use '../.././styles/variables' as v;
+@use '../../styles/variables' as v;
+
+.search {
+  width: 100%;
+  &-img {
+    display: flex;
+    &-solo {
+      max-width: 34%;
+      overflow: hidden;
+    }
+  }
+  &-form {
+    width: 100%;
+    text-align: center;
+    &-input {
+      margin: 0.3rem;
+      border: 1px solid v.$color-primary;
+      border-radius: 0.5rem;
+      color: v.$color-bg;
+      background-color: v.$color-primary;
+      padding: 0.3rem;
+    }
+    &-button {
+      background-color: v.$color-primary;
+      border-radius: 1rem;
+      border: 1px solid rgb(62, 127, 224);
+      cursor: pointer;
+      padding: 0 1rem;
+      color: v.$color-bg;
+      font-weight: bold;
+      padding: 0.2rem 2rem;
+      &:hover {
+        background-color: v.$color-button;
+      }
+    }
+  }
+}
 
 .search-container {
   width: 80%;
@@ -23,23 +59,26 @@
         border: 2px solid v.$color-primary;
       }
     }
+    &-button {
+      text-decoration: none;
+      position: absolute;
+      bottom: 0.5rem;
+      right: 1rem;
+      background-color: v.$color-primary;
+      color: v.$color-bg;
+      border-radius: 1rem;
+      border-color: v.$color-button;
+      padding: 0.3rem;
+      &:hover {
+        background-color: v.$color-button;
+      }
+    }
     &-text {
       width: 100%;
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      & a {
-        text-decoration: none;
-        position: absolute;
-        bottom: 0.5rem;
-        right: 1rem;
-        background-color: v.$color-primary;
-        color: v.$color-bg;
-        border-radius: 1rem;
-        border-color: v.$color-button;
-        padding: 0.3rem;
-      }
     }
     &-text h4 {
       font-size: 1.1rem;

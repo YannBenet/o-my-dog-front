@@ -2,7 +2,7 @@
 
 import '../../styles/index.scss';
 import '../PageStyle/Home.scss';
-import SearchBar from '../elements/SearchBar/SearchBar';
+import SearchBar from '../elements/Banner/Banner';
 import FirstSelection from '../elements/FirstSelection/FirstSelection';
 
 function Home() {
