@@ -76,13 +76,13 @@ function Inscription() {
         );
         setCitySuggestions([]); // Réinitialiser les suggestions en cas d'erreur
       }
-    } else {
-      setCitySuggestions([]);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Vérification que la ville entrée dans le form est bien une des propositions de l'API
     const selectedCity = citySuggestions.find(
       (city) => city.nom === formData.city
     );
@@ -91,13 +91,27 @@ function Inscription() {
       return;
     }
 
+    // On ajoute le deprtment_label dans les datas du form
     const updatedFormData = {
       ...formData,
       department_label: selectedCity.departement.nom,
     };
 
+    // Si un des champs est vide : on lève une erreur
+    for (const key in updatedFormData) {
+      if (updatedFormData[key as keyof typeof updatedFormData] === '') {
+        setError('Tous les champs doivent être remplis.');
+        return;
+      }
+    }
     try {
       const response = await signinUser(updatedFormData);
+      console.log(response);
+
+      if (!response) {
+        // Ce message ne sera pas affiché, il se trouvera dans la variable error
+        throw new Error('Réponse indéfinie du serveur');
+      }
       console.log('Inscription réussie', response);
       // Réinitialisation du formulaire après inscription réussie
       setFormData({
@@ -108,7 +122,7 @@ function Inscription() {
         phone_number: '',
         password: '',
         repeatPassword: '',
-        department_label: '', // Réinitialiser le champ département
+        department_label: '',
       });
       setError('');
       navigate('/Connexion');
@@ -155,7 +169,6 @@ function Inscription() {
             className="container-inscription-form-input"
             value={formData.city}
             onChange={handleChange}
-            // onBlur={handleBlur}
             list="city-suggestions"
           />
           <datalist id="city-suggestions">

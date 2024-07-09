@@ -11,9 +11,6 @@ const fetchPetSittersHighlight = async () => {
   const data = await response.json();
   const transformedData = { petSitters: data };
 
-  console.log("Données brutes reçues de l'API:", data);
-  console.log('Données transformées:', transformedData);
-
   try {
     return PetSittersResponseSchema.parse(transformedData); // Utilisez `parse` pour valider les données
   } catch (error) {
