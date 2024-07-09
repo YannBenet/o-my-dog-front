@@ -9,12 +9,13 @@ import { jwtDecode } from 'jwt-decode';
 
 function Header() {
   const isLoggedIn = localStorage.getItem('token') !== null;
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState('');
   const [isVisible, setIsVisible] = useState(true);
 
   const handleClick = () => setIsVisible(!isVisible);
   const handleDeconnect = () => {
     localStorage.removeItem('token');
+    setUserId('');
   };
 
   useEffect(() => {

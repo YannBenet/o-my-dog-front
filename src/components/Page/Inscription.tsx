@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-/* eslint-disable no-console */
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../PageStyle/Inscription.scss';

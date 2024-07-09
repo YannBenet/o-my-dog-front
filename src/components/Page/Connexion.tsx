@@ -1,5 +1,4 @@
 /* eslint-disable consistent-return */
-/* eslint-disable no-console */
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';

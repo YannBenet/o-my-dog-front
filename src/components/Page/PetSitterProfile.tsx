@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable import/no-absolute-path */
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
