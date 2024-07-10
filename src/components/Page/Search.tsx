@@ -42,6 +42,21 @@ const search = async (formData: {
 };
 
 function Search() {
+  const isLoggedIn = localStorage.getItem('token') !== null;
+  const [data, setData] = useState([
+    {
+      date_start: '',
+      date_end: '',
+      city: '',
+      label: '',
+      firstname: '',
+      lastname: '',
+      home: false,
+      mobility: false,
+      description: '',
+      id: '',
+    },
+  ]);
   const [formData, setFormData] = useState({
     dateStart: '',
     dateEnd: '',
@@ -49,6 +64,7 @@ function Search() {
     label: '',
   });
   const [resultCount, setResultCount] = useState(0);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -61,7 +77,8 @@ function Search() {
     try {
       const response = await search(formData);
       setResultCount(response.length);
-      console.log('recherche OK', response);
+      setData(response);
+      console.log('recherche OK', data);
       setFormData({
         dateStart: '',
         dateEnd: '',
@@ -72,7 +89,56 @@ function Search() {
       console.error('recherche non conforme:', error);
     }
   };
-
+  const formatDate = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+  const listSearch = data.map((petSitter) => (
+    <article className="search-container-result-card" key={petSitter.id}>
+      <div className="search-container-result-card-img">
+        <img src={profil} alt="profil" />
+      </div>
+      <div className="search-container-result-card-text">
+        <h4>
+          {petSitter.firstname} {petSitter.lastname}
+        </h4>
+        <h6>description</h6>
+        <div className="search-container-result-card-description">
+          <p>{petSitter.description}</p>
+        </div>
+        <div className="search-container-result-card-date">
+          <h6>Disponibilités</h6>
+          <p>
+            du <span>{formatDate(petSitter.date_start)}</span> au
+            <span>{formatDate(petSitter.date_end)}</span>
+          </p>
+        </div>
+        {/* Si connecté dirige sur la fiche de l'annonce */}
+        {isLoggedIn && (
+          <NavLink
+            to={`/PetSitter/${petSitter.id}`}
+            type="button"
+            className="search-container-result-card-button"
+          >
+            Voir Profil
+          </NavLink>
+        )}
+        {/* Si non connecté renvoie sur la page de connexion */}
+        {!isLoggedIn && (
+          <NavLink
+            to="/Connexion"
+            type="button"
+            className="search-container-result-card-button"
+          >
+            Voir Profil
+          </NavLink>
+        )}
+      </div>
+    </article>
+  ));
   return (
     <section>
       <section className="search-form-position">
@@ -120,96 +186,7 @@ function Search() {
           {' '}
           Il y a {resultCount} pet-sitter correspondant à votre recherche
         </h3>
-        <section className="search-container-result">
-          <article className="search-container-result-card">
-            <div className="search-container-result-card-img">
-              <img src={profil} alt="profil" />
-            </div>
-            <div className="search-container-result-card-text">
-              <h4>Nom Prénom</h4>
-              <h6>description</h6>
-              <div className="search-container-result-card-description">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde
-                  eum similique autem, quia fugit provident excepturi, sit
-                  nesciunt cumque, nam quo architecto beatae quibusdam optio
-                  possimus quaerat saepe voluptatum ratione debitis. Amet,
-                  praesentium ad? Dolore sed adipisci expedita? Dignissimos,
-                  obcaecati. Corrupti aspernatur ratione optio culpa. Qui
-                  voluptatem alias esse autem?
-                </p>
-              </div>
-              <div className="search-container-result-card-date">
-                <h6>Disponibilités</h6>
-                <p>du 15-07-2024 au 30-07-2024</p>
-              </div>
-              <NavLink
-                to="/PetSitter"
-                type="button"
-                className="search-container-result-card-button"
-              >
-                Voir Profil
-              </NavLink>
-            </div>
-          </article>
-          <article className="search-container-result-card">
-            <div className="search-container-result-card-img">
-              <img src={profil} alt="profil" />
-            </div>
-            <div className="search-container-result-card-text">
-              <h4>Nom Prénom</h4>
-              <h6>description</h6>
-              <div className="search-container-result-card-description">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde
-                  eum similique autem, quia fugit provident excepturi, sit
-                  nesciunt cumque, nam quo architecto beatae quibusdam optio
-                  possimus quaerat saepe voluptatum ratione debitis. Amet,
-                  praesentium ad? Dolore sed adipisci expedita? Dignissimos,
-                  obcaecati. Corrupti aspernatur ratione optio culpa. Qui
-                  voluptatem alias esse autem?
-                </p>
-              </div>
-              <div className="search-container-result-card-date">
-                <h6>Disponibilités</h6>
-                <p>du 15-07-2024 au 30-07-2024</p>
-              </div>
-              <NavLink
-                to="/PetSitter"
-                type="button"
-                className="search-container-result-card-button"
-              >
-                Voir Profil
-              </NavLink>
-            </div>
-          </article>
-          <article className="search-container-result-card">
-            <div className="search-container-result-card-img">
-              <img src={profil} alt="profil" />
-            </div>
-            <div className="search-container-result-card-text">
-              <h4>Nom Prénom</h4>
-              <h6>description</h6>
-              <div className="search-container-result-card-description">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
-                  itaque ut a eos, assumenda quo.
-                </p>
-              </div>
-              <div className="search-container-result-card-date">
-                <h6>Disponibilités</h6>
-                <p>du 15-07-2024 au 30-07-2024</p>
-              </div>
-              <NavLink
-                to="/PetSitter"
-                type="button"
-                className="search-container-result-card-button"
-              >
-                Voir Profil
-              </NavLink>
-            </div>
-          </article>
-        </section>
+        <section className="search-container-result">{listSearch}</section>
       </section>
     </section>
   );

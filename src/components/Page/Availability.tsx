@@ -1,10 +1,10 @@
-/* eslint-disable consistent-return */
-/* eslint-disable react/no-unescaped-entities */
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '../PageStyle/Availability.scss';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { ListAnimalsSchema } from '../../schema/petSitter.schema';
 
 type ValuePiece = Date | null;
 
@@ -37,6 +37,18 @@ const store = async (formData: {
     return await response.json();
   } catch (error) {
     console.error("Erruer du POST de l'annonce:", error);
+    throw error;
+  }
+};
+const getListAnimals = async () => {
+  const response = await fetch(`${API_URL}/animals`);
+  const dataAnimals = await response.json();
+  const transformedData = { animals: dataAnimals };
+  try {
+    return ListAnimalsSchema.parse(transformedData);
+  } catch (error) {
+    console.error('Tous les animaux ont étés dévorés!', error);
+    throw error;
   }
 };
 
@@ -49,6 +61,14 @@ function Availability() {
     description: '',
     animal: [] as string[],
   });
+  // formatage de la date
+  const formatDate = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
 
   const [value, setValue] = useState<Value>(new Date());
 
@@ -97,10 +117,13 @@ function Availability() {
       try {
         const id = localStorage.getItem('userId');
         if (id) {
+          // conversion des dates pour correspondre à la BDD
+          const dateStart = value[0].toISOString().split('T')[0];
+          const dateEnd = value[1].toISOString().split('T')[0];
           const updatedFormData = {
             ...formData,
-            date_start: value[0].toISOString(),
-            date_end: value[1].toISOString(),
+            date_start: dateStart,
+            date_end: dateEnd,
           };
           const response = await store(updatedFormData);
           console.log('Annonce postée', response);
@@ -123,11 +146,39 @@ function Availability() {
       console.error('Veuillez sélectionner une plage de dates');
     }
   };
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['Animals'],
+    queryFn: getListAnimals,
+  });
+  if (isLoading) {
+    return <p>Nous essayons d&apos;attraper tous les animaux!</p>;
+  }
+  if (isError) {
+    return <p>Tous nos animaux sont en balade!</p>;
+  }
+  const listAnimals = data?.Animals.map((animal) => (
+    <div key={animal.label}>
+      <input
+        type="checkbox"
+        name={animal.label}
+        id={animal.label}
+        checked={formData.animal.includes(animal.label)}
+        onChange={handleChange}
+      />
+      <label htmlFor={animal.label}>{animal.label}</label>
+    </div>
+  ));
 
+  const DayJ = new Date();
   return (
     <section className="availability">
       <section className="availability-calendar">
-        <Calendar selectRange onChange={setValue} value={value} />
+        <Calendar
+          selectRange
+          onChange={setValue}
+          value={value}
+          minDate={DayJ}
+        />
       </section>
       <section className="availability-form">
         <form onSubmit={handleSubmit} className="availability-form-submit">
@@ -136,16 +187,16 @@ function Availability() {
               <p>
                 Date de début:
                 <span>
-                  {Array.isArray(value)
-                    ? value[0]?.toDateString()
-                    : value?.toDateString()}
+                  {Array.isArray(value) && value[0]
+                    ? formatDate(value[0]?.toDateString())
+                    : 'N/A'}
                 </span>
               </p>
               <p>
                 Date de fin:
                 <span>
                   {Array.isArray(value) && value[1]
-                    ? value[1].toDateString()
+                    ? formatDate(value[1].toDateString())
                     : 'N/A'}
                 </span>
               </p>{' '}
@@ -185,24 +236,9 @@ function Availability() {
               </div>
             </div>
             <div className="availability-form-bottom-animals">
-              <p>Sélectionné le type d'annimals acceptés : </p>
-              <div className="availability-form-right-animals-select">
-                {['chien', 'chat', 'lapin', 'torute', 'serpent domestique'].map(
-                  (animal) => (
-                    <div key={animal}>
-                      <input
-                        type="checkbox"
-                        name={animal}
-                        id={animal}
-                        checked={formData.animal.includes(animal)}
-                        onChange={handleChange}
-                      />
-                      <label htmlFor={animal}>
-                        {animal.charAt(0).toUpperCase() + animal.slice(1)}
-                      </label>
-                    </div>
-                  )
-                )}
+              <p>Sélectionné le type d&apos;annimals acceptés : </p>
+              <div className="availability-form-bottom-animals-select">
+                {listAnimals}
               </div>
 
               <div className="availability-form-bottom-button">

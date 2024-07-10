@@ -59,10 +59,14 @@
     &-bottom {
       width: 100%;
       &-mobility {
+        font-size: 1.1rem;
         display: flex;
         justify-content: center;
         gap: 1.5rem;
         padding: 0.5rem;
+        & label {
+          padding-left: 0.2rem;
+        }
       }
       &-animals {
         font-size: 1.1rem;
@@ -70,6 +74,9 @@
           display: flex;
           justify-content: space-around;
           padding: 1rem;
+          & label {
+            padding-left: 0.2rem;
+          }
         }
       }
       &-button {

@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -22,9 +21,14 @@ const loginUser = async (formData: { email: string; password: string }) => {
     return await response.json();
   } catch (error) {
     console.error('Error posting data', error);
+    throw error;
   }
 };
-
+interface DecodedToken {
+  data: {
+    id: string;
+  };
+}
 function Connexion() {
   const [formData, setFormData] = useState({
     email: '',
@@ -55,14 +59,13 @@ function Connexion() {
       // stockage du token JWT dans localStorage
       localStorage.setItem('token', token);
       // recuperation de l'id pour redirection sur page profil
-      const decodedToken = jwtDecode(token);
+      const decodedToken = jwtDecode<DecodedToken>(token);
 
       const userId = decodedToken.data.id;
       localStorage.setItem('userId', userId);
-      console.log(userId);
 
       // effacer les données précédentes du cache de React Query
-      queryClient.invalidateQueries('user');
+      queryClient.invalidateQueries({ queryKey: ['user'] });
 
       // Réinitialisation du formulaire aprés la connexion réussi
       setFormData({
