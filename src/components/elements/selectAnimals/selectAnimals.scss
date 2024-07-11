@@ -1,0 +1,10 @@
+@use '../../../styles/variables' as v;
+
+.animal {
+  padding: 0.5rem;
+  background-color: v.$color-primary;
+  color: v.$color-bg;
+  border: 2px solid v.$color-button;
+  border-radius: 1rem;
+  font-weight: bold;
+}

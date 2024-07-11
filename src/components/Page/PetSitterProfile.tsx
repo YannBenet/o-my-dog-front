@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable import/no-absolute-path */
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -64,49 +63,40 @@ function PetSitterProfile() {
         />
 
         <div className="profile-container-info">
-          <p className="profile-container-info-contact">Pour le contacter</p>
-          <p>Nom:</p>
-          <h2>{user.firstname}</h2>
-          <p>Prénom:</p>
-          <h2>{user.lastname}</h2>
-          <p>numéro de téléphone:</p>
-          <h2>{user.phone_number}</h2>
-          <p>adresse mail:</p>
-          <h2>{user.email}</h2>
+          <h2 className="profile-container-info-category">
+            <span>Nom:</span>
+            {user?.firstname}
+          </h2>
+          <h2 className="profile-container-info-category">
+            <span>Prénom:</span>
+            {user?.lastname}
+          </h2>
+          <h2 className="profile-container-info-category">
+            <span>numéro de téléphone:</span>
+            {user?.phone_number}
+          </h2>
+          <h2 className="profile-container-info-category">
+            <span>adresse mail:</span>
+            {user?.email}
+          </h2>
         </div>
       </section>
       <section className="profile-available">
         <div className="profile-available-description">
-          <h3>Sa description</h3>
+          <h3>Son annonce</h3>
           <div className="profile-available-description-text">
             <p>{user.description}</p>
           </div>
         </div>
         <section className="profile-available-entrie">
           <div className="profile-available-entrie-title">
-            <h4>Ses Disponibilités :</h4>
+            <h4>Pour la période :</h4>
           </div>
           <div className="profile-available-entrie-period">
             <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
               du: {user.date_start}
             </p>
             <p className="profile-available-entrie-period-date profile-available-entrie-period-date-off">
-              au: {user.date_end}
-            </p>
-          </div>
-          <div className="profile-available-entrie-period">
-            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-              du: {user.date_start}
-            </p>
-            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-off">
-              au: {user.date_end}
-            </p>
-          </div>
-          <div className="profile-available-entrie-period">
-            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-              du: {user.date_start}
-            </p>
-            <p className="profile-available-entrie-period-date profile-available-entries-period-date-off">
               au: {user.date_end}
             </p>
           </div>

@@ -47,3 +47,43 @@ export const PetSitterSelection = z.object({
 export const PetSitterSelectionSchema = z.object({
   petSitter: PetSitterSelection,
 });
+
+// schema du résultat de la recherche
+export const SearchSchema = z.object({
+  id: z.number(),
+  date_start: z.string(),
+  date_end: z.string(),
+  mobility: z.boolean(),
+  home: z.boolean(),
+  description: z.string(),
+  firstname: z.string(),
+  lastname: z.string(),
+  label: z.string(),
+});
+export const ResultSearchSchema = z.array(SearchSchema);
+
+export const PetSittersSearchSchema = z.object({
+  petSitters: ResultSearchSchema,
+});
+
+// schema des données animals
+export const AnimalSchema = z.object({
+  label: z.string(),
+});
+
+export const AnimalsSchema = z.array(AnimalSchema);
+
+export const ListAnimalsSchema = z.object({
+  Animals: AnimalsSchema,
+});
+
+// schema des données département
+export const DepartmentSchema = z.object({
+  department_label: z.string(),
+});
+
+export const DepartmentsSchema = z.array(DepartmentSchema);
+
+export const ListDepartmentsSchema = z.object({
+  Departments: DepartmentsSchema,
+});

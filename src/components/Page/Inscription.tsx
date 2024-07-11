@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+
 /* eslint-disable no-console */
 import React, { useState } from 'react';
 import { createPath, useNavigate } from 'react-router-dom';
@@ -49,7 +50,9 @@ function Inscription() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+
     const { name, value } = e.target;
     setFormData({
       ...formData,

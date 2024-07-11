@@ -2,19 +2,34 @@
 // eslint-disable-next-line import/no-absolute-path
 import logo from '/logoOMyDog.png';
 import './Header.scss';
-import { NavLink, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import profilePicture from '../../../../public/images/profil.jpg';
+import { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 function Header() {
   const isLoggedIn = localStorage.getItem('token') !== null;
-  const { id } = useParams();
+  const [userId, setUserId] = useState('');
   const [isVisible, setIsVisible] = useState(true);
 
   const handleClick = () => setIsVisible(!isVisible);
   const handleDeconnect = () => {
     localStorage.removeItem('token');
+    setUserId('');
   };
+
+  useEffect(() => {
+    // recuperation de l'id pour redirection sur page profil
+    const token: string | null = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setUserId(decodedToken.data.id);
+      } catch (error) {
+        console.error('Erreur décodage token:', error);
+      }
+    }
+  }, []);
 
   return (
     <header className="header">
@@ -79,7 +94,7 @@ function Header() {
                 </li>
                 <li>
                   <NavLink
-                    to={`/Profile/${id}`}
+                    to={`/Profile/${userId}`}
                     className="connect-navBar-menu"
                   >
                     Mon profil

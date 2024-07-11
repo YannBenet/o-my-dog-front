@@ -2,7 +2,6 @@
 
 .search-banner {
   width: 100%;
-  position: relative;
   &-img {
     display: flex;
     &-solo {
@@ -17,11 +16,6 @@
       border-radius: 0.5rem;
       color: v.$color-bg;
       background-color: v.$color-primary;
-    }
-    &-position {
-      position: absolute;
-      bottom: 0.3rem;
-      //left: 10rem;
     }
     &-button {
       background-color: v.$color-primary;

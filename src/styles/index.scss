@@ -13,5 +13,7 @@ body {
   flex-direction: column;
 }
 .main {
+  display: flex;
+  justify-content: space-between;
   flex-grow: 1;
 }
