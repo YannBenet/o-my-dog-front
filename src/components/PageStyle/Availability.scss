@@ -1,21 +1,5 @@
 @use '../../styles/variables' as v;
 
-.react-calendar__tile--now {
-  background-color: v.$color-primary;
-  color: v.$color-bg;
-}
-
-.react-calendar__tile--now:enabled:hover,
-.react-calendar__tile--now:enabled:focus {
-  background-color: v.$color-primary;
-}
-.react-calendar {
-  margin: 0 auto;
-  &__navigation {
-    background-color: v.$color-primary;
-    font-weight: bold;
-  }
-}
 .availability {
   width: 100%;
   padding: 2rem;
@@ -96,4 +80,7 @@
       }
     }
   }
+}
+.react-calendar__tile--now {
+  background: #f12828;
 }

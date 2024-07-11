@@ -1,25 +1,35 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable consistent-return */
 import '../PageStyle/Search.scss';
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import Calendar from 'react-calendar';
 import profil from '../../../public/images/profil.jpg';
-// import SearchBar from '../elements/SearchBar/SearchBar';
+import {
+  ListAnimalsSchema,
+  ListDepartmentsSchema,
+} from '../../schema/petSitter.schema';
+
+type ValuePiece = Date | null;
+
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const API_URL = 'http://localhost:5000/api';
-
+// Requete de la recherhce
 const search = async (formData: {
   dateStart: string;
   dateEnd: string;
-  city: string;
-  label: string;
+  departmentLabel: string;
+  animalLabel: string;
 }) => {
-  const { dateStart, dateEnd, city, label } = formData;
+  const { dateStart, dateEnd, departmentLabel, animalLabel } = formData;
   const token = localStorage.getItem('token');
   const queryParams = new URLSearchParams({
     date_start: dateStart,
     date_end: dateEnd,
-    city,
-    animal_label: label,
+    department_label: departmentLabel,
+    animal_label: animalLabel,
   });
   try {
     const response = await fetch(
@@ -40,8 +50,32 @@ const search = async (formData: {
     console.error("Erruer du POST de l'annonce:", error);
   }
 };
-
+// Récupération de la liste des animaux
+const getListAnimals = async () => {
+  const response = await fetch(`${API_URL}/animals`);
+  const dataAnimals = await response.json();
+  const transformedData = { Animals: dataAnimals };
+  try {
+    return ListAnimalsSchema.parse(transformedData);
+  } catch (error) {
+    console.error('Tous les animaux ont été dévorés!', error);
+    throw error;
+  }
+};
+// Récupération des départements de la Bdd
+const getListDepartments = async () => {
+  const response = await fetch(`${API_URL}/departments`);
+  const dataDepartment = await response.json();
+  const transformedData = { Departments: dataDepartment };
+  try {
+    return ListDepartmentsSchema.parse(transformedData);
+  } catch (error) {
+    console.error('Tous les départements ont été réduits en cendre!');
+    throw error;
+  }
+};
 function Search() {
+  const [valueDate, setValueDate] = useState<Value>(new Date());
   const isLoggedIn = localStorage.getItem('token') !== null;
   const [data, setData] = useState([
     {
@@ -60,35 +94,107 @@ function Search() {
   const [formData, setFormData] = useState({
     dateStart: '',
     dateEnd: '',
-    city: '',
-    label: '',
+    departmentLabel: '',
+    animalLabel: '',
   });
   const [resultCount, setResultCount] = useState(0);
+  useEffect(() => {
+    setValueDate([
+      new Date('2024-07-11T22:00:00.000Z'),
+      new Date('2024-07-19T21:59:59.999Z'),
+    ]);
+  }, []);
+  const {
+    data: dataAnimals,
+    isLoading: isLoadingAnimals,
+    isError: isErrorAnimals,
+  } = useQuery({
+    queryKey: ['Animals'],
+    queryFn: getListAnimals,
+  });
+  const {
+    data: dataDepartment,
+    isLoading: isLoadingDepartment,
+    isError: isErrorDepartment,
+  } = useQuery({
+    queryKey: ['Departments'],
+    queryFn: getListDepartments,
+  });
+  if (isLoadingAnimals) {
+    return <p>Nous essayons dapos; tous les animaux!</p>;
+  }
+  if (isErrorAnimals) {
+    return <p>Tous nos animaux sont en balades!</p>;
+  }
+  const listAnimals = dataAnimals?.Animals.map((animal) => (
+    <option key={animal.label} value={animal.label}>
+      {animal.label}
+    </option>
+  ));
+  if (isLoadingDepartment) {
+    return <p>On recherche la list des départements!</p>;
+  }
+  if (isErrorDepartment) {
+    return (
+      <p>
+        La liste des départements est trop longue pour que je les écrive tous!
+      </p>
+    );
+  }
+  const listDepartments = dataDepartment?.Departments.map((department) => (
+    <option
+      value={department.department_label}
+      key={department.department_label}
+    >
+      {department.department_label}
+    </option>
+  ));
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /* const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  }; */
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
   };
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await search(formData);
-      setResultCount(response.length);
-      setData(response);
-      console.log('recherche OK', data);
-      setFormData({
-        dateStart: '',
-        dateEnd: '',
-        city: '',
-        label: '',
-      });
-    } catch (error) {
-      console.error('recherche non conforme:', error);
+    if (Array.isArray(valueDate)) {
+      const [startDate, endDate] = valueDate;
+      if (startDate && endDate) {
+        const updatedFormData = {
+          ...formData,
+          dateStart: startDate.toISOString(),
+          dateEnd: endDate.toISOString(),
+        };
+        try {
+          const response = await search(updatedFormData);
+          if (response) {
+            setResultCount(response.length);
+            setData(response);
+          }
+          setFormData({
+            dateStart: '',
+            dateEnd: '',
+            departmentLabel: '',
+            animalLabel: '',
+          });
+        } catch (error) {
+          console.error('recherche non conforme:', error);
+        }
+      } else {
+        console.error('Veuillez sélectionner une plage de dates complète.');
+      }
     }
   };
+  // Formatage de la date pour affichage
   const formatDate = (isoDate: string): string => {
     const date = new Date(isoDate);
     const day = String(date.getDate()).padStart(2, '0');
@@ -96,6 +202,7 @@ function Search() {
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
   };
+
   const listSearch = data.map((petSitter) => (
     <article className="search-container-result-card" key={petSitter.id}>
       <div className="search-container-result-card-img">
@@ -143,39 +250,34 @@ function Search() {
     <section>
       <section className="search-form-position">
         <form onSubmit={handleSubmit} className="search-form">
-          <input
-            type="text"
-            name="city"
-            className="search-form-input"
-            placeholder="Lieu (département, ville)"
-            value={formData.city}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="dateStart"
-            className="search-form-input"
-            placeholder="garde du: format 2024-07-22"
-            value={formData.dateStart}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="dateEnd"
-            className="search-form-input"
-            placeholder="garde jusqu'au: format 2024-07-29"
-            value={formData.dateEnd}
-            onChange={handleChange}
-          />
-          {/* TODO transformer l'input en select */}
-          <input
-            type="text"
-            name="label"
-            className="search-form-input"
-            placeholder="animaux"
-            value={formData.label}
-            onChange={handleChange}
-          />
+          <section className="search-form-department">
+            <select
+              name="departmentLabel"
+              className="search-form-input"
+              onChange={handleSelectChange}
+            >
+              <option value="">
+                -- Selectionnez votre département, si disponible --
+              </option>
+              {listDepartments}
+            </select>
+          </section>
+          <section className="search-form-calendar">
+            <h3>Sélectionnez la période de garde désiré</h3>
+            <Calendar selectRange onChange={setValueDate} value={valueDate} />
+          </section>
+          <section className="search-form-animals">
+            <select
+              name="animalLabel"
+              className="search-form-input"
+              onChange={handleSelectChange}
+            >
+              <option value="">
+                -- Selectionnez le type d'animal à faire garder --
+              </option>
+              {listAnimals}
+            </select>
+          </section>
           <button type="submit" className="search-form-button">
             Validé
           </button>
