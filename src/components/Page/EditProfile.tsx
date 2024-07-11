@@ -2,6 +2,7 @@ import '../PageStyle/EditProfile.scss';
 import { useState } from 'react';
 import { createPath, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+
 const API_URL = 'http://localhost:5000/api';
 
 const editUserProfile = async (formData: {
@@ -29,10 +30,9 @@ const editUserProfile = async (formData: {
     const response = await fetch(`${API_URL}/users/${decodedToken.data.id}`, {
       method: 'PATCH',
       headers: {
-        'Content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(formData),
+      body: formData,
     });
 
     if (!response.ok) {
@@ -59,76 +59,80 @@ function EditProfile() {
     repeatPassword: '',
     department_label: '', // Initialisation du champ département
   });
+
+  const [file, setFile] = useState(null); // Ajout du state pour le fichier
   const [citySuggestions, setCitySuggestions] = useState<
     { nom: string; departement: { nom: string } }[]
   >([]);
-
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, files } = e.target;
 
-    // Appel à l'API pour obtenir les suggestions de villes à partir de 3 caractères
-    if (name === 'city' && value.length > 2) {
-      console.log('cityyyyy', value);
+    if (name === 'file') {
+      if (files && files[0]) {
+        setFile(files[0]);
+      }
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
 
-      try {
-        const response = await fetch(
-          `https://geo.api.gouv.fr/communes?nom=${value}&fields=nom,departement&boost=population&limit=5`
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            'Erreur lors de la récupération des suggestions de villes'
+      if (name === 'city' && value.length > 2) {
+        try {
+          const response = await fetch(
+            `https://geo.api.gouv.fr/communes?nom=${value}&fields=nom,departement&boost=population&limit=5`
           );
+
+          if (!response.ok) {
+            throw new Error(
+              'Erreur lors de la récupération des suggestions de villes'
+            );
+          }
+          const data = await response.json();
+          setCitySuggestions(data);
+        } catch (error) {
+          console.error(
+            'Erreur lors de la récupération des suggestions de villes:',
+            error
+          );
+          setCitySuggestions([]);
         }
-        const data = await response.json();
-        console.log(data);
-        setCitySuggestions(data);
-        console.log(citySuggestions);
-      } catch (error) {
-        console.error(
-          'Erreur lors de la récupération des suggestions de villes:',
-          error
-        );
-        setCitySuggestions([]); // Réinitialiser les suggestions en cas d'erreur
       }
     }
   };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // ?? Création d'une copie. Le "let" ne pose pas de problème ?
-    let updatedFormData = { ...formData };
+    const updatedFormData = new FormData();
+
+    // On va récupérer toutes les clés et valeurs du formulaires qui ne sont pas vides pour les attribuer à un FormData qui sera envoyé au front
+    Object.keys(formData).forEach((key) => {
+      if (formData[key as keyof typeof formData] !== '') {
+        updatedFormData.append(key, formData[key as keyof typeof formData]);
+      }
+    });
+
+    // Ajouter le fichier à FormData
+    if (file) {
+      updatedFormData.append('file', file);
+    }
 
     // On vérifie seulement les champs de city s'il y a quelque chose d'écrit dedans.
-    if (updatedFormData.city !== '') {
+    if (formData.city !== '') {
       // Vérification que la ville entrée dans le form est bien une des propositions de l'API
       const selectedCity = citySuggestions.find(
-        (city) => city.nom === updatedFormData.city
+        (city) => city.nom === updatedFormData.get('city')
       );
       if (!selectedCity) {
         setError('Veuillez sélectionner une ville valide dans la liste.');
         return;
       }
 
-      // Ajout du département à la copie locale de formData
-      updatedFormData = {
-        ...updatedFormData,
-        department_label: selectedCity.departement.nom,
-      };
-    }
-
-    // Suppression des champs vides de la copie locale de formData
-    for (const key in updatedFormData) {
-      if (updatedFormData[key as keyof typeof updatedFormData] === '') {
-        delete updatedFormData[key as keyof typeof updatedFormData];
-      }
+      // Ajout du département à FormData
+      updatedFormData.set('department_label', selectedCity.departement.nom);
     }
 
     try {
@@ -137,10 +141,12 @@ function EditProfile() {
       console.log(response);
 
       if (!response) {
-        throw new Error('Réponse indéfinie du serveur');
+        throw new Error(
+          "Erreur du serveur, réessayez ou contacter l'administrateur du site"
+        );
       }
 
-      console.log('Modification de profile réussie', response);
+      console.log('Modification de profil réussie', response);
 
       // Réinitialisation du formulaire après modification réussie
       setFormData({
@@ -154,7 +160,7 @@ function EditProfile() {
         department_label: '',
       });
       setError('');
-      navigate('/Connexion');
+      navigate(`/`);
     } catch (error) {
       console.error('Erreur lors de la modification de profil', error);
       setError("Une erreur s'est produite lors la modification du profil.");
@@ -166,7 +172,14 @@ function EditProfile() {
       <h2>Modifier mon profil</h2>
       <section>
         <form onSubmit={handleSubmit} className="container-inscription-form">
-          <input type="file" accept=".jpg, .jpeg, .png" capture="environment" />
+          <input
+            type="file"
+            name="file"
+            accept=".jpg, .jpeg, .png"
+            capture="environment"
+            onChange={handleChange}
+          />
+
           <input
             type="text"
             name="firstname"
