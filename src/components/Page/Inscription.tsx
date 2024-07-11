@@ -109,7 +109,7 @@ function Inscription() {
       console.log(response);
 
       if (!response) {
-        // Ce message ne sera pas affiché, il se trouvera dans la variable error
+
         throw new Error('Réponse indéfinie du serveur');
       }
       console.log('Inscription réussie', response);
