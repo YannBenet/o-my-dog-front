@@ -109,7 +109,7 @@ function Inscription() {
       console.log(response);
 
       if (!response) {
-        // Ce message ne sera pas affiché, il se trouvera dans la variable
+
         throw new Error('Réponse indéfinie du serveur');
       }
       console.log('Inscription réussie', response);
@@ -205,7 +205,8 @@ function Inscription() {
             value={formData.repeatPassword}
             onChange={handleChange}
           />
-
+          {/* Espace pour message si erreur sur la page */}
+          {error && <p className="error-message">{error}</p>}
           <button type="submit" className="container-inscription-form-button">
             Valider
           </button>
