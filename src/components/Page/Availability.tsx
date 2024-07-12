@@ -13,6 +13,7 @@ type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const API_URL = 'http://localhost:5000/api';
+
 // Requète pour poster une annonce
 const store = async (formData: {
   date_start: string;
@@ -148,7 +149,7 @@ function Availability() {
             description: '',
             animal: [],
           });
-          navigate(`/Profil/${id}`);
+          navigate(`/Profile/${id}`);
         } else {
           console.error('Aucun ID trouvé dans localStorage');
         }

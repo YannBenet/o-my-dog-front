@@ -99,12 +99,12 @@ function Inscription() {
     };
 
     // Si un des champs est vide : on lève une erreur
-    for (const key in updatedFormData) {
+    /* for (const key in updatedFormData) {
       if (updatedFormData[key as keyof typeof updatedFormData] === '') {
         setError('Tous les champs doivent être remplis.');
         return;
       }
-    }
+    } */
     try {
       const response = await signinUser(updatedFormData);
       console.log(response);
