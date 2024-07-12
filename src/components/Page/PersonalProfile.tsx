@@ -1,5 +1,4 @@
 import { useParams, NavLink } from 'react-router-dom';
-// import shcema zod et react query
 import { useQuery } from '@tanstack/react-query';
 import { PetSitterResponseSchema } from '../../schema/petSitter.schema';
 import '../PageStyle/PersonalProfile.scss';
@@ -33,7 +32,9 @@ function Profile() {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['user', id],
-    queryFn: () => getUser(id),
+    queryFn: () =>
+      id ? getUser(id) : Promise.reject(new Error('ID est undefined')),
+    enabled: !!id,
   });
   if (isLoading) {
     return <p>LOADING.....</p>;
@@ -86,13 +87,6 @@ function Profile() {
         </section>
       </section>
       <section className="profile-available">
-        <div className="profile-available-description">
-          <h3>Ma description</h3>
-          {/* <div className="profile-available-description-text">
-            il faut revoir la mise en page du profil User
-            <p>{user?.description}</p>
-          </div> */}
-        </div>
         {/* {user?.date_start && ( */}
         <section className="profile-available-entrie">
           <div className="profile-available-entrie-title">
