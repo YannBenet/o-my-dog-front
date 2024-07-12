@@ -2,7 +2,7 @@
 // eslint-disable-next-line import/no-absolute-path
 import logo from '/logoOMyDog.png';
 import './Header.scss';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import profilePicture from '../../../../public/images/profil.jpg';
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
@@ -11,6 +11,7 @@ function Header() {
   const isLoggedIn = localStorage.getItem('token') !== null;
   const [userId, setUserId] = useState('');
   const [isVisible, setIsVisible] = useState(true);
+  const location = useLocation();
 
   const handleClick = () => setIsVisible(!isVisible);
   const handleDeconnect = () => {
@@ -29,7 +30,7 @@ function Header() {
         console.error('Erreur décodage token:', error);
       }
     }
-  }, []);
+  }, [location]); // mise à jour lorsque changement de page
 
   return (
     <header className="header">

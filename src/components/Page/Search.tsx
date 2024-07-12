@@ -247,40 +247,44 @@ function Search() {
     </article>
   ));
   return (
-    <section>
+    <section className="search">
       <section className="search-form-position">
         <form onSubmit={handleSubmit} className="search-form">
-          <section className="search-form-department">
-            <select
-              name="departmentLabel"
-              className="search-form-input"
-              onChange={handleSelectChange}
-            >
-              <option value="">
-                -- Selectionnez votre département, si disponible --
-              </option>
-              {listDepartments}
-            </select>
+          <section className="search-form-field">
+            <section className="search-form-calendar">
+              <h3>Sélectionnez la période de garde désiré</h3>
+              <Calendar selectRange onChange={setValueDate} value={valueDate} />
+            </section>
+            <section className="search-form-field-select">
+              <section className="search-form-departments">
+                <select
+                  name="departmentLabel"
+                  className="search-form-input"
+                  onChange={handleSelectChange}
+                >
+                  <option value="">
+                    -- Selectionnez votre département, si disponible --
+                  </option>
+                  {listDepartments}
+                </select>
+              </section>
+              <section className="search-form-animals">
+                <select
+                  name="animalLabel"
+                  className="search-form-input"
+                  onChange={handleSelectChange}
+                >
+                  <option value="">
+                    -- Selectionnez le type d'animal à faire garder --
+                  </option>
+                  {listAnimals}
+                </select>
+              </section>
+              <button type="submit" className="search-form-button">
+                Validé
+              </button>
+            </section>
           </section>
-          <section className="search-form-calendar">
-            <h3>Sélectionnez la période de garde désiré</h3>
-            <Calendar selectRange onChange={setValueDate} value={valueDate} />
-          </section>
-          <section className="search-form-animals">
-            <select
-              name="animalLabel"
-              className="search-form-input"
-              onChange={handleSelectChange}
-            >
-              <option value="">
-                -- Selectionnez le type d'animal à faire garder --
-              </option>
-              {listAnimals}
-            </select>
-          </section>
-          <button type="submit" className="search-form-button">
-            Validé
-          </button>
         </form>
       </section>
       <section className="search-container">

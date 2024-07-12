@@ -2,7 +2,7 @@
 
 /* eslint-disable no-console */
 import React, { useState } from 'react';
-import { createPath, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../PageStyle/Inscription.scss';
 
 const API_URL = 'http://localhost:5000/api';
@@ -50,9 +50,7 @@ function Inscription() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -72,10 +70,10 @@ function Inscription() {
         }
         const data = await response.json();
         setCitySuggestions(data);
-      } catch (error) {
+      } catch (err) {
         console.error(
           'Erreur lors de la récupération des suggestions de villes:',
-          error
+          err
         );
         setCitySuggestions([]); // Réinitialiser les suggestions en cas d'erreur
       }
@@ -101,18 +99,17 @@ function Inscription() {
     };
 
     // Si un des champs est vide : on lève une erreur
-    for (const key in updatedFormData) {
+    /* for (const key in updatedFormData) {
       if (updatedFormData[key as keyof typeof updatedFormData] === '') {
         setError('Tous les champs doivent être remplis.');
         return;
       }
-    }
+    } */
     try {
       const response = await signinUser(updatedFormData);
       console.log(response);
 
       if (!response) {
-
         throw new Error('Réponse indéfinie du serveur');
       }
       console.log('Inscription réussie', response);
@@ -129,8 +126,8 @@ function Inscription() {
       });
       setError('');
       navigate('/Connexion');
-    } catch (error) {
-      console.error("Erreur lors de l'inscription", error);
+    } catch (err) {
+      console.error("Erreur lors de l'inscription", err);
       setError("Une erreur s'est produite lors de l'inscription.");
     }
   };

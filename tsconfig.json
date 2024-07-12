@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "lib": ["DOM", "DOM.Iterable", "ESNext", "ES2015"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -14,12 +14,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types":["node", "websocket", "webworker"]
   },
   "include": [
-    "vite.config.ts",
     ".eslintrc.cjs",
     "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "vite.config.ts" 
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

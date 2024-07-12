@@ -2,6 +2,7 @@
 
 .search {
   width: 100%;
+  margin: 2rem 0;
   &-img {
     display: flex;
     &-solo {
@@ -12,7 +13,24 @@
   &-form {
     width: 100%;
     text-align: center;
+    &-departments,
+    &-animals {
+      padding-bottom: 1rem;
+    }
+    &-field {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      &-select {
+        width: 50%;
+        padding-top: 1.5rem;
+      }
+    }
+    &-calendar {
+      width: 50%;
+    }
     &-input {
+      width: 60%;
       margin: 0.3rem;
       border: 1px solid v.$color-primary;
       border-radius: 0.5rem;
@@ -21,14 +39,17 @@
       padding: 0.3rem;
     }
     &-button {
+      width: 8rem;
+      height: 8rem;
       background-color: v.$color-primary;
-      border-radius: 1rem;
+      border-radius: 8rem;
       border: 1px solid rgb(62, 127, 224);
       cursor: pointer;
       padding: 0 1rem;
       color: v.$color-bg;
       font-weight: bold;
-      padding: 0.2rem 2rem;
+      font-size: 1.5rem;
+      padding: 0.2rem;
       &:hover {
         background-color: v.$color-button;
       }
@@ -110,4 +131,21 @@
   border: 2px solid v.$color-button;
   border-radius: 1rem;
   font-weight: bold;
+}
+.react-calendar {
+  border: 1px solid v.$color-primary;
+  border-radius: 0 0 2rem 2rem;
+  width: 60%;
+  margin: 0 auto;
+  &__tile--now {
+    background: #f12828;
+  }
+  &__navigation {
+    background-color: v.$color-primary;
+    &__label,
+    &__arrow {
+      color: v.$color-bg;
+      font-weight: bold;
+    }
+  }
 }
