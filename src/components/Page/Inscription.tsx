@@ -24,12 +24,18 @@ const signinUser = async (formData: {
       },
       body: JSON.stringify(formData),
     });
+
+    const data = await response.json();
+    console.log('response data:', data);
+
     if (!response.ok) {
-      throw new Error('Inscription échouée !');
+      return { status: response.status, error: data.error, data: null };
     }
-    return await response.json();
+
+    return { status: response.status, error: null, data };
   } catch (error) {
     console.error('Erreur lors de la requête de post :', error);
+    return { status: 500, error };
   }
 };
 
@@ -50,9 +56,7 @@ function Inscription() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -70,6 +74,7 @@ function Inscription() {
             'Erreur lors de la récupération des suggestions de villes'
           );
         }
+
         const data = await response.json();
         setCitySuggestions(data);
       } catch (error) {
@@ -85,6 +90,11 @@ function Inscription() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (formData.password !== formData.repeatPassword) {
+      setError('Les deux mots de passe sont différents');
+      return;
+    }
+
     // Vérification que la ville entrée dans le form est bien une des propositions de l'API
     const selectedCity = citySuggestions.find(
       (city) => city.nom === formData.city
@@ -93,6 +103,7 @@ function Inscription() {
       setError('Veuillez sélectionner une ville valide dans la liste.');
       return;
     }
+    console.log(formData.password, formData.repeatPassword);
 
     // On ajoute le deprtment_label dans les datas du form
     const updatedFormData = {
@@ -111,22 +122,26 @@ function Inscription() {
       const response = await signinUser(updatedFormData);
       console.log(response);
 
-      if (!response) {
-
-        throw new Error('Réponse indéfinie du serveur');
+      if (response.error) {
+        switch (response.status) {
+          case 400:
+            setError(`${response.error}`);
+            break;
+          case 409:
+            setError('Conflict: Utilisateur déjà existant.');
+            break;
+          case 500:
+            setError('Une erreur est survenue côté serveur.');
+            break;
+          default:
+            setError(
+              "Une erreur inconnue est survenue, contactez l'administrateur."
+            );
+        }
+        return;
       }
+
       console.log('Inscription réussie', response);
-      // Réinitialisation du formulaire après inscription réussie
-      setFormData({
-        firstname: '',
-        lastname: '',
-        email: '',
-        city: '',
-        phone_number: '',
-        password: '',
-        repeatPassword: '',
-        department_label: '',
-      });
       setError('');
       navigate('/Connexion');
     } catch (error) {
