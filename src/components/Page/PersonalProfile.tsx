@@ -47,7 +47,7 @@ function Profile() {
       <section className="profile-top">
         <section className="profile-container">
           <img
-            src={PhotoProfil}
+            src={user?.url_img || PhotoProfil}
             alt="profil"
             className="profile-container-photo"
           />

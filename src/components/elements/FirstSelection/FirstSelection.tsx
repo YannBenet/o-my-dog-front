@@ -38,7 +38,7 @@ function FirstSelection() {
           to={`/PetSitter/${petSitter.announcement_id}`}
           className="selecttion-card-link"
         >
-          <img src={profil} alt="profil" />
+          <img src={petSitter?.url_img || profil} alt="profil" />
           <h3>
             {petSitter.firstname} {petSitter.lastname}
           </h3>
@@ -47,7 +47,7 @@ function FirstSelection() {
       )}
       {!isLoggedIn && (
         <Link to="/Connexion" className="selecttion-card-link">
-          <img src={profil} alt="profil" />
+          <img src={petSitter.url_img || profil} alt="profil" />
           <h3>
             {petSitter.firstname} {petSitter.lastname}
           </h3>
