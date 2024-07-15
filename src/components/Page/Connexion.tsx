@@ -15,26 +15,35 @@ const loginUser = async (formData: { email: string; password: string }) => {
       },
       body: JSON.stringify(formData),
     });
+    const data = await response.json();
     if (!response.ok) {
-      throw new Error('Connexion échoué');
+      return { status: response.status, error: data.error, data: null };
     }
-    return await response.json();
+
+    return { status: response.status, error: null, data };
   } catch (error) {
     console.error('Error posting data', error);
-    throw error;
+    return { status: 500, error };
   }
 };
+
 interface DecodedToken {
   data: {
     id: string;
   };
 }
+
 function Connexion() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
 
+  const [error, setError] = useState('');
+  const [errorField, setErrorField] = useState({
+    email: false,
+    password: false,
+  });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -44,16 +53,38 @@ function Connexion() {
       ...formData,
       [name]: value,
     });
+    setErrorField({ ...errorField, [name]: false }); // Remove error styling on input change
   };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
       const response = await loginUser(formData);
-      console.log('Connexion réussi', response);
+      if (response.error) {
+        switch (response.status) {
+          case 400:
+            setError(`Le format du mot de passe est incorrect`);
+            setErrorField({ email: false, password: true });
+            break;
+          case 401:
+            setError('Le mail ou le mot de passe est incorrect');
+            setErrorField({ email: true, password: true });
+            break;
+          case 500:
+            setError('Une erreur est survenue côté serveur.');
+            break;
+          default:
+            setError(
+              "Une erreur inconnue est survenue, contactez l'administrateur."
+            );
+        }
+        return; // Exit the function if there's an error
+      }
       // enregistrement du token en localStorage
+
       const { accessToken } = response;
       if (!accessToken || typeof accessToken !== 'string') {
+
         throw new Error('Invalid token specified: must be a string');
       }
       // stockage du token JWT dans localStorage
@@ -95,7 +126,7 @@ function Connexion() {
           type="email"
           name="email"
           placeholder="Email"
-          className="container-connexion-form-input"
+          className={`container-connexion-form-input ${errorField.email ? 'error-border' : ''}`}
           value={formData.email}
           onChange={handleChange}
         />
@@ -103,13 +134,14 @@ function Connexion() {
           type="password"
           name="password"
           placeholder="Mot de Passe"
-          className="container-connexion-form-input"
+          className={`container-connexion-form-input ${errorField.password ? 'error-border' : ''}`}
           value={formData.password}
           onChange={handleChange}
         />
         <button type="submit" className="container-connexion-form-button">
           Se Connecter
         </button>
+        {error && <p className="error-message">{error}</p>}
       </form>
     </section>
   );
