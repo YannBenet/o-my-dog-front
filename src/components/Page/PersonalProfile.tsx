@@ -18,13 +18,16 @@ const getUser = async (id: string | undefined) => {
   try {
     const response = await fetch(`${API_URL}/users/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
     });
+    console.log(response);
 
     if (!response.ok) {
       throw new Error('Données de profil non chargé');
     }
     const data = await response.json();
     const transformedData = { petSitter: data };
+    console.log(transformedData);
 
     return PetSitterResponseSchema.parse(transformedData); // Utilisez `parse` pour valider les données
   } catch (error) {
@@ -87,6 +90,14 @@ const formatDate = (isoDate: string): string => {
 };
 function Profile() {
   const { id } = useParams();
+  // useQuery de getUser
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['user', id],
+    queryFn: () =>
+      id ? getUser(id) : Promise.reject(new Error('ID est undefined')),
+    enabled: !!id,
+  });
+  // useQuery de getAnnouncements
   const {
     data: dataAnnouncements,
     isLoading: isLoadingAnnouncement,
@@ -146,14 +157,6 @@ function Profile() {
       </div>
     )
   );
-  console.log(announcementUser);
-
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['user', id],
-    queryFn: () =>
-      id ? getUser(id) : Promise.reject(new Error('ID est undefined')),
-    enabled: !!id,
-  });
   if (isLoading) {
     return <p>LOADING.....</p>;
   }
@@ -187,7 +190,7 @@ function Profile() {
               {user?.lastname}
             </h2>
             <h2 className="profile-container-info-category">
-              <span>numéro de téléphone:</span>
+              <span>numéro de téléphone :</span>
               {user?.phone_number}
             </h2>
             <h2 className="profile-container-info-category">
