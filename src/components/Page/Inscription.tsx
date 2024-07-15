@@ -15,6 +15,7 @@ const signinUser = async (formData: {
   password: string;
   repeatPassword: string;
   department_label: string; // Ajout du champ département
+  department_code: string;
 }) => {
   try {
     const response = await fetch(`${API_URL}/users/signin`, {
@@ -43,9 +44,10 @@ function Inscription() {
     password: '',
     repeatPassword: '',
     department_label: '', // Initialisation du champ département
+    department_code: '',
   });
   const [citySuggestions, setCitySuggestions] = useState<
-    { nom: string; departement: { nom: string } }[]
+    { nom: string; departement: { nom: string; code: string } }[]
   >([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -83,21 +85,30 @@ function Inscription() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Vérification que la ville entrée dans le form est bien une des propositions de l'API
+    // Vérification que la ville et le département entrés dans le form est bien une des propositions de l'API
     const selectedCity = citySuggestions.find(
-      (city) => city.nom === formData.city
-    );
-    if (!selectedCity) {
+      (city) => city.nom === formData.city.split(' ')[0]
+    )
+    const selectedDepartment = citySuggestions.find(
+      (city) => city.departement.code === formData.city.split(' ')[1].slice(1, 3)
+    )
+    
+    console.log(selectedCity);
+    console.log(selectedDepartment);
+    console.log(formData.city.split(' ')[0]);
+    if (!selectedCity || !selectedDepartment) {
       setError('Veuillez sélectionner une ville valide dans la liste.');
       return;
     }
 
-    // On ajoute le deprtment_label dans les datas du form
+    // On ajoute le department_label et le department_code dans les datas du form
+    
     const updatedFormData = {
       ...formData,
-      department_label: selectedCity.departement.nom,
+      department_label: selectedDepartment.departement.nom,
+      department_code: selectedDepartment.departement.code,
     };
-
+    console.log(updatedFormData);
     // Si un des champs est vide : on lève une erreur
     /* for (const key in updatedFormData) {
       if (updatedFormData[key as keyof typeof updatedFormData] === '') {
@@ -123,6 +134,7 @@ function Inscription() {
         password: '',
         repeatPassword: '',
         department_label: '',
+        department_code: '',
       });
       setError('');
       navigate('/Connexion');
@@ -173,13 +185,19 @@ function Inscription() {
           />
           <datalist id="city-suggestions">
             {citySuggestions.map((city, index) => (
-              <option key={index} value={city.nom} />
+              <option key={index} value={[`${city.nom} (${(city.departement.code)})`]} />
             ))}
           </datalist>
+      
           <input
             type="hidden"
             name="department_label"
             value={formData.department_label}
+          />
+          <input
+            type="hidden"
+            name="department_code"
+            value={formData.department_code}
           />
           <input
             type="text"
