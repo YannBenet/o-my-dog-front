@@ -10,14 +10,7 @@ import PhotoProfil from '../../../public/images/profil.jpg';
 
 const API_URL = 'http://localhost:5000/api';
 const token = localStorage.getItem('token');
-// formatage de la date
-const formatDate = (isoDate: string): string => {
-  const date = new Date(isoDate);
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
-  return `${day}-${month}-${year}`;
-};
+
 const getUser = async (id: string | undefined) => {
   if (!token) {
     throw new Error('Token not found');
@@ -65,18 +58,56 @@ const getAnnouncement = async (id: string | undefined) => {
     console.error('Error parsing dataAnnouncement:', error);
   }
 };
+// Envoie de la requète delete à l'api
+const deleteAnnouncement = async (announcementId: number) => {
+  if (!token) {
+    throw new Error('token not found');
+  }
+  try {
+    const response = await fetch(`${API_URL}/announcements/${announcementId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) {
+      throw new Error("Echec de la supression de l'annonce");
+    }
+  } catch (error) {
+    console.error('Erruer lors de la suppession:', error);
+    throw error;
+  }
+};
+
+// formatage de la date
+const formatDate = (isoDate: string): string => {
+  const date = new Date(isoDate);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
 function Profile() {
   const { id } = useParams();
   const {
     data: dataAnnouncements,
     isLoading: isLoadingAnnouncement,
     isError: isErrorAnnouncement,
+    refetch: refetchAnnouncements,
   } = useQuery({
     queryKey: ['Announcement', id],
     queryFn: () =>
       id ? getAnnouncement(id) : Promise.reject(new Error('ID est undefined')),
     enabled: !!id,
   });
+  // fonctiond de supression des annonces
+  const handleDelete = async (announcementId: number) => {
+    try {
+      await deleteAnnouncement(announcementId);
+      refetchAnnouncements();
+    } catch (error) {
+      console.log('Erreur lors de la supression:', error);
+    }
+  };
+  // Afichage des disponibilité de l'user sur son profile
   const announcementUser = dataAnnouncements?.Announcements?.map(
     (announcement) => (
       <div className="profile-available-entrie-period" key={announcement.id}>
@@ -101,6 +132,7 @@ function Profile() {
           <button
             type="button"
             className="profile-available-entrie-options-button"
+            onClick={() => handleDelete(announcement.id)}
           >
             Supprimer
           </button>
@@ -114,6 +146,7 @@ function Profile() {
       </div>
     )
   );
+  console.log(announcementUser);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['user', id],

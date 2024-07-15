@@ -97,7 +97,9 @@
       }
       &-card {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 1rem;
       }
       &-period {
         border: 2px solid v.$color-button;
