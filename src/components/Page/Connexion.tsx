@@ -52,14 +52,14 @@ function Connexion() {
       const response = await loginUser(formData);
       console.log('Connexion réussi', response);
       // enregistrement du token en localStorage
-      const { token } = response;
-      if (!token || typeof token !== 'string') {
+      const { accessToken } = response;
+      if (!accessToken || typeof accessToken !== 'string') {
         throw new Error('Invalid token specified: must be a string');
       }
       // stockage du token JWT dans localStorage
-      localStorage.setItem('token', token);
+      localStorage.setItem('token', accessToken);
       // recuperation de l'id pour redirection sur page profil
-      const decodedToken = jwtDecode<DecodedToken>(token);
+      const decodedToken = jwtDecode<DecodedToken>(accessToken);
 
       const userId = decodedToken.data.id;
       localStorage.setItem('userId', userId);
