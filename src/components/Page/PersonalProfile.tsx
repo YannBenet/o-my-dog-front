@@ -1,13 +1,17 @@
+/* eslint-disable consistent-return */
 import { useParams, NavLink } from 'react-router-dom';
-// import shcema zod et react query
 import { useQuery } from '@tanstack/react-query';
-import { PetSitterResponseSchema } from '../../schema/petSitter.schema';
+import {
+  PetSitterResponseSchema,
+  ListAnnouncementsSchema,
+} from '../../schema/petSitter.schema';
 import '../PageStyle/PersonalProfile.scss';
 import PhotoProfil from '../../../public/images/profil.jpg';
 
 const API_URL = 'http://localhost:5000/api';
+const token = localStorage.getItem('token');
+
 const getUser = async (id: string | undefined) => {
-  const token = localStorage.getItem('token');
   if (!token) {
     throw new Error('Token not found');
   }
@@ -17,7 +21,7 @@ const getUser = async (id: string | undefined) => {
     });
 
     if (!response.ok) {
-      throw new Error('Données de profil non charger');
+      throw new Error('Données de profil non chargé');
     }
     const data = await response.json();
     const transformedData = { petSitter: data };
@@ -28,18 +32,139 @@ const getUser = async (id: string | undefined) => {
     throw error; // Rejette l'erreur pour que React Query la capture
   }
 };
+const getAnnouncement = async (id: string | undefined) => {
+  if (!token) {
+    throw new Error('Token not found');
+  }
+  try {
+    const resAnnouncement = await fetch(
+      `${API_URL}/users/${id}/announcements`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    if (!resAnnouncement.ok) {
+      throw new Error('Données des annonces non chargé');
+    }
+    const dataAnnouncements = await resAnnouncement.json();
+
+    if (dataAnnouncements) {
+      const transformedData = { Announcements: dataAnnouncements };
+      console.log(transformedData);
+
+      return ListAnnouncementsSchema.parse(transformedData);
+    }
+  } catch (error) {
+    console.error('Error parsing dataAnnouncement:', error);
+  }
+};
+// Envoie de la requète delete à l'api
+const deleteAnnouncement = async (announcementId: number) => {
+  if (!token) {
+    throw new Error('token not found');
+  }
+  try {
+    const response = await fetch(`${API_URL}/announcements/${announcementId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) {
+      throw new Error("Echec de la supression de l'annonce");
+    }
+  } catch (error) {
+    console.error('Erruer lors de la suppession:', error);
+    throw error;
+  }
+};
+
+// formatage de la date
+const formatDate = (isoDate: string): string => {
+  const date = new Date(isoDate);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
 function Profile() {
   const { id } = useParams();
+  const {
+    data: dataAnnouncements,
+    isLoading: isLoadingAnnouncement,
+    isError: isErrorAnnouncement,
+    refetch: refetchAnnouncements,
+  } = useQuery({
+    queryKey: ['Announcement', id],
+    queryFn: () =>
+      id ? getAnnouncement(id) : Promise.reject(new Error('ID est undefined')),
+    enabled: !!id,
+  });
+  // fonctiond de supression des annonces
+  const handleDelete = async (announcementId: number) => {
+    try {
+      await deleteAnnouncement(announcementId);
+      refetchAnnouncements();
+    } catch (error) {
+      console.log('Erreur lors de la supression:', error);
+    }
+  };
+  // Afichage des disponibilité de l'user sur son profile
+  const announcementUser = dataAnnouncements?.Announcements?.map(
+    (announcement) => (
+      <div className="profile-available-entrie-period" key={announcement.id}>
+        <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
+          du: {formatDate(announcement.date_start)}
+        </p>
+        <p className="profile-available-entrie-period-date profile-available-entries-period-date-off">
+          au: {formatDate(announcement.date_end)}
+        </p>
+        <p className="profile-available-entrie-description">
+          {announcement.description}
+        </p>
+        <h5 className="profile-available-entrie-animals-title">
+          Animaux acceptées sur cette periode:{' '}
+        </h5>
+        <p className="profile-available-entrie-animals">
+          {announcement.animal_label.map((animal) => (
+            <p key={animal}>{animal} </p>
+          ))}
+        </p>
+        <div className="profile-available-entrie-options">
+          <button
+            type="button"
+            className="profile-available-entrie-options-button"
+            onClick={() => handleDelete(announcement.id)}
+          >
+            Supprimer
+          </button>
+          <button
+            type="button"
+            className="profile-available-entrie-options-button"
+          >
+            Modifier
+          </button>
+        </div>
+      </div>
+    )
+  );
+  console.log(announcementUser);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['user', id],
-    queryFn: () => getUser(id),
+    queryFn: () =>
+      id ? getUser(id) : Promise.reject(new Error('ID est undefined')),
+    enabled: !!id,
   });
   if (isLoading) {
     return <p>LOADING.....</p>;
   }
   if (isError) {
     return <p> Erreur de chargement Profil</p>;
+  }
+  if (isLoadingAnnouncement) {
+    return <p>Loading Announcements....</p>;
+  }
+  if (isErrorAnnouncement) {
+    return <p>Erreur chargements de vos annonces!</p>;
   }
   const user = data?.petSitter;
   return (
@@ -86,46 +211,14 @@ function Profile() {
         </section>
       </section>
       <section className="profile-available">
-        <div className="profile-available-description">
-          <h3>Ma description</h3>
-          {/* <div className="profile-available-description-text">
-            il faut revoir la mise en page du profil User
-            <p>{user?.description}</p>
-          </div> */}
+        <div className="profile-available-entrie-title">
+          <h4>Mes Disponibilités :</h4>
         </div>
-        {/* {user?.date_start && ( */}
-        <section className="profile-available-entrie">
-          <div className="profile-available-entrie-title">
-            <h4>Mes Disponibilités :</h4>
-          </div>
-          <div className="profile-available-entrie-period">
-            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-              du:
-              {/* {user.date_start} */}
-            </p>
-            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-off">
-              au:
-              {/* {user.date_end} */}
-            </p>
-          </div>
-          <div className="profile-available-entrie-period">
-            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-              du: 10/07/2024
-            </p>
-            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-off">
-              au: 10/07/2024
-            </p>
-          </div>
-          <div className="profile-available-entrie-period">
-            <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-              du: 10/07/2024
-            </p>
-            <p className="profile-available-entrie-period-date profile-available-entries-period-date-off">
-              au: 10/07/2024
-            </p>
+        <section className="profile-available-entrie-cards">
+          <div className="profile-available-entrie-card">
+            {announcementUser}
           </div>
         </section>
-        {/* )} */}
       </section>
     </section>
   );

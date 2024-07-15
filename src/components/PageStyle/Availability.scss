@@ -56,10 +56,16 @@
         font-size: 1.1rem;
         &-select {
           display: flex;
-          justify-content: space-around;
-          padding: 1rem;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          padding: 1rem 0;
           & label {
             padding-left: 0.2rem;
+          }
+          &-checkbox {
+            width: 26%;
+            flex-grow: 1;
+            padding-bottom: 0.3rem;
           }
         }
       }
@@ -81,6 +87,20 @@
     }
   }
 }
-.react-calendar__tile--now {
-  background: #f12828;
+.react-calendar {
+  border: 1px solid v.$color-primary;
+  border-radius: 0 0 1.5rem 1.5rem;
+  width: 60%;
+  margin: 0 auto;
+  &__tile--now {
+    background: #f12828;
+  }
+  &__navigation {
+    background-color: v.$color-primary;
+    &__label,
+    &__arrow {
+      color: v.$color-bg;
+      font-weight: bold;
+    }
+  }
 }

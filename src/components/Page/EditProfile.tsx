@@ -1,6 +1,6 @@
 import '../PageStyle/EditProfile.scss';
 import { useState } from 'react';
-import { createPath, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 const API_URL = 'http://localhost:5000/api';
@@ -163,8 +163,8 @@ function EditProfile() {
       console.log('Modification de profil réussie', response);
       setError('');
       navigate(`/`);
-    } catch (error) {
-      console.error('Erreur lors de la modification de profil', error);
+    } catch (err) {
+      console.error('Erreur lors de la modification de profil', err);
       setError("Une erreur s'est produite lors la modification du profil.");
     }
   };
@@ -217,8 +217,9 @@ function EditProfile() {
             list="city-suggestions"
           />
           <datalist id="city-suggestions">
-            {citySuggestions.map((city, index) => (
-              <option key={index} value={city.nom} />
+            {citySuggestions.map((city) => (
+              // eslint-disable-next-line jsx-a11y/control-has-associated-label
+              <option key={city.nom} value={city.nom} />
             ))}
           </datalist>
           <input

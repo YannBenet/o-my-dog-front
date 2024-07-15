@@ -91,3 +91,19 @@ export const DepartmentsSchema = z.array(DepartmentSchema);
 export const ListDepartmentsSchema = z.object({
   Departments: DepartmentsSchema,
 });
+
+// schema des annonces de l'user
+export const AnnouncementSchema = z.object({
+  id: z.number(),
+  date_start: z.string(),
+  date_end: z.string(),
+  mobility: z.boolean(),
+  home: z.boolean(),
+  description: z.string(),
+  animal_label: z.array(z.string()),
+});
+export const AnnouncementsSchema = z.array(AnnouncementSchema);
+
+export const ListAnnouncementsSchema = z.object({
+  Announcements: AnnouncementsSchema.optional(),
+});

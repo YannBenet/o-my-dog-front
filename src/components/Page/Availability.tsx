@@ -1,10 +1,12 @@
 /* eslint-disable consistent-return */
 /* eslint-disable react/no-unescaped-entities */
 import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '../PageStyle/Availability.scss';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ListAnimalsSchema } from '../../schema/petSitter.schema';
 
 type ValuePiece = Date | null;
 
@@ -12,6 +14,7 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const API_URL = 'http://localhost:5000/api';
 
+// Requète pour poster une annonce
 const store = async (formData: {
   date_start: string;
   date_end: string;
@@ -39,6 +42,18 @@ const store = async (formData: {
     console.error("Erruer du POST de l'annonce:", error);
   }
 };
+// Récupération de la liste des animaux
+const getListAnimals = async () => {
+  const response = await fetch(`${API_URL}/animals`);
+  const dataAnimals = await response.json();
+  const transformedData = { Animals: dataAnimals };
+  try {
+    return ListAnimalsSchema.parse(transformedData);
+  } catch (error) {
+    console.error('Tous les animaux ont été dévorés!', error);
+    throw error;
+  }
+};
 // formatage de la date
 const formatDate = (isoDate: string): string => {
   const date = new Date(isoDate);
@@ -49,6 +64,7 @@ const formatDate = (isoDate: string): string => {
 };
 
 function Availability() {
+  const location = useLocation();
   const [formData, setFormData] = useState({
     date_start: '',
     date_end: '',
@@ -57,7 +73,14 @@ function Availability() {
     description: '',
     animal: [] as string[],
   });
-
+  const {
+    data: dataAnimals,
+    isLoading: isLoadingAnimals,
+    isError: isErrorAnimals,
+  } = useQuery({
+    queryKey: ['Animals'],
+    queryFn: getListAnimals,
+  });
   const [value, setValue] = useState<Value>(new Date());
 
   useEffect(() => {
@@ -65,10 +88,16 @@ function Availability() {
       new Date('2024-07-11T22:00:00.000Z'),
       new Date('2024-07-19T21:59:59.999Z'),
     ]);
-  }, []);
+  }, [location]);
 
   const navigate = useNavigate();
 
+  if (isLoadingAnimals) {
+    return <p>Nous essayons dapos; tous les animaux!</p>;
+  }
+  if (isErrorAnimals) {
+    return <p>Tous nos animaux sont en balades!</p>;
+  }
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -120,7 +149,7 @@ function Availability() {
             description: '',
             animal: [],
           });
-          navigate(`/Profil/${id}`);
+          navigate(`/Profile/${id}`);
         } else {
           console.error('Aucun ID trouvé dans localStorage');
         }
@@ -131,11 +160,32 @@ function Availability() {
       console.error('Veuillez sélectionner une plage de dates');
     }
   };
-
+  const listAnimals = dataAnimals?.Animals.map((animal: { label: string }) => (
+    <div
+      key={animal.label}
+      className="availability-form-bottom-animals-select-checkbox"
+    >
+      <input
+        type="checkbox"
+        name={animal.label}
+        id={animal.label}
+        checked={formData.animal.includes(animal.label)}
+        onChange={handleChange}
+      />
+      <label htmlFor={animal.label}>
+        {animal.label.charAt(0).toUpperCase() + animal.label.slice(1)}
+      </label>
+    </div>
+  ));
   return (
     <section className="availability">
       <section className="availability-calendar">
-        <Calendar selectRange onChange={setValue} value={value} />
+        <Calendar
+          selectRange
+          onChange={setValue}
+          value={value}
+          minDate={new Date()}
+        />
       </section>
       <section className="availability-form">
         <form onSubmit={handleSubmit} className="availability-form-submit">
@@ -163,13 +213,13 @@ function Availability() {
                 name="description"
                 id="description"
                 placeholder="La description des condition d'accueil de l'animal"
-                rows={10}
+                rows={6}
                 onChange={handleChange}
                 value={formData.description}
               />
             </div>
           </div>
-          <div className="availability-form-right">
+          <div className="availability-form-bottom">
             <div className="availability-form-bottom-mobility">
               <div>
                 <input
@@ -194,23 +244,8 @@ function Availability() {
             </div>
             <div className="availability-form-bottom-animals">
               <p>Sélectionné le type d'annimals acceptés : </p>
-              <div className="availability-form-right-animals-select">
-                {['chien', 'chat', 'lapin', 'torute', 'serpent domestique'].map(
-                  (animal) => (
-                    <div key={animal}>
-                      <input
-                        type="checkbox"
-                        name={animal}
-                        id={animal}
-                        checked={formData.animal.includes(animal)}
-                        onChange={handleChange}
-                      />
-                      <label htmlFor={animal}>
-                        {animal.charAt(0).toUpperCase() + animal.slice(1)}
-                      </label>
-                    </div>
-                  )
-                )}
+              <div className="availability-form-bottom-animals-select">
+                {listAnimals}
               </div>
 
               <div className="availability-form-bottom-button">
