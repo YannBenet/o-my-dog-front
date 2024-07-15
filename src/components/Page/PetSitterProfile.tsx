@@ -34,7 +34,6 @@ const fetchPetSitter = async (id: string | undefined) => {
 };
 function PetSitterProfile() {
   const { id } = useParams();
-  console.log('ID de usePArams', id);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['petSitter', id],
@@ -50,7 +49,14 @@ function PetSitterProfile() {
   if (!user) {
     return <p>Profil non trouvé</p>;
   }
-  console.log(user);
+  // formatage de la date
+  const formatDate = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
 
   return (
     <section className="profile">
@@ -94,10 +100,10 @@ function PetSitterProfile() {
           </div>
           <div className="profile-available-entrie-period">
             <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-              du: {user.date_start}
+              du: {formatDate(user.date_start)}
             </p>
             <p className="profile-available-entrie-period-date profile-available-entrie-period-date-off">
-              au: {user.date_end}
+              au: {formatDate(user.date_end)}
             </p>
           </div>
         </section>
