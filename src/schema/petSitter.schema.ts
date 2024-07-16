@@ -11,7 +11,7 @@ export const PetSitterSchema = z.object({
   mobility: z.boolean(),
   home: z.boolean(),
   description: z.string(),
-  animal_label: z.array(z.string()),
+  animal_label: z.array(z.string()).nullable(),
   url_img: z.string().optional().nullable(),
 });
 
@@ -44,7 +44,7 @@ export const PetSitterSelection = z.object({
   mobility: z.boolean(),
   home: z.boolean(),
   description: z.string(),
-  animal_label: z.array(z.string()),
+  animal_label: z.array(z.string()).nullable(),
   url_img: z.string().optional().nullable(),
 });
 export const PetSitterSelectionSchema = z.object({
@@ -100,7 +100,7 @@ export const AnnouncementSchema = z.object({
   mobility: z.boolean(),
   home: z.boolean(),
   description: z.string(),
-  animal_label: z.array(z.string()),
+  animal_label: z.array(z.string()).nullable(),
 });
 export const AnnouncementsSchema = z.array(AnnouncementSchema);
 

@@ -148,7 +148,7 @@ function Profile() {
           Animaux acceptées sur cette periode:{' '}
         </h5>
         <div className="profile-available-entrie-animals">
-          {announcement.animal_label.map((animal) => (
+          {announcement.animal_label?.map((animal) => (
             <p key={animal}>{animal} </p>
           ))}
         </div>
