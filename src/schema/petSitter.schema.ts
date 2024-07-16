@@ -8,9 +8,6 @@ export const PetSitterSchema = z.object({
   announcement_id: z.number(),
   date_start: z.string(),
   date_end: z.string(),
-  mobility: z.boolean(),
-  home: z.boolean(),
-  description: z.string(),
   animal_label: z.array(z.string()).nullable(),
   url_img: z.string().optional().nullable(),
 });
