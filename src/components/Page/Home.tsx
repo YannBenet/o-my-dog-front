@@ -21,7 +21,10 @@ function Home() {
           exercitationem neque? Quod, ratione.
         </p>
       </article>
-      <FirstSelection />
+      <article className="selection">
+        <h3 className="selection-title">Notre Sélection d'annonces : </h3>
+        <FirstSelection />
+      </article>
     </section>
   );
 }

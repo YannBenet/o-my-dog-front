@@ -1,19 +1,26 @@
 @use 'reset';
 @use 'variables' as v;
 
-body {
+#root {
   width: 80%;
   margin: 0 auto;
-  height: 100vh;
+  height: 100%;
   font-family: v.$poppins;
 }
 .page {
-  height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: v.$color-bg;
+  border: 3px solid v.$color-primary;
+  min-height: 100vh;
 }
 .main {
   display: flex;
   justify-content: space-between;
   flex-grow: 1;
+}
+body {
+  background: url(../../public/images/fondBody.jpg) no-repeat;
+  background-attachment: fixed;
+  width: 100%;
 }
