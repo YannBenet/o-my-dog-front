@@ -149,14 +149,6 @@ function Search() {
       {department.department_label}
     </option>
   ));
-
-  /* const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  }; */
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -253,7 +245,12 @@ function Search() {
           <section className="search-form-field">
             <section className="search-form-calendar">
               <h3>Sélectionnez la période de garde désiré</h3>
-              <Calendar selectRange onChange={setValueDate} value={valueDate} />
+              <Calendar
+                selectRange
+                onChange={setValueDate}
+                value={valueDate}
+                minDate={new Date()}
+              />
             </section>
             <section className="search-form-field-select">
               <section className="search-form-departments">

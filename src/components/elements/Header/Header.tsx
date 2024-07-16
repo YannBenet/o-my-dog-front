@@ -16,6 +16,7 @@ function Header() {
   const handleClick = () => setIsVisible(!isVisible);
   const handleDeconnect = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     setUserId('');
   };
 

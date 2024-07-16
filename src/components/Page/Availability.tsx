@@ -180,7 +180,12 @@ function Availability() {
   return (
     <section className="availability">
       <section className="availability-calendar">
-        <Calendar selectRange onChange={setValue} value={value} />
+        <Calendar
+          selectRange
+          onChange={setValue}
+          value={value}
+          minDate={new Date()}
+        />
       </section>
       <section className="availability-form">
         <form onSubmit={handleSubmit} className="availability-form-submit">
