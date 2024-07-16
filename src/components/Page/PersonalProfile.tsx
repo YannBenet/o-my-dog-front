@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 import { useParams, NavLink } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import {
   PetSitterResponseSchema,
   ListAnnouncementsSchema,
@@ -9,9 +10,9 @@ import '../PageStyle/PersonalProfile.scss';
 import PhotoProfil from '../../../public/images/profil.jpg';
 
 const API_URL = 'http://localhost:5000/api';
-const token = localStorage.getItem('token');
+// const token = localStorage.getItem('token');
 
-const getUser = async (id: string | undefined) => {
+const getUser = async (id: string | undefined, token: string) => {
   if (!token) {
     throw new Error('Token not found');
   }
@@ -20,7 +21,7 @@ const getUser = async (id: string | undefined) => {
       headers: { Authorization: `Bearer ${token}` },
       credentials: 'include',
     });
-    console.log(response);
+    console.log('response from getUser:', response);
 
     if (!response.ok) {
       throw new Error('Données de profil non chargé');
@@ -35,7 +36,7 @@ const getUser = async (id: string | undefined) => {
     throw error; // Rejette l'erreur pour que React Query la capture
   }
 };
-const getAnnouncement = async (id: string | undefined) => {
+const getAnnouncement = async (id: string | undefined, token?: string) => {
   if (!token) {
     throw new Error('Token not found');
   }
@@ -44,6 +45,7 @@ const getAnnouncement = async (id: string | undefined) => {
       `${API_URL}/users/${id}/announcements`,
       {
         headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
       }
     );
     if (!resAnnouncement.ok) {
@@ -62,7 +64,7 @@ const getAnnouncement = async (id: string | undefined) => {
   }
 };
 // Envoie de la requète delete à l'api
-const deleteAnnouncement = async (announcementId: number) => {
+const deleteAnnouncement = async (announcementId: number, token: string) => {
   if (!token) {
     throw new Error('token not found');
   }
@@ -88,14 +90,23 @@ const formatDate = (isoDate: string): string => {
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
 };
+
 function Profile() {
   const { id } = useParams();
   // useQuery de getUser
+  const [token, setToken] = useState<string | null>(null);
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    setToken(storedToken);
+  }, []);
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ['user', id],
     queryFn: () =>
-      id ? getUser(id) : Promise.reject(new Error('ID est undefined')),
-    enabled: !!id,
+      id && token
+        ? getUser(id, token)
+        : Promise.reject(new Error('ID ou token est undefined')),
+    enabled: !!id && !!token,
   });
   // useQuery de getAnnouncements
   const {
@@ -104,15 +115,17 @@ function Profile() {
     isError: isErrorAnnouncement,
     refetch: refetchAnnouncements,
   } = useQuery({
-    queryKey: ['Announcement', id],
+    queryKey: ['Announcement', id, token],
     queryFn: () =>
-      id ? getAnnouncement(id) : Promise.reject(new Error('ID est undefined')),
-    enabled: !!id,
+      id && token
+        ? getAnnouncement(id, token)
+        : Promise.reject(new Error('ID ou token est undefined')),
+    enabled: !!id && !!token,
   });
   // fonctiond de supression des annonces
   const handleDelete = async (announcementId: number) => {
     try {
-      await deleteAnnouncement(announcementId);
+      await deleteAnnouncement(announcementId, token);
       refetchAnnouncements();
     } catch (error) {
       console.log('Erreur lors de la supression:', error);
@@ -134,11 +147,11 @@ function Profile() {
         <h5 className="profile-available-entrie-animals-title">
           Animaux acceptées sur cette periode:{' '}
         </h5>
-        <p className="profile-available-entrie-animals">
+        <div className="profile-available-entrie-animals">
           {announcement.animal_label.map((animal) => (
             <p key={animal}>{animal} </p>
           ))}
-        </p>
+        </div>
         <div className="profile-available-entrie-options">
           <button
             type="button"
