@@ -14,8 +14,7 @@ const signinUser = async (formData: {
   phone_number: string;
   password: string;
   repeatPassword: string;
-  department_label: string; // Ajout du champ département
-  department_code: string;
+  department_label: string;
 }) => {
   try {
     const response = await fetch(`${API_URL}/users/signin`, {
@@ -43,11 +42,10 @@ function Inscription() {
     phone_number: '',
     password: '',
     repeatPassword: '',
-    department_label: '', // Initialisation du champ département
-    department_code: '',
+    department_label: '',
   });
   const [citySuggestions, setCitySuggestions] = useState<
-    { nom: string; departement: { nom: string; code: string } }[]
+    { nom: string; departement: { nom: string; code: string;} }[]
   >([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -85,40 +83,24 @@ function Inscription() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Vérification que la ville et le département entrés dans le form est bien une des propositions de l'API
-    const selectedCity = citySuggestions.find(
-      (city) => city.nom === formData.city.split(' ')[0]
-    )
-    const selectedDepartment = citySuggestions.find(
+    const selectedCityInDepartment = citySuggestions.find(
       (city) => city.departement.code === formData.city.split(' ')[1].slice(1, 3)
     )
     
-    console.log(selectedCity);
-    console.log(selectedDepartment);
-    console.log(formData.city.split(' ')[0]);
-    if (!selectedCity || !selectedDepartment) {
+    if (!selectedCityInDepartment) {
       setError('Veuillez sélectionner une ville valide dans la liste.');
       return;
     }
 
-    // On ajoute le department_label et le department_code dans les datas du form
+    // On ajoute le department_label dans les datas du form
     
     const updatedFormData = {
       ...formData,
-      department_label: selectedDepartment.departement.nom,
-      department_code: selectedDepartment.departement.code,
+      department_label: selectedCityInDepartment.departement.nom,
     };
-    console.log(updatedFormData);
-    // Si un des champs est vide : on lève une erreur
-    /* for (const key in updatedFormData) {
-      if (updatedFormData[key as keyof typeof updatedFormData] === '') {
-        setError('Tous les champs doivent être remplis.');
-        return;
-      }
-    } */
+
     try {
       const response = await signinUser(updatedFormData);
-      console.log(response);
 
       if (!response) {
         throw new Error('Réponse indéfinie du serveur');
@@ -134,7 +116,6 @@ function Inscription() {
         password: '',
         repeatPassword: '',
         department_label: '',
-        department_code: '',
       });
       setError('');
       navigate('/Connexion');
@@ -193,11 +174,6 @@ function Inscription() {
             type="hidden"
             name="department_label"
             value={formData.department_label}
-          />
-          <input
-            type="hidden"
-            name="department_code"
-            value={formData.department_code}
           />
           <input
             type="text"
