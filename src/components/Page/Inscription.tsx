@@ -1,6 +1,5 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable consistent-return */
-
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../PageStyle/Inscription.scss';
@@ -26,7 +25,6 @@ const signinUser = async (formData: {
     });
 
     const data = await response.json();
-    console.log('response data:', data);
 
     if (!response.ok) {
       return { status: response.status, error: data.error, data: null };
@@ -105,7 +103,6 @@ function Inscription() {
       setError('Veuillez sélectionner une ville valide dans la liste.');
       return;
     }
-    console.log(formData.password, formData.repeatPassword);
 
     // On ajoute le department_label dans les datas du form
     
@@ -116,7 +113,6 @@ function Inscription() {
 
     try {
       const response = await signinUser(updatedFormData);
-
 
       if (response.error) {
         switch (response.status) {
@@ -137,7 +133,6 @@ function Inscription() {
         return;
       }
 
-      console.log('Inscription réussie', response);
       setError('');
       navigate('/Connexion');
     } catch (err) {
@@ -186,6 +181,7 @@ function Inscription() {
             list="city-suggestions"
           />
           <datalist id="city-suggestions">
+
             {citySuggestions.map((city, index) => (
               <option key={index} value={[`${city.nom} (${(city.departement.code)})`]} />
             ))}
