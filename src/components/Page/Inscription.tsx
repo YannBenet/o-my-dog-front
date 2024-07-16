@@ -14,7 +14,7 @@ const signinUser = async (formData: {
   phone_number: string;
   password: string;
   repeatPassword: string;
-  department_label: string; // Ajout du champ département
+  department_label: string;
 }) => {
   try {
     const response = await fetch(`${API_URL}/users/signin`, {
@@ -48,10 +48,10 @@ function Inscription() {
     phone_number: '',
     password: '',
     repeatPassword: '',
-    department_label: '', // Initialisation du champ département
+    department_label: '',
   });
   const [citySuggestions, setCitySuggestions] = useState<
-    { nom: string; departement: { nom: string } }[]
+    { nom: string; departement: { nom: string; code: string;} }[]
   >([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -96,31 +96,26 @@ function Inscription() {
     }
 
     // Vérification que la ville entrée dans le form est bien une des propositions de l'API
-    const selectedCity = citySuggestions.find(
-      (city) => city.nom === formData.city
-    );
-    if (!selectedCity) {
+    const selectedCityInDepartment = citySuggestions.find(
+      (city) => city.departement.code === formData.city.split(' ')[1].slice(1, 3)
+    )
+    
+    if (!selectedCityInDepartment) {
+
       setError('Veuillez sélectionner une ville valide dans la liste.');
       return;
     }
     console.log(formData.password, formData.repeatPassword);
 
-    // On ajoute le deprtment_label dans les datas du form
+    // On ajoute le department_label dans les datas du form
+    
     const updatedFormData = {
       ...formData,
-      department_label: selectedCity.departement.nom,
+      department_label: selectedCityInDepartment.departement.nom,
     };
 
-    // Si un des champs est vide : on lève une erreur
-    /* for (const key in updatedFormData) {
-      if (updatedFormData[key as keyof typeof updatedFormData] === '') {
-        setError('Tous les champs doivent être remplis.');
-        return;
-      }
-    } */
     try {
       const response = await signinUser(updatedFormData);
-      console.log(response);
 
 
       if (response.error) {
@@ -192,9 +187,10 @@ function Inscription() {
           />
           <datalist id="city-suggestions">
             {citySuggestions.map((city, index) => (
-              <option key={index} value={city.nom} />
+              <option key={index} value={[`${city.nom} (${(city.departement.code)})`]} />
             ))}
           </datalist>
+      
           <input
             type="hidden"
             name="department_label"
