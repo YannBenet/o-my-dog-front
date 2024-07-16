@@ -12,7 +12,7 @@ export const PetSitterSchema = z.object({
   home: z.boolean(),
   description: z.string(),
   animal_label: z.array(z.string()),
-  url_img: z.string().optional(),
+  url_img: z.string().optional().nullable(),
 });
 
 export const PetSittersSchema = z.array(PetSitterSchema);
@@ -26,7 +26,7 @@ export const UserSchema = z.object({
   email: z.string(),
   city: z.string(),
   phone_number: z.string(),
-  url_img: z.string().optional(),
+  url_img: z.string().optional().nullable(),
 });
 export const PetSitterResponseSchema = z.object({
   petSitter: UserSchema,
@@ -45,7 +45,7 @@ export const PetSitterSelection = z.object({
   home: z.boolean(),
   description: z.string(),
   animal_label: z.array(z.string()),
-  url_img: z.string().optional(),
+  url_img: z.string().optional().nullable(),
 });
 export const PetSitterSelectionSchema = z.object({
   petSitter: PetSitterSelection,
@@ -62,7 +62,7 @@ export const SearchSchema = z.object({
   firstname: z.string(),
   lastname: z.string(),
   label: z.string(),
-  url_img: z.string().optional(),
+  url_img: z.string().optional().nullable(),
 });
 export const ResultSearchSchema = z.array(SearchSchema);
 

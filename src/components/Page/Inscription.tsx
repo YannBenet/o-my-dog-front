@@ -122,7 +122,6 @@ function Inscription() {
       const response = await signinUser(updatedFormData);
       console.log(response);
 
-
       if (response.error) {
         switch (response.status) {
           case 400:

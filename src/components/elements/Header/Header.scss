@@ -11,15 +11,16 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    position: relative;
     &-left {
       text-align: left;
     }
     &-right {
       text-align: end;
       padding: 1rem 4rem;
-      position: relative;
       z-index: 1;
       width: 30%;
+      flex-grow: 1;
     }
   }
   &-nav-list {
