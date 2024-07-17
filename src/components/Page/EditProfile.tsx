@@ -1,7 +1,7 @@
-import '../PageStyle/EditProfile.scss';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import '../PageStyle/EditProfile.scss';
 
 const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 
@@ -170,10 +170,13 @@ function EditProfile() {
   };
 
   return (
-    <section className="container-inscription">
+    <section className="edit-container-inscription">
       <h2>Modifier mon profil</h2>
       <section>
-        <form onSubmit={handleSubmit} className="container-inscription-form">
+        <form
+          onSubmit={handleSubmit}
+          className="edit-container-inscription-form"
+        >
           <input
             type="file"
             name="file"
@@ -186,7 +189,7 @@ function EditProfile() {
             type="text"
             name="firstname"
             placeholder="Prénom"
-            className="container-inscription-form-input"
+            className="edit-container-inscription-form-input"
             value={formData.firstname}
             onChange={handleChange}
           />
@@ -194,7 +197,7 @@ function EditProfile() {
             type="text"
             name="lastname"
             placeholder="Nom"
-            className="container-inscription-form-input"
+            className="edit-container-inscription-form-input"
             value={formData.lastname}
             onChange={handleChange}
           />
@@ -202,7 +205,7 @@ function EditProfile() {
             type="text"
             name="email"
             placeholder="email"
-            className="container-inscription-form-input"
+            className="edit-container-inscription-form-input"
             value={formData.email}
             onChange={handleChange}
           />
@@ -211,7 +214,7 @@ function EditProfile() {
             name="city"
             placeholder="Ville"
             autoComplete="one-time-code"
-            className="container-inscription-form-input"
+            className="edit-container-inscription-form-input"
             value={formData.city}
             onChange={handleChange}
             list="city-suggestions"
@@ -231,7 +234,7 @@ function EditProfile() {
             type="text"
             name="phone_number"
             placeholder="Numéro de Téléphone"
-            className="container-inscription-form-input"
+            className="edit-container-inscription-form-input"
             value={formData.phone_number}
             onChange={handleChange}
           />
@@ -239,7 +242,7 @@ function EditProfile() {
             type="text"
             name="password"
             placeholder="Mot de Passe"
-            className="container-inscription-form-input"
+            className="edit-container-inscription-form-input"
             value={formData.password}
             onChange={handleChange}
           />
@@ -247,13 +250,16 @@ function EditProfile() {
             type="text"
             name="repeatPassword"
             placeholder="Confirmation Mot de Passe"
-            className="container-inscription-form-input"
+            className="edit-container-inscription-form-input"
             value={formData.repeatPassword}
             onChange={handleChange}
           />
           {/* Espace pour message si erreur sur la page */}
           {error && <p className="error-message">{error}</p>}
-          <button type="submit" className="container-inscription-form-button">
+          <button
+            type="submit"
+            className="edit-container-inscription-form-button"
+          >
             Validé
           </button>
         </form>
