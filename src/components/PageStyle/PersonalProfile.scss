@@ -5,12 +5,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-top: 1.5rem;
+  // padding-top: 1.5rem;
   &-top {
     display: flex;
-    justify-content: space-between;
-    padding-top: 1rem;
+    justify-content: space-around;
+    padding-top: 2.5rem;
     height: 50%;
+    margin: auto;
   }
   &-selected {
     text-align: center;
@@ -24,14 +25,19 @@
   &-container {
     width: 50%;
     display: flex;
-    height: 20vh;
+    height: 100%;
+
     &-photo {
-      max-height: 70%;
+      // height: 100%;
+      // width: 50%;
+      max-width: 200px;
+      max-height: 200px;
       border: 2px solid v.$color-primary;
       border-radius: 50%;
     }
     &-info {
       padding: 1rem 1.8rem;
+      margin: auto;
       &-category {
         font-size: 1.4rem;
         font-weight: 600;
@@ -54,18 +60,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20vh;
+    margin: auto;
     &-button {
-      height: 9rem;
-      width: 15rem;
+      min-height: 100px;
+      height: 50%;
+      width: 70%;
       cursor: pointer;
-      margin: 1rem;
       background-color: v.$color-primary;
       color: v.$color-bg;
       border: 2px solid v.$color-button;
       border-radius: 1rem;
       padding: 0.5rem;
-      font-size: 1.1rem;
+      font-size: 100%;
       font-weight: bold;
       text-decoration: none;
     }
@@ -100,13 +106,18 @@
         justify-content: center;
         gap: 1.5rem;
         padding: 1rem;
+        max-height: 20rem;
+        overflow: scroll;
       }
       &-period {
         border: 2px solid v.$color-button;
         border-radius: 1rem;
         padding: 1rem;
         width: 30%;
-        overflow: hidden;
+        // overflow: scroll;
+        &-date {
+          font-weight: 700;
+        }
       }
       &-animals {
         display: flex;
@@ -128,6 +139,64 @@
           text-decoration: none;
         }
       }
+    }
+  }
+}
+
+// Media query for screens smaller than 800px
+@media (width < 1500px) {
+  .profile {
+    &-top {
+      flex-direction: column;
+    }
+    &-container {
+      width: 75%;
+      margin: auto;
+      align-self: center;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      &-photo {
+        margin: auto;
+      }
+    }
+    &-link {
+      // margin-top: 5rem;
+      margin-left: 50px;
+    }
+  }
+  .profile-available-entrie-period {
+    min-width: 350px;
+    overflow: scroll;
+  }
+}
+
+@media (width < 500px) {
+  body {
+    min-width: 500px;
+  }
+  .profile {
+    &-top {
+      flex-direction: column;
+    }
+    &-container {
+      width: 75%;
+      margin: auto;
+      align-self: center;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      &-photo {
+        margin: auto;
+      }
+      &-info {
+        &-category {
+          font-size: 1.1rem;
+        }
+      }
+    }
+    &-link {
+      // margin-top: 1rem;
     }
   }
 }
