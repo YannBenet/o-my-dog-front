@@ -6,9 +6,9 @@
   gap: 2rem;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin: 2rem 0;
   &-card {
     width: 20%;
+    max-width: 25rem;
     border: 1px solid v.$color-primary;
     border-radius: 1rem;
     background-color: v.$color-primary;

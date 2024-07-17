@@ -16,6 +16,7 @@ function Header() {
   const handleClick = () => setIsVisible(!isVisible);
   const handleDeconnect = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     setUserId('');
   };
 
@@ -31,7 +32,7 @@ function Header() {
       }
     }
   }, [location]); // mise à jour lorsque changement de page
-
+  const profilePicture = localStorage.getItem('url_img');
   return (
     <header className="header">
       <NavLink to="/">

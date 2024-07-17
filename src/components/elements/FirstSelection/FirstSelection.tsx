@@ -18,6 +18,14 @@ const fetchPetSittersHighlight = async () => {
     throw error; // Rejette l'erreur pour que React Query la capture
   }
 };
+// formatage de la date
+const formatDate = (isoDate: string): string => {
+  const date = new Date(isoDate);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+};
 
 function FirstSelection() {
   const isLoggedIn = localStorage.getItem('token') !== null;
@@ -38,19 +46,27 @@ function FirstSelection() {
           to={`/PetSitter/${petSitter.announcement_id}`}
           className="selecttion-card-link"
         >
-          <img src={profil} alt="profil" />
+          <img src={petSitter?.url_img || profil} alt="profil" />
           <h3>
             {petSitter.firstname} {petSitter.lastname}
           </h3>
+          <h4>
+            Du :{formatDate(petSitter.date_start)} / Au :
+            {formatDate(petSitter.date_end)}
+          </h4>
           <h4>{petSitter.city}</h4>
         </Link>
       )}
       {!isLoggedIn && (
         <Link to="/Connexion" className="selecttion-card-link">
-          <img src={profil} alt="profil" />
+          <img src={petSitter.url_img || profil} alt="profil" />
           <h3>
             {petSitter.firstname} {petSitter.lastname}
           </h3>
+          <h4>
+            Du :{formatDate(petSitter.date_start)} / Au :
+            {formatDate(petSitter.date_end)}
+          </h4>
           <h4>{petSitter.city}</h4>
         </Link>
       )}

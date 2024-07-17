@@ -91,12 +91,42 @@
       justify-content: center;
       gap: 3rem;
       &-title {
-        margin: auto 0;
+        width: 50%;
+        margin: 0 auto;
+        text-align: center;
+      }
+      &-card {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 1rem;
       }
       &-period {
         border: 2px solid v.$color-button;
         border-radius: 1rem;
         padding: 1rem;
+        width: 30%;
+        overflow: hidden;
+      }
+      &-animals {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+      }
+      &-options {
+        text-align: end;
+        &-button {
+          cursor: pointer;
+          margin-left: 0.2rem;
+          background-color: v.$color-primary;
+          color: v.$color-bg;
+          border: 2px solid v.$color-button;
+          border-radius: 1rem;
+          padding: 0.5rem;
+          font-size: 0.8rem;
+          font-weight: bold;
+          text-decoration: none;
+        }
       }
     }
   }

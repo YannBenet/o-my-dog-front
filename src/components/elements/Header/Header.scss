@@ -2,7 +2,7 @@
 .header {
   display: flex;
   background-color: v.$color-primary;
-  min-height: 9rem;
+  //min-height: 9rem;
   height: 9rem;
   &-logo {
     width: 8rem;
@@ -11,15 +11,16 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    position: relative;
     &-left {
       text-align: left;
     }
     &-right {
-      // margin-right: 5rem;
-      padding: 1rem 1rem;
-      position: relative;
+      text-align: end;
+      padding: 1rem 4rem;
       z-index: 1;
       width: 30%;
+      flex-grow: 1;
     }
   }
   &-nav-list {
@@ -63,6 +64,7 @@
         box-shadow: inset 0 0rem 1rem v.$color-button;
         overflow: hidden;
         cursor: pointer;
+
         &-disconnect {
           visibility: hidden;
           width: 5rem;
@@ -76,9 +78,6 @@
   }
 }
 .connect {
-  position: absolute;
-  top: 7rem;
-  right: -2.5rem;
   &-navBar {
     background-color: v.$color-primary;
     color: v.$color-bg;
@@ -86,6 +85,9 @@
     border-radius: 0.3rem;
     padding: 0.3rem 0 0.5rem 0.3rem;
     width: 12rem;
+    text-align: left;
+    position: absolute;
+    right: 1rem;
     &-hidden {
       visibility: hidden;
     }

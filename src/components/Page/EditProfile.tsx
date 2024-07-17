@@ -1,6 +1,6 @@
 import '../PageStyle/EditProfile.scss';
 import { useState } from 'react';
-import { createPath, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 const API_URL = 'http://localhost:5000/api';
@@ -22,10 +22,6 @@ const editUserProfile = async (formData: {
   const decodedToken: { data: { id: number } } = jwtDecode(token);
   console.log(decodedToken);
 
-  if (formData.password !== formData.repeatPassword) {
-    throw new Error('Passwords do not match');
-  }
-
   try {
     const response = await fetch(`${API_URL}/users/${decodedToken.data.id}`, {
       method: 'PATCH',
@@ -35,16 +31,15 @@ const editUserProfile = async (formData: {
       body: formData,
     });
 
+    const data = await response.json();
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Echec de l'envoi du formulaire");
+      return { status: response.status, error: data.error, data: null };
     }
 
-    const responseData = await response.json();
-    return responseData;
+    return { status: response.status, error: null, data };
   } catch (error) {
     console.error('Error posting data', error);
-    throw error;
+    return { status: 500, error };
   }
 };
 
@@ -106,8 +101,11 @@ function EditProfile() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (formData.password !== formData.repeatPassword) {
+      setError('Les mots de passe sont différents');
+      return;
+    }
     const updatedFormData = new FormData();
-
     // On va récupérer toutes les clés et valeurs du formulaires qui ne sont pas vides pour les attribuer à un FormData qui sera envoyé au front
     Object.keys(formData).forEach((key) => {
       if (formData[key as keyof typeof formData] !== '') {
@@ -115,13 +113,10 @@ function EditProfile() {
       }
     });
 
-    // Ajouter le fichier à FormData
-    if (file) {
-      updatedFormData.append('file', file);
-    }
-
     // On vérifie seulement les champs de city s'il y a quelque chose d'écrit dedans.
     if (formData.city !== '') {
+      console.log(citySuggestions, formData.city);
+
       // Vérification que la ville entrée dans le form est bien une des propositions de l'API
       const selectedCity = citySuggestions.find(
         (city) => city.nom === updatedFormData.get('city')
@@ -130,39 +125,46 @@ function EditProfile() {
         setError('Veuillez sélectionner une ville valide dans la liste.');
         return;
       }
-
       // Ajout du département à FormData
       updatedFormData.set('department_label', selectedCity.departement.nom);
     }
 
+    // Ajouter le fichier à FormData
+    if (file) {
+      updatedFormData.append('file', file);
+    }
+
     try {
       // Appel de editUserProfile avec la copie locale de formData mise à jour
+      console.log(Array.from(updatedFormData.entries()));
+
       const response = await editUserProfile(updatedFormData);
       console.log(response);
 
-      if (!response) {
-        throw new Error(
-          "Erreur du serveur, réessayez ou contacter l'administrateur du site"
-        );
+      if (response.error) {
+        switch (response.status) {
+          case 400:
+            setError(`${response.error}`);
+            break;
+          case 409:
+            setError('Conflit: mail ou numéro de téléphone déjà existant.');
+            break;
+          case 500:
+            setError('Une erreur est survenue côté serveur.');
+            break;
+          default:
+            setError(
+              "Une erreur inconnue est survenue, contactez l'administrateur."
+            );
+        }
+        return;
       }
 
       console.log('Modification de profil réussie', response);
-
-      // Réinitialisation du formulaire après modification réussie
-      setFormData({
-        firstname: '',
-        lastname: '',
-        email: '',
-        city: '',
-        phone_number: '',
-        password: '',
-        repeatPassword: '',
-        department_label: '',
-      });
       setError('');
       navigate(`/`);
-    } catch (error) {
-      console.error('Erreur lors de la modification de profil', error);
+    } catch (err) {
+      console.error('Erreur lors de la modification de profil', err);
       setError("Une erreur s'est produite lors la modification du profil.");
     }
   };
@@ -215,8 +217,9 @@ function EditProfile() {
             list="city-suggestions"
           />
           <datalist id="city-suggestions">
-            {citySuggestions.map((city, index) => (
-              <option key={index} value={city.nom} />
+            {citySuggestions.map((city) => (
+              // eslint-disable-next-line jsx-a11y/control-has-associated-label
+              <option key={city.nom} value={city.nom} />
             ))}
           </datalist>
           <input
