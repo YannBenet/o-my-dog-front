@@ -13,6 +13,9 @@ importers:
       '@types/node':
         specifier: ^20.14.10
         version: 20.14.10
+      '@vitejs/plugin-react':
+        specifier: ^4.3.1
+        version: 4.3.1(vite@5.3.4(@types/node@20.14.10)(sass@1.77.8))
       jwt-decode:
         specifier: ^4.0.0
         version: 4.0.0
@@ -50,9 +53,6 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^7.16.1
         version: 7.16.1(eslint@8.57.0)(typescript@5.5.3)
-      '@vitejs/plugin-react':
-        specifier: ^4.3.1
-        version: 4.3.1(vite@5.3.4(@types/node@20.14.10)(sass@1.77.8))
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
