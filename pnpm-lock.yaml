@@ -10,6 +10,10 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.50.1
         version: 5.50.1(react@18.3.1)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 240dea1d07b43cf0f8763d586e7247d44a8461e7
       '@types/node':
         specifier: ^20.14.10
         version: 20.14.10
