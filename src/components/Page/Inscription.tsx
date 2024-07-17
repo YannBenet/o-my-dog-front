@@ -49,7 +49,7 @@ function Inscription() {
     department_label: '',
   });
   const [citySuggestions, setCitySuggestions] = useState<
-    { nom: string; departement: { nom: string; code: string;} }[]
+    { nom: string; departement: { nom: string; code: string } }[]
   >([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -95,17 +95,17 @@ function Inscription() {
 
     // Vérification que la ville entrée dans le form est bien une des propositions de l'API
     const selectedCityInDepartment = citySuggestions.find(
-      (city) => city.departement.code === formData.city.split(' ')[1].slice(1, 3)
-    )
-    
-    if (!selectedCityInDepartment) {
+      (city) =>
+        city.departement.code === formData.city.split(' ')[1].slice(1, 3)
+    );
 
+    if (!selectedCityInDepartment) {
       setError('Veuillez sélectionner une ville valide dans la liste.');
       return;
     }
 
     // On ajoute le department_label dans les datas du form
-    
+
     const updatedFormData = {
       ...formData,
       department_label: selectedCityInDepartment.departement.nom,
@@ -181,12 +181,14 @@ function Inscription() {
             list="city-suggestions"
           />
           <datalist id="city-suggestions">
-
             {citySuggestions.map((city, index) => (
-              <option key={index} value={[`${city.nom} (${(city.departement.code)})`]} />
+              <option
+                key={index}
+                value={[`${city.nom} (${city.departement.code})`]}
+              />
             ))}
           </datalist>
-      
+
           <input
             type="hidden"
             name="department_label"
