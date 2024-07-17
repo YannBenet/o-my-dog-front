@@ -12,7 +12,8 @@ type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
+
 // Requète pour poster une annonce
 const store = async (formData: {
   date_start: string;
@@ -148,7 +149,7 @@ function Availability() {
             description: '',
             animal: [],
           });
-          navigate(`/Profil/${id}`);
+          navigate(`/Profile/${id}`);
         } else {
           console.error('Aucun ID trouvé dans localStorage');
         }
@@ -179,7 +180,12 @@ function Availability() {
   return (
     <section className="availability">
       <section className="availability-calendar">
-        <Calendar selectRange onChange={setValue} value={value} />
+        <Calendar
+          selectRange
+          onChange={setValue}
+          value={value}
+          minDate={new Date()}
+        />
       </section>
       <section className="availability-form">
         <form onSubmit={handleSubmit} className="availability-form-submit">

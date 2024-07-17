@@ -1,19 +1,68 @@
 @use 'reset';
 @use 'variables' as v;
 
-body {
+#root {
   width: 80%;
   margin: 0 auto;
-  height: 100vh;
+  height: 100%;
   font-family: v.$poppins;
 }
 .page {
-  height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: v.$color-bg;
+  border: 3px solid v.$color-primary;
+  min-height: 100vh;
 }
 .main {
   display: flex;
   justify-content: space-between;
   flex-grow: 1;
+}
+body {
+  background: url(/images/fondBody.jpg) no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+// Media query for smartphones below 768px
+@media (max-width: 767px) {
+  html {
+    font-size: 16px;
+  }
+  #root, .page {
+    width: 100%;
+    margin: 0;
+  }
+  .main {
+    flex-direction: column;
+  }
+  body {
+    background: none;
+    font-size:1rem;
+  }
+  .page {
+    border: 0px;
+  }
+}
+
+// Media query for tablets between 768px and 959px
+@media (min-width: 768px) and (max-width: 959px) {
+  html {
+    font-size: 16px;
+  }
+  #root, .page {
+    width: 100%;
+    margin: 0;
+  }
+  .main {
+    flex-direction: column;
+  }
+  body {
+    background: none;
+    font-size:1rem;
+  }
+  .page {
+    border: 0px;
+  }
 }

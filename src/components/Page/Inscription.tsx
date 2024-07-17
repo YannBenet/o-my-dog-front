@@ -1,11 +1,10 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable consistent-return */
-
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../PageStyle/Inscription.scss';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 const signinUser = async (formData: {
   firstname: string;
   lastname: string;
@@ -14,7 +13,7 @@ const signinUser = async (formData: {
   phone_number: string;
   password: string;
   repeatPassword: string;
-  department_label: string; // Ajout du champ département
+  department_label: string;
 }) => {
   try {
     const response = await fetch(`${API_URL}/users/signin`, {
@@ -24,12 +23,17 @@ const signinUser = async (formData: {
       },
       body: JSON.stringify(formData),
     });
+
+    const data = await response.json();
+
     if (!response.ok) {
-      throw new Error('Inscription échouée !');
+      return { status: response.status, error: data.error, data: null };
     }
-    return await response.json();
+
+    return { status: response.status, error: null, data };
   } catch (error) {
     console.error('Erreur lors de la requête de post :', error);
+    return { status: 500, error };
   }
 };
 
@@ -42,10 +46,10 @@ function Inscription() {
     phone_number: '',
     password: '',
     repeatPassword: '',
-    department_label: '', // Initialisation du champ département
+    department_label: '',
   });
   const [citySuggestions, setCitySuggestions] = useState<
-    { nom: string; departement: { nom: string } }[]
+    { nom: string; departement: { nom: string; code: string } }[]
   >([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -68,6 +72,7 @@ function Inscription() {
             'Erreur lors de la récupération des suggestions de villes'
           );
         }
+
         const data = await response.json();
         setCitySuggestions(data);
       } catch (err) {
@@ -83,47 +88,51 @@ function Inscription() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (formData.password !== formData.repeatPassword) {
+      setError('Les deux mots de passe sont différents');
+      return;
+    }
+
     // Vérification que la ville entrée dans le form est bien une des propositions de l'API
-    const selectedCity = citySuggestions.find(
-      (city) => city.nom === formData.city
+    const selectedCityInDepartment = citySuggestions.find(
+      (city) =>
+        city.departement.code === formData.city.split(' ')[1].slice(1, 3)
     );
-    if (!selectedCity) {
+
+    if (!selectedCityInDepartment) {
       setError('Veuillez sélectionner une ville valide dans la liste.');
       return;
     }
 
-    // On ajoute le deprtment_label dans les datas du form
+    // On ajoute le department_label dans les datas du form
+
     const updatedFormData = {
       ...formData,
-      department_label: selectedCity.departement.nom,
+      department_label: selectedCityInDepartment.departement.nom,
     };
 
-    // Si un des champs est vide : on lève une erreur
-    for (const key in updatedFormData) {
-      if (updatedFormData[key as keyof typeof updatedFormData] === '') {
-        setError('Tous les champs doivent être remplis.');
-        return;
-      }
-    }
     try {
       const response = await signinUser(updatedFormData);
-      console.log(response);
 
-      if (!response) {
-        throw new Error('Réponse indéfinie du serveur');
+      if (response.error) {
+        switch (response.status) {
+          case 400:
+            setError(`${response.error}`);
+            break;
+          case 409:
+            setError('Conflict: Utilisateur déjà existant.');
+            break;
+          case 500:
+            setError('Une erreur est survenue côté serveur.');
+            break;
+          default:
+            setError(
+              "Une erreur inconnue est survenue, contactez l'administrateur."
+            );
+        }
+        return;
       }
-      console.log('Inscription réussie', response);
-      // Réinitialisation du formulaire après inscription réussie
-      setFormData({
-        firstname: '',
-        lastname: '',
-        email: '',
-        city: '',
-        phone_number: '',
-        password: '',
-        repeatPassword: '',
-        department_label: '',
-      });
+
       setError('');
       navigate('/Connexion');
     } catch (err) {
@@ -173,9 +182,13 @@ function Inscription() {
           />
           <datalist id="city-suggestions">
             {citySuggestions.map((city, index) => (
-              <option key={index} value={city.nom} />
+              <option
+                key={index}
+                value={[`${city.nom} (${city.departement.code})`]}
+              />
             ))}
           </datalist>
+
           <input
             type="hidden"
             name="department_label"

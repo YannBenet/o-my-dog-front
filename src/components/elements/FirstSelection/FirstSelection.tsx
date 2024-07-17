@@ -5,7 +5,7 @@ import './FirstSearch.scss';
 import profil from '../../../../public/images/profil.jpg';
 import { PetSittersResponseSchema } from '../../../schema/petSitter.schema';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 const fetchPetSittersHighlight = async () => {
   const response = await fetch(`${API_URL}/announcements/highlight`);
   const data = await response.json();
@@ -17,6 +17,14 @@ const fetchPetSittersHighlight = async () => {
     console.error('Error parsing data:', error);
     throw error; // Rejette l'erreur pour que React Query la capture
   }
+};
+// formatage de la date
+const formatDate = (isoDate: string): string => {
+  const date = new Date(isoDate);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
 };
 
 function FirstSelection() {
@@ -38,19 +46,27 @@ function FirstSelection() {
           to={`/PetSitter/${petSitter.announcement_id}`}
           className="selecttion-card-link"
         >
-          <img src={profil} alt="profil" />
+          <img src={petSitter?.url_img || profil} alt="profil" />
           <h3>
             {petSitter.firstname} {petSitter.lastname}
           </h3>
+          <p>
+            Disponible du {formatDate(petSitter.date_start)}<br /> 
+            au {formatDate(petSitter.date_end)}
+          </p>
           <h4>{petSitter.city}</h4>
         </Link>
       )}
       {!isLoggedIn && (
         <Link to="/Connexion" className="selecttion-card-link">
-          <img src={profil} alt="profil" />
+          <img src={petSitter.url_img || profil} alt="profil" />
           <h3>
             {petSitter.firstname} {petSitter.lastname}
           </h3>
+          <p>
+            Disponible du {formatDate(petSitter.date_start)}<br />
+            au {formatDate(petSitter.date_end)}
+          </p>
           <h4>{petSitter.city}</h4>
         </Link>
       )}
