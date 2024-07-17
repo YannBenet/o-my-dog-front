@@ -9,7 +9,7 @@ import {
 import '../PageStyle/PersonalProfile.scss';
 import PhotoProfil from '../../../public/images/profil.jpg';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 // const token = localStorage.getItem('token');
 
 const getUser = async (id: string | undefined, token: string) => {

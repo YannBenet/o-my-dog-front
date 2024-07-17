@@ -7,7 +7,7 @@ import './Header.scss';
 import { jwtDecode } from 'jwt-decode';
 import photo from '../../../../public/images/profil.jpg';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 
 function Header() {
   const [userId, setUserId] = useState(0);
