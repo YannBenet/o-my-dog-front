@@ -1,1 +1,1 @@
-web: npm start
+web: pnpm install --no-frozen-lockfile && npm start
