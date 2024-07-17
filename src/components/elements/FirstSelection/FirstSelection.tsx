@@ -5,7 +5,7 @@ import './FirstSearch.scss';
 import profil from '../../../../public/images/profil.jpg';
 import { PetSittersResponseSchema } from '../../../schema/petSitter.schema';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 const fetchPetSittersHighlight = async () => {
   const response = await fetch(`${API_URL}/announcements/highlight`);
   const data = await response.json();
@@ -50,10 +50,10 @@ function FirstSelection() {
           <h3>
             {petSitter.firstname} {petSitter.lastname}
           </h3>
-          <h4>
-            Du :{formatDate(petSitter.date_start)} / Au :
-            {formatDate(petSitter.date_end)}
-          </h4>
+          <p>
+            Disponible du {formatDate(petSitter.date_start)}<br /> 
+            au {formatDate(petSitter.date_end)}
+          </p>
           <h4>{petSitter.city}</h4>
         </Link>
       )}
@@ -63,10 +63,10 @@ function FirstSelection() {
           <h3>
             {petSitter.firstname} {petSitter.lastname}
           </h3>
-          <h4>
-            Du :{formatDate(petSitter.date_start)} / Au :
-            {formatDate(petSitter.date_end)}
-          </h4>
+          <p>
+            Disponible du {formatDate(petSitter.date_start)}<br />
+            au {formatDate(petSitter.date_end)}
+          </p>
           <h4>{petSitter.city}</h4>
         </Link>
       )}

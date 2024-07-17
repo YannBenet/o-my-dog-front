@@ -13,21 +13,6 @@ function Root() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  // Ajouter le useEffect pour gérer l'événement beforeunload
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('userId');
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    // Nettoyage de l'événement lors du démontage du composant
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-
   return (
     <div className="page">
       <Header />

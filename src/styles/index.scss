@@ -20,7 +20,49 @@
   flex-grow: 1;
 }
 body {
-  background: url(../../public/images/fondBody.jpg) no-repeat;
+  background: url(/images/fondBody.jpg) no-repeat;
   background-size: cover;
   background-attachment: fixed;
+}
+
+// Media query for smartphones below 768px
+@media (max-width: 767px) {
+  html {
+    font-size: 16px;
+  }
+  #root, .page {
+    width: 100%;
+    margin: 0;
+  }
+  .main {
+    flex-direction: column;
+  }
+  body {
+    background: none;
+    font-size:1rem;
+  }
+  .page {
+    border: 0px;
+  }
+}
+
+// Media query for tablets between 768px and 959px
+@media (min-width: 768px) and (max-width: 959px) {
+  html {
+    font-size: 16px;
+  }
+  #root, .page {
+    width: 100%;
+    margin: 0;
+  }
+  .main {
+    flex-direction: column;
+  }
+  body {
+    background: none;
+    font-size:1rem;
+  }
+  .page {
+    border: 0px;
+  }
 }

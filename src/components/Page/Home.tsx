@@ -20,7 +20,7 @@ function Home() {
         </p>
       </article>
       <article className="selection">
-        <h3 className="selection-title">Notre Sélection d'annonces : </h3>
+        <h3 className="selection-title">Nos Petsitters : </h3>
         <FirstSelection />
       </article>
     </section>
