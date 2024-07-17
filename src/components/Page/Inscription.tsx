@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../PageStyle/Connexion.scss';
+import '../PageStyle/Inscription.scss';
 
 const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 const signinUser = async (formData: {
