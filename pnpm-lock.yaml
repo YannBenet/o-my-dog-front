@@ -11,10 +11,13 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.50.1
         version: 5.50.1(react@18.3.1)
+<<<<<<< HEAD
 
       '@types/node':
         specifier: ^20.14.10
         version: 20.14.10
+=======
+>>>>>>> 294025baf319fb6263e81a6ec52c314b68f4c50c
       jwt-decode:
         specifier: ^4.0.0
         version: 4.0.0
