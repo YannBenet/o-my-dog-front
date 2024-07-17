@@ -12,13 +12,11 @@ function Home() {
       <article className="narrative">
         <h1 className="narrative-title">O'My Dog</h1>
         <p className="narrative-text">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Autem
-          perferendis error, id doloribus exercitationem tempore nemo adipisci
-          aperiam ipsum ullam dolorum deleniti officia voluptate natus fugiat
-          aut iste doloremque magnam ad harum esse enim impedit! Repudiandae
-          nemo officiis ducimus commodi obcaecati voluptatibus beatae cumque
-          adipisci inventore. Assumenda placeat quibusdam quod cumque
-          exercitationem neque? Quod, ratione.
+          O'My Dog est un site gratuit, communautaire basé sur l'entraide. Vous
+          pouvez vous inscrire et chercher des petsitters, près de chez vous,
+          dans votre département pour garder vos animaux. Si vous êtes
+          disponibles, vous pouvez aussi renseigner des périodes de
+          disponibilités afin d'aider à votre tour la communauté O'MyDog !
         </p>
       </article>
       <article className="selection">

@@ -99,7 +99,6 @@ function Profile() {
     const storedToken = localStorage.getItem('token');
     setToken(storedToken);
   }, []);
-
   const { data, isLoading, isError } = useQuery({
     queryKey: ['user', id],
     queryFn: () =>
@@ -108,6 +107,8 @@ function Profile() {
         : Promise.reject(new Error('ID ou token est undefined')),
     enabled: !!id && !!token,
   });
+  // stockage de l'image de profil dans localStorage
+  localStorage.setItem('url_img', data?.petSitter.url_img || '');
   // useQuery de getAnnouncements
   const {
     data: dataAnnouncements,
