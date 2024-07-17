@@ -73,7 +73,7 @@ function Header() {
 
   return (
     <header className="header">
-      <NavLink to="/">
+      <NavLink to="/" className="header-link">
         <img src={logo} className="header-logo" alt="logo" />
       </NavLink>
       <section className="header-position">

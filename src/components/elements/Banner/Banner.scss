@@ -28,3 +28,20 @@
     }
   }
 }
+
+// Media query for smartphones below 768px
+@media (max-width: 767px) {
+  .search-banner {
+    &-img img:nth-last-child(-n+3) {
+      display:none;
+    }
+  }
+}
+// Media query for tabletd between 768px & 959px
+@media (min-width: 768px) and (max-width: 959px) {
+  .search-banner {
+    &-img img:nth-last-child(-n+2) {
+      display:none;
+    }
+  }
+}

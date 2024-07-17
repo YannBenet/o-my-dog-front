@@ -1,11 +1,20 @@
 @use '../../../styles/variables' as v;
 .header {
+  &-nav {
+    display:flex;
+    &-list-link a {
+      font-size:1.3rem;
+  }
+  }
+  &-link {
+    display: contents;
+  }
   display: flex;
   background-color: v.$color-primary;
-  //min-height: 9rem;
-  height: 9rem;
+  height: 7rem;
   &-logo {
-    width: 8rem;
+    height:100%;
+      width:auto;
   }
   &-position {
     display: flex;
@@ -14,6 +23,7 @@
     position: relative;
     &-left {
       text-align: left;
+      display: flex;
     }
     &-right {
       text-align: end;
@@ -28,7 +38,7 @@
     flex-direction: row;
     gap: 2rem;
     list-style-type: none;
-    padding: 2rem 1rem;
+    align-items: center;
     cursor: pointer;
     &-link {
       &-dir {
@@ -110,5 +120,95 @@
         cursor: pointer;
       }
     }
+  }
+}
+// Media query for smartphones below 768px
+@media (max-width: 767px) {
+  .header {
+    height: 5rem;
+    &-link {
+      display: contents;
+    }
+    &-logo {
+      height:100%;
+      width:auto;
+    }
+    &-position-left {
+      display:flex;
+    }
+    &-nav {
+      display: flex;
+    }
+    &-nav-list-link a {
+      font-size: 1rem;
+    }
+    &-nav-list {
+      align-items: center;
+      
+    }
+    // "home" link is hidden on small screens
+    &-nav-list-link:first-of-type {
+      display: none; 
+    }
+    &-position-right {
+      display: flex;
+      padding: 0rem 0rem;
+      width: 50%;
+    }
+    &-buttons {
+      padding-top:0;
+      align-content: center;
+      &-button {
+        font-size: 0.75rem;
+        padding: 0.25rem;
+        font-weight: normal;
+        margin: 0.4rem;
+      }
+
+    }
+    
+  }
+  
+}
+// Media query for tabletd between 768px & 959px
+@media (min-width: 768px) and (max-width: 959px) {
+  .header {
+    height: 7rem;
+    &-link {
+      display: contents;
+    }
+    &-logo {
+      height:100%;
+      width:auto;
+    }
+    &-position-left {
+      display:flex;
+    }
+    &-nav {
+      display: flex;
+    }
+    &-nav-list-link a {
+      font-size: 1.2rem;
+    }
+    &-nav-list {
+      align-items: center;
+      
+    }
+    // "home" link is hidden on small screens
+    &-nav-list-link:first-of-type {
+      display: none; 
+    }
+    &-position-right {
+      display: flex;
+      padding: 0rem 0rem;
+      width: 50%;
+    }
+    &-buttons {
+      padding-top:0;
+      align-content: center;
+      
+
+    }
+    
   }
 }
