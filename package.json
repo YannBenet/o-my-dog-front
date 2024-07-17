@@ -13,19 +13,20 @@
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx,js,jsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
-    "start": "vite"
+    "start": "serve -s dist"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.51.1",
     "@types/node": "^20.14.10",
+    "@vitejs/plugin-react": "^4.3.1",
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
     "react-calendar": "^5.0.0",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.25.0",
-    "zod": "^3.23.8",
+    "serve": "^14.2.3",
     "vite": "^5.3.4",
-    "@vitejs/plugin-react": "^4.3.1"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
