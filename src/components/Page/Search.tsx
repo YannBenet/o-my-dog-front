@@ -15,7 +15,7 @@ type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 // Requete de la recherhce
 const search = async (formData: {
   dateStart: string;

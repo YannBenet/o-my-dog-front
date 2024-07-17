@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useQueryClient } from '@tanstack/react-query';
 import '../PageStyle/Connexion.scss';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 const loginUser = async (formData: { email: string; password: string }) => {
   try {
     const response = await fetch(`${API_URL}/users/login`, {
@@ -14,6 +14,7 @@ const loginUser = async (formData: { email: string; password: string }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
+      credentials: 'include',
     });
     const data = await response.json();
     if (!response.ok) {
@@ -82,9 +83,8 @@ function Connexion() {
       }
       // enregistrement du token en localStorage
 
-      const { accessToken } = response;
+      const { accessToken } = response.data;
       if (!accessToken || typeof accessToken !== 'string') {
-
         throw new Error('Invalid token specified: must be a string');
       }
       // stockage du token JWT dans localStorage
@@ -105,8 +105,8 @@ function Connexion() {
       });
       // Redirection vers la page profil de l'utilisatuer connecté
       navigate(`/profile/${userId}`);
-    } catch (error) {
-      console.error('Erreur lors de la connexion', error);
+    } catch (err) {
+      console.error('Erreur lors de la connexion', err);
     }
   };
 

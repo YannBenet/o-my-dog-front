@@ -6,7 +6,7 @@ import '../PageStyle/PersonalProfile.scss';
 import { z } from 'zod';
 import PhotoProfil from '/images/profil.jpg';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 const fetchPetSitter = async (id: string | undefined) => {
   const token = localStorage.getItem('token');
   if (!token) {

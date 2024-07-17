@@ -1,22 +1,61 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // eslint-disable-next-line import/no-absolute-path
+import { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import logo from '/logoOMyDog.png';
 import './Header.scss';
-import { NavLink, useLocation } from 'react-router-dom';
-import profilePicture from '../../../../public/images/profil.jpg';
-import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import photo from '../../../../public/images/profil.jpg';
+
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 
 function Header() {
-  const isLoggedIn = localStorage.getItem('token') !== null;
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const location = useLocation();
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    const storedPicture = localStorage.getItem('url_img');
+    setProfilePicture(storedPicture);
+    setToken(storedToken);
+  }, [location]);
+
+  const isLoggedIn = token !== null;
+
+  const disconnect = async (id: number | undefined, token: string | null) => {
+    if (!token) {
+      throw new Error('token not found');
+    }
+    try {
+      const response = await fetch(`${API_URL}/users/logout/${id}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        throw new Error('Echec de déconnexion');
+      }
+    } catch (error) {
+      console.error('erreur lors de la déconnexion', error);
+    }
+  };
 
   const handleClick = () => setIsVisible(!isVisible);
-  const handleDeconnect = () => {
-    localStorage.removeItem('token');
-    setUserId('');
+
+  const handleDeconnect = async (id: number) => {
+    try {
+      await disconnect(id, token);
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('url_img');
+      setUserId(0);
+      window.location.reload();
+    } catch (error) {
+      console.log('erreur lors de la déconnexion', error);
+    }
   };
 
   useEffect(() => {
@@ -34,7 +73,7 @@ function Header() {
 
   return (
     <header className="header">
-      <NavLink to="/">
+      <NavLink to="/" className="header-link">
         <img src={logo} className="header-logo" alt="logo" />
       </NavLink>
       <section className="header-position">
@@ -72,7 +111,7 @@ function Header() {
               className="header-buttons-button-picture"
               onClick={handleClick}
             >
-              <img src={profilePicture} alt="profil" />
+              <img src={profilePicture || photo} alt="profil" />
             </button>
           )}
           {/* menu qui s'ouvre et se ferme suivant l'appui sur la photo de son profil dans le header */}
@@ -114,7 +153,7 @@ function Header() {
                     to="/"
                     className="connect-navBar-menu"
                     onClick={() => {
-                      handleDeconnect();
+                      handleDeconnect(userId);
                       handleClick();
                     }}
                   >
