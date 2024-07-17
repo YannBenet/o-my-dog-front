@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useQueryClient } from '@tanstack/react-query';
 import '../PageStyle/Connexion.scss';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 const loginUser = async (formData: { email: string; password: string }) => {
   try {
     const response = await fetch(`${API_URL}/users/login`, {

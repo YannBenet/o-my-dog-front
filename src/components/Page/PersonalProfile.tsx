@@ -9,7 +9,7 @@ import {
 import '../PageStyle/PersonalProfile.scss';
 import PhotoProfil from '../../../public/images/profil.jpg';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 // const token = localStorage.getItem('token');
 
 const getUser = async (id: string | undefined, token: string) => {
@@ -21,14 +21,12 @@ const getUser = async (id: string | undefined, token: string) => {
       headers: { Authorization: `Bearer ${token}` },
       credentials: 'include',
     });
-    console.log('response from getUser:', response);
 
     if (!response.ok) {
       throw new Error('Données de profil non chargé');
     }
     const data = await response.json();
     const transformedData = { petSitter: data };
-    console.log(transformedData);
 
     return PetSitterResponseSchema.parse(transformedData); // Utilisez `parse` pour valider les données
   } catch (error) {
@@ -55,7 +53,6 @@ const getAnnouncement = async (id: string | undefined, token?: string) => {
 
     if (dataAnnouncements) {
       const transformedData = { Announcements: dataAnnouncements };
-      console.log(transformedData);
 
       return ListAnnouncementsSchema.parse(transformedData);
     }
@@ -77,7 +74,7 @@ const deleteAnnouncement = async (announcementId: number, token: string) => {
       throw new Error("Echec de la supression de l'annonce");
     }
   } catch (error) {
-    console.error('Erruer lors de la suppession:', error);
+    console.error('Erreur lors de la suppession:', error);
     throw error;
   }
 };

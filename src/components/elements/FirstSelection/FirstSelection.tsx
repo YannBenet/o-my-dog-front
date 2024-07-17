@@ -5,7 +5,7 @@ import './FirstSearch.scss';
 import profil from '../../../../public/images/profil.jpg';
 import { PetSittersResponseSchema } from '../../../schema/petSitter.schema';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_REACT_APP_BACK;
 const fetchPetSittersHighlight = async () => {
   const response = await fetch(`${API_URL}/announcements/highlight`);
   const data = await response.json();
