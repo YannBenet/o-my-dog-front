@@ -50,10 +50,10 @@ function FirstSelection() {
           <h3>
             {petSitter.firstname} {petSitter.lastname}
           </h3>
-          <h4>
-            Du :{formatDate(petSitter.date_start)} / Au :
-            {formatDate(petSitter.date_end)}
-          </h4>
+          <p>
+            Disponible du {formatDate(petSitter.date_start)}<br /> 
+            au {formatDate(petSitter.date_end)}
+          </p>
           <h4>{petSitter.city}</h4>
         </Link>
       )}
@@ -63,10 +63,10 @@ function FirstSelection() {
           <h3>
             {petSitter.firstname} {petSitter.lastname}
           </h3>
-          <h4>
-            Du :{formatDate(petSitter.date_start)} / Au :
-            {formatDate(petSitter.date_end)}
-          </h4>
+          <p>
+            Disponible du {formatDate(petSitter.date_start)}<br />
+            au {formatDate(petSitter.date_end)}
+          </p>
           <h4>{petSitter.city}</h4>
         </Link>
       )}

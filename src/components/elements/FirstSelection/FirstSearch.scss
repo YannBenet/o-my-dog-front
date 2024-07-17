@@ -29,3 +29,29 @@
     }
   }
 }
+
+// Media query for smartphones below 768px
+@media (max-width: 767px) {
+  .selection {
+    &-card {
+      width: 90%;
+      & p {
+        margin-left:0.8rem;
+        color:white;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 959px) {
+  .selection {
+    justify-content: center;
+    &-card {
+      width: 45%;
+      & p {
+        margin-left:0.8rem;
+        color:white;
+      }
+    }
+  }
+}
