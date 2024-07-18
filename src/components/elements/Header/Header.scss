@@ -154,6 +154,8 @@
       display: flex;
       padding: 0rem 0rem;
       width: 50%;
+      justify-content: flex-end;
+      align-items: center;
     }
     &-buttons {
       padding-top:0;
@@ -200,6 +202,8 @@
     }
     &-position-right {
       display: flex;
+      justify-content: flex-end;
+      align-items: center;
       padding: 0rem 0rem;
       width: 50%;
     }

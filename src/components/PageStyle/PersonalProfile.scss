@@ -131,3 +131,73 @@
     }
   }
 }
+
+// Media query for screens smaller than 800px
+@media (width < 1500px) {
+  .profile {
+    &-top {
+      flex-direction: column;
+    }
+    &-available {
+      margin-top: 20px;
+      &-entrie {
+        &-card {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    }
+    &-container {
+      width: 75%;
+      margin: auto;
+      align-self: center;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      &-photo {
+        margin: auto;
+      }
+      &-info {
+        &-category {
+          font-size: 1.2rem;
+        }
+      }
+    }
+    &-link {
+      // margin-top: 5rem;
+      margin-left: 50px;
+    }
+  }
+  .profile-available-entrie-period {
+    min-width: 350px;
+    min-height: 120px;
+    overflow: scroll;
+  }
+}
+
+@media (width < 500px) {
+  body {
+    min-width: 500px;
+  }
+  .profile {
+    &-top {
+      flex-direction: column;
+    }
+    &-container {
+      width: 75%;
+      margin: auto;
+      align-self: center;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      &-photo {
+        margin: auto;
+      }
+      &-info {
+        &-category {
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+}

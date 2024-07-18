@@ -63,7 +63,7 @@ function PetSitterProfile() {
       <h2 className="profile-selected">Profil Selectionné</h2>
       <section className="profile-container">
         <img
-          src={PhotoProfil}
+          src={user?.url_img || PhotoProfil}
           alt="profil"
           className="profile-container-photo"
         />
