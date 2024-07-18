@@ -12,7 +12,6 @@
   &-link {
     display: flex;
     background-color: $color-primary;
-    height: 7rem;
     width: 7rem;
   }
   &-logo {
@@ -25,7 +24,7 @@
     position: relative;
     &-desktop {
       display: flex;
-      justify-content: space-between;
+      //justify-content: space-between;
       width:100%;
       position:relative;
       background-color: $color-primary;
@@ -38,10 +37,11 @@
         padding: 1rem;
       }
       &-right {
+        display: flex;
         align-items: center;
         justify-content: flex-end;
         text-align: end;
-        padding: 1rem 4rem;
+        padding: 0 3rem;
         z-index: 1;
         width: 30%;
         flex-grow: 1;
@@ -82,7 +82,7 @@
       }
       &-picture {
         width: 5rem;
-        height: 5rem;
+        height: 90%;
         border-radius: 20% 20% 20% 20%;
         border: 2px solid $color-button;
         background-color: $color-primary;
@@ -112,9 +112,11 @@
     width: 12rem;
     text-align: left;
     position: absolute;
-    right: 1rem;
+    right: 3rem;
+    top: 6rem;
     &-hidden {
       visibility: hidden;
+      position: absolute;
     }
     & ul {
       padding-left: 0.5rem;
@@ -137,19 +139,109 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .burger-toggle {
+    display:none;
+  }
+  .header {
+    &-positions-mobile {
+      display: flex;
+      width:100%;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to right, $color-primary, $color-border);
+    }
+    &-burger-menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-left: 80%;
+      height: 4rem;
+      width: 4rem;
+      & div {
+        height: 0.5rem;
+        width: 3rem;
+        background-color: $color-primary;
+        border-radius: 6px;
+        display: block;
+        position: absolute;
+        transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+        &::before,
+        &::after {
+          display: block;
+          position: absolute;
+          height: 0.5rem;
+          width: 3rem;
+          background-color: $color-primary;
+          border-radius: 6px;
+          transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        &::before {
+          content:"";
+          margin-top: -0.9rem;
+        }
+        &::after {
+          content:"";
+          margin-top: 0.9rem;
+        }
+      }
+      .burger-toggle:checked + & .burger-line::before {
+        margin-top: 0px;
+        transform: rotate(405deg);
+      }
+    
+      .burger-toggle:checked + & .burger-line {
+        background: rgba(255, 255, 255, 0);
+      }
+    
+      .burger-toggle:checked + & .burger-line::after {
+        margin-top: 0px;
+        transform: rotate(-405deg);
+      }
+    }
+  }
+  .burger-nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 80px;
+    width: 100vw;
+    background-color: $color-button;
+    border-bottom: 1px solid $color-border;
+    border-left: 1px solid $color-border;
+    border-right: 1px solid $color-border;
+    & ul {
+      display: flex;
+      flex-direction: column;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+    & li {
+      border-top: 1px solid $color-border;
+      margin: 0 1rem;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      transition: height 400ms cubic-bezier(0.23, 1, 0.32, 1);
+      //overflow: hidden;
+    }
+  }
+}
 // Media query for smartphones below 768px
 @media (max-width: 767px) {
   .header {
     height: 5rem;
     &-link {
-      display: contents;
+      display: flex;
     }
     &-logo {
       height:100%;
       width:auto;
-    }
-    &-position-left {
-      display:flex;
     }
     &-nav {
       display: flex;
@@ -159,44 +251,49 @@
     }
     &-nav-list {
       align-items: center;
-      
     }
     // "home" link is hidden on small screens
     &-nav-list-link:first-of-type {
       display: none; 
     }
-    &-position-right {
+    &-positions-desktop-left {
+      display:flex;
+    }
+    &-positions-desktop-right {
       display: flex;
       padding: 0rem 0rem;
-      width: 50%;
     }
     &-buttons {
-      padding-top:0;
       align-content: center;
       &-button {
         font-size: 0.75rem;
         padding: 0.25rem;
         font-weight: normal;
         margin: 0.4rem;
+        &-picture {
+          height: 100%;
+        }
       }
-
-    }
-    
+    } 
   }
-  
+  .connect-navBar {
+    right: 0rem;
+    top: 5rem;
+
+  }
 }
 // Media query for tabletd between 768px & 959px
 @media (min-width: 768px) and (max-width: 959px) {
   .header {
-    height: 7rem;
+    //height: 7rem;
     &-link {
-      display: contents;
+      display: flex;
     }
     &-logo {
       height:100%;
       width:auto;
     }
-    &-position-left {
+    &-positions-desktop-left {
       display:flex;
     }
     &-nav {
@@ -207,23 +304,16 @@
     }
     &-nav-list {
       align-items: center;
-      
     }
     // "home" link is hidden on small screens
-    &-nav-list-link:first-of-type {
-      display: none; 
-    }
-    &-position-right {
+    //&-nav-list-link:first-of-type {
+    //}
+    &-positions-desktop-right {
       display: flex;
-      padding: 0rem 0rem;
-      width: 50%;
+      //padding: 0rem 1.5rem;
     }
     &-buttons {
-      padding-top:0;
       align-content: center;
-      
-
     }
-    
   }
 }

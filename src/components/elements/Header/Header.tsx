@@ -88,7 +88,7 @@ function Header() {
         {/* Desktop headers buttons */}
         {isWindowWidth >= 480 ? (
           <section className="header-positions-desktop">
-            <section className="header-position-desktop-left">
+            <section className="header-positions-desktop-left">
               <nav className="header-nav">
                 <ul className="header-nav-list">
                   <li className="header-nav-list-link">
@@ -104,7 +104,7 @@ function Header() {
                 </ul>
               </nav>
             </section>
-            <section className="header-position-desktop-right">
+            <section className="header-positions-desktop-right">
               {!isLoggedIn && (
                 <div className="header-buttons">
                   <NavLink to="/Inscription" className="header-buttons-button">
@@ -134,12 +134,18 @@ function Header() {
                 >
                   <ul>
                     <li>
-                      <NavLink to="/" className="connect-navBar-menu">
+                      <NavLink to="/"
+                        className="connect-navBar-menu"
+                        onClick={() => handleClick()}
+                      >
                         Accueil
                       </NavLink>
                     </li>
                     <li>
-                      <NavLink to="/Search" className="connect-navBar-menu">
+                      <NavLink to="/Search"
+                        className="connect-navBar-menu"
+                        onClick={() => handleClick()}
+                      >
                         Recherche
                       </NavLink>
                     </li>
@@ -147,6 +153,7 @@ function Header() {
                       <NavLink
                         to={`/Profile/${userId}`}
                         className="connect-navBar-menu"
+                        onClick={() => handleClick()}
                       >
                         Mon profil
                       </NavLink>
@@ -155,6 +162,7 @@ function Header() {
                       <NavLink
                         to="/profile/editprofile"
                         className="connect-navBar-menu"
+                        onClick={() => handleClick()}
                       >
                         Modification profil
                       </NavLink>
@@ -179,7 +187,15 @@ function Header() {
         ) : (
           <section className="header-positions-mobile">
             {/* Mobile headers buttons */}
-            <button
+            <input className="burger-toggle" type="checkbox"></input>
+            <label 
+              className="header-burger-menu" 
+              htmlFor="burger-toggle"
+              onClick={() => setIsBurgerOpen(!isBurgerOpen)}
+            >
+              <div className="burger-line"></div>
+            </label>
+            {/* <button
               type="button"
               className="header-burger-menu"
               onClick={() => setIsBurgerOpen(!isBurgerOpen)}
@@ -187,92 +203,92 @@ function Header() {
               <div className="burger-line"></div>
               <div className="burger-line"></div>
               <div className="burger-line"></div>
-            </button>
-            {/* Burger if opened */}
-            {isBurgerOpen && (
-              <nav className="burger-nav">
-                <ul>
-                  <li>
-                    <NavLink
-                      to="/"
-                      className="burger-nav-item"
-                      onClick={() => setIsBurgerOpen(false)}
-                    >
-                      Accueil
-                    </NavLink>
-                  </li>
-                  <li>
-                  <NavLink
-                    to="/Search"
-                    className="burger-nav-item"
-                    onClick={() => setIsBurgerOpen(false)}
-                    >
-                      Recherche
-                    </NavLink>
-                  </li>
-                  {isLoggedIn ? (
-                    <div>
-                      {/* Burger nav if connected */}
-                      <li>
-                        <NavLink
-                          to={`/Profile/${userId}`}
-                          className="burger-nav-item"
-                          onClick={() => setIsBurgerOpen(false)}
-                        >
-                          Mon profil
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/profile/editprofile"
-                          className="burger-nav-item"
-                          onClick={() => setIsBurgerOpen(false)}
-                        >
-                          Modifier profil
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/"
-                          className="burger-nav-item"
-                          onClick={() => {
-                            setIsBurgerOpen(false);
-                            handleDeconnect(userId);
-                          }}
-                        >
-                          Déconnexion
-                        </NavLink>
-                      </li>
-                    </div>
-                  ) : (
-                    <div >
-                      {/* Burger nav if disconnected */}
-                      <li>
-                        <NavLink
-                          to="/Inscription"
-                          className="burger-nav-item"
-                          onClick={() => setIsBurgerOpen(false)}
-                        >
-                          Inscription
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/Connexion"
-                          className="burger-nav-item"
-                          onClick={() => setIsBurgerOpen(false)}
-                        >
-                          Connexion
-                        </NavLink>
-                      </li>
-                    </div>
-                  )}
-                </ul>
-              </nav>
-            )}
+            </button> */}
           </section>
         )}
       </section>
+      {/* Burger if opened */}
+      {isBurgerOpen && (
+        <nav className="burger-nav">
+          <ul>
+            <li>
+              <NavLink
+                to="/"
+                className="burger-nav-item"
+                onClick={() => setIsBurgerOpen(false)}
+              >
+                Accueil
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/Search"
+                className="burger-nav-item"
+                onClick={() => setIsBurgerOpen(false)}
+              >
+                Recherche
+              </NavLink>
+            </li>
+            {isLoggedIn ? (
+              <div>
+                {/* Burger nav if connected */}
+                <li>
+                  <NavLink
+                    to={`/Profile/${userId}`}
+                    className="burger-nav-item"
+                    onClick={() => setIsBurgerOpen(false)}
+                  >
+                    Mon profil
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/profile/editprofile"
+                    className="burger-nav-item"
+                    onClick={() => setIsBurgerOpen(false)}
+                  >
+                    Modifier profil
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/"
+                    className="burger-nav-item"
+                    onClick={() => {
+                      setIsBurgerOpen(false);
+                      handleDeconnect(userId);
+                    }}
+                  >
+                    Déconnexion
+                  </NavLink>
+                </li>
+              </div>
+            ) : (
+              <div >
+                {/* Burger nav if disconnected */}
+                <li>
+                  <NavLink
+                    to="/Inscription"
+                    className="burger-nav-item"
+                    onClick={() => setIsBurgerOpen(false)}
+                  >
+                    Inscription
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/Connexion"
+                    className="burger-nav-item"
+                    onClick={() => setIsBurgerOpen(false)}
+                  >
+                    Connexion
+                  </NavLink>
+                </li>
+              </div>
+            )}
+          </ul>
+        </nav>
+      )}
     </header>
   );
 }
