@@ -92,6 +92,7 @@ function Profile() {
   const { id } = useParams();
   // useQuery de getUser
   const [token, setToken] = useState<string | null>(null);
+
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     setToken(storedToken);

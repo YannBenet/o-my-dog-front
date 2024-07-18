@@ -1,36 +1,51 @@
-@use '../../../styles/variables' as v;
+@import '../../../styles/variables';
 .header {
+  display: flex;
   &-nav {
     display:flex;
+    align-items: center;
+    height: 100%;
     &-list-link a {
       font-size:1.3rem;
   }
   }
   &-link {
-    display: contents;
+    display: flex;
+    background-color: $color-primary;
+    height: 7rem;
+    width: 7rem;
   }
-  display: flex;
-  background-color: v.$color-primary;
-  height: 7rem;
   &-logo {
     height:100%;
-      width:auto;
+    width:100%;
   }
-  &-position {
+  &-positions {
     display: flex;
-    justify-content: space-between;
     width: 100%;
     position: relative;
-    &-left {
-      text-align: left;
+    &-desktop {
       display: flex;
-    }
-    &-right {
-      text-align: end;
-      padding: 1rem 4rem;
-      z-index: 1;
-      width: 30%;
-      flex-grow: 1;
+      justify-content: space-between;
+      width:100%;
+      position:relative;
+      background-color: $color-primary;
+      &-left {
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        text-align: left;
+        display: flex;
+        padding: 1rem;
+      }
+      &-right {
+        align-items: center;
+        justify-content: flex-end;
+        text-align: end;
+        padding: 1rem 4rem;
+        z-index: 1;
+        width: 30%;
+        flex-grow: 1;
+      }
     }
   }
   &-nav-list {
@@ -43,7 +58,7 @@
     &-link {
       &-dir {
         text-decoration: none;
-        color: v.$color-bg;
+        color: $color-bg;
         font-size: 1.8rem;
       }
     }
@@ -54,9 +69,9 @@
     &-button {
       cursor: pointer;
       margin: 1rem;
-      background-color: v.$color-button;
-      color: v.$color-bg;
-      border: 1px solid v.$color-button;
+      background-color: $color-button;
+      color: $color-bg;
+      border: 1px solid $color-button;
       border-radius: 0.3rem;
       padding: 0.5rem;
       font-size: 1.1rem;
@@ -69,9 +84,9 @@
         width: 5rem;
         height: 5rem;
         border-radius: 20% 20% 20% 20%;
-        border: 2px solid v.$color-button;
-        background-color: v.$color-primary;
-        box-shadow: inset 0 0rem 1rem v.$color-button;
+        border: 2px solid $color-button;
+        background-color: $color-primary;
+        box-shadow: inset 0 0rem 1rem $color-button;
         overflow: hidden;
         cursor: pointer;
 
@@ -89,9 +104,9 @@
 }
 .connect {
   &-navBar {
-    background-color: v.$color-primary;
-    color: v.$color-bg;
-    border: 2px solid v.$color-button;
+    background-color: $color-primary;
+    color: $color-bg;
+    border: 2px solid $color-button;
     border-radius: 0.3rem;
     padding: 0.3rem 0 0.5rem 0.3rem;
     width: 12rem;
@@ -111,11 +126,11 @@
     &-menu {
       cursor: pointer;
       text-decoration: none;
-      color: v.$color-bg;
+      color: $color-bg;
       &-closed {
-        background-color: v.$color-button;
+        background-color: $color-button;
         border-radius: 1rem;
-        border: 2px solid v.$color-button;
+        border: 2px solid $color-button;
         padding: 0.2rem;
         cursor: pointer;
       }
