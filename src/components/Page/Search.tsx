@@ -173,12 +173,6 @@ function Search() {
             setResultCount(response.length);
             setData(response);
           }
-          setFormData({
-            dateStart: '',
-            dateEnd: '',
-            departmentLabel: '',
-            animalLabel: '',
-          });
         } catch (error) {
           console.error('recherche non conforme:', error);
         }
