@@ -152,6 +152,13 @@
     }
     &-available {
       margin-top: 20px;
+      &-entrie {
+        &-card {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+
     }
     &-container {
       width: 75%;
@@ -176,6 +183,7 @@
   }
   .profile-available-entrie-period {
     min-width: 350px;
+    min-height: 120px;
     overflow: scroll;
   }
 }
