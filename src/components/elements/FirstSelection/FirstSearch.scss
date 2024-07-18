@@ -6,6 +6,8 @@
   gap: 2rem;
   flex-wrap: wrap;
   justify-content: center;
+  padding: 5px;
+
   &-card {
     width: 30%;
     max-width: 25rem;
@@ -13,9 +15,18 @@
     border-radius: 1rem;
     background-color: v.$color-primary;
     color: v.$color-bg;
+    transition:
+      litleBump 700ms,
+      box-shadow 700ms;
+    &:hover {
+      animation: litleBump 700ms forwards;
+    }
+    &:not(:hover) {
+      animation: litleBumpLeave 700ms forwards;
+    }
     & p {
       color: v.$color-secondary;
-      margin-left:0.8rem;
+      margin-left: 0.8rem;
     }
     & a {
       text-decoration: none;
@@ -33,7 +44,7 @@
       font-size: 1.5rem;
     }
   }
-  &-card:nth-last-child(-n+2){
+  &-card:nth-last-child(-n + 2) {
     align-content: flex-start;
   }
 }
@@ -44,8 +55,8 @@
     &-card {
       width: 90%;
       & p {
-        margin-left:0.8rem;
-        color: v.$color-secondary
+        margin-left: 0.8rem;
+        color: v.$color-secondary;
       }
     }
   }
@@ -57,9 +68,32 @@
     &-card {
       width: 45%;
       & p {
-        margin-left:0.8rem;
-        color:white;
+        margin-left: 0.8rem;
+        color: white;
       }
     }
+  }
+}
+
+@keyframes litleBump {
+  from {
+    transform: translateY(0);
+    box-shadow: 0;
+  }
+
+  to {
+    transform: translateY(-20px);
+    box-shadow: 10px 10px 2px 2px grey;
+  }
+}
+
+@keyframes litleBumpLeave {
+  from {
+    transform: translateY(-20px);
+    box-shadow: 10px 10px 2px 2px grey;
+  }
+  to {
+    transform: translateY(0);
+    box-shadow: 0;
   }
 }

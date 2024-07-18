@@ -24,7 +24,7 @@ const formatDate = (isoDate: string): string => {
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();
-  return `${day}-${month}-${year}`;
+  return `${day}/${month}/${year}`;
 };
 
 function FirstSelection() {
@@ -51,7 +51,8 @@ function FirstSelection() {
             {petSitter.firstname} {petSitter.lastname}
           </h3>
           <p>
-            Disponible du {formatDate(petSitter.date_start)}<br /> 
+            Disponible du {formatDate(petSitter.date_start)}
+            <br />
             au {formatDate(petSitter.date_end)}
           </p>
           <h4>{petSitter.city}</h4>
@@ -64,7 +65,8 @@ function FirstSelection() {
             {petSitter.firstname} {petSitter.lastname}
           </h3>
           <p>
-            Disponible du {formatDate(petSitter.date_start)}<br />
+            Disponible du {formatDate(petSitter.date_start)}
+            <br />
             au {formatDate(petSitter.date_end)}
           </p>
           <h4>{petSitter.city}</h4>

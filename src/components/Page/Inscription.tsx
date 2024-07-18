@@ -142,15 +142,18 @@ function Inscription() {
   };
 
   return (
-    <section className="container-inscription">
+    <section className="inscription-container-inscription">
       <h2>Inscription</h2>
       <section>
-        <form onSubmit={handleSubmit} className="container-inscription-form">
+        <form
+          onSubmit={handleSubmit}
+          className="inscription-container-inscription-form"
+        >
           <input
             type="text"
             name="firstname"
             placeholder="Prénom"
-            className="container-inscription-form-input"
+            className="inscription-container-inscription-form-input"
             value={formData.firstname}
             onChange={handleChange}
           />
@@ -158,7 +161,7 @@ function Inscription() {
             type="text"
             name="lastname"
             placeholder="Nom"
-            className="container-inscription-form-input"
+            className="inscription-container-inscription-form-input"
             value={formData.lastname}
             onChange={handleChange}
           />
@@ -166,16 +169,16 @@ function Inscription() {
             type="email"
             name="email"
             placeholder="Email"
-            className="container-inscription-form-input"
+            className="inscription-container-inscription-form-input"
             value={formData.email}
             onChange={handleChange}
           />
           <input
             type="text"
             name="city"
-            placeholder="Ville"
+            placeholder="Ville: Brest (29)"
             autoComplete="one-time-code"
-            className="container-inscription-form-input"
+            className="inscription-container-inscription-form-input"
             value={formData.city}
             onChange={handleChange}
             list="city-suggestions"
@@ -198,7 +201,7 @@ function Inscription() {
             type="text"
             name="phone_number"
             placeholder="Numéro de Téléphone"
-            className="container-inscription-form-input"
+            className="inscription-container-inscription-form-input"
             value={formData.phone_number}
             onChange={handleChange}
           />
@@ -206,7 +209,7 @@ function Inscription() {
             type="password"
             name="password"
             placeholder="Mot de Passe"
-            className="container-inscription-form-input"
+            className="inscription-container-inscription-form-input"
             value={formData.password}
             onChange={handleChange}
           />
@@ -214,13 +217,16 @@ function Inscription() {
             type="password"
             name="repeatPassword"
             placeholder="Confirmation Mot de Passe"
-            className="container-inscription-form-input"
+            className="inscription-container-inscription-form-input"
             value={formData.repeatPassword}
             onChange={handleChange}
           />
           {/* Espace pour message si erreur sur la page */}
           {error && <p className="error-message">{error}</p>}
-          <button type="submit" className="container-inscription-form-button">
+          <button
+            type="submit"
+            className="inscription-container-inscription-form-button"
+          >
             Valider
           </button>
         </form>
