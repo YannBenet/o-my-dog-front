@@ -157,7 +157,7 @@ function Header() {
                       handleClick();
                     }}
                   >
-                    déconnexion
+                    Déconnexion
                   </NavLink>
                 </li>
               </ul>
