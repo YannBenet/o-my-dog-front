@@ -123,12 +123,20 @@ function Header() {
             >
               <ul>
                 <li>
-                  <NavLink to="/" className="connect-navBar-menu">
+                  <NavLink
+                    to="/"
+                    className="connect-navBar-menu"
+                    onClick={handleClick}
+                  >
                     Accueil
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/Search" className="connect-navBar-menu">
+                  <NavLink
+                    to="/Search"
+                    className="connect-navBar-menu"
+                    onClick={handleClick}
+                  >
                     Recherche
                   </NavLink>
                 </li>
@@ -136,6 +144,7 @@ function Header() {
                   <NavLink
                     to={`/Profile/${userId}`}
                     className="connect-navBar-menu"
+                    onClick={handleClick}
                   >
                     Mon profil
                   </NavLink>
@@ -144,6 +153,7 @@ function Header() {
                   <NavLink
                     to="/profile/editprofile"
                     className="connect-navBar-menu"
+                    onClick={handleClick}
                   >
                     Modification profil
                   </NavLink>

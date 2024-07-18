@@ -23,6 +23,7 @@ import EditProfile from './components/Page/EditProfile';
 import PetSitterProfile from './components/Page/PetSitterProfile';
 import Availability from './components/Page/Availability';
 import AboutUs from './components/Page/QuiSommeNous';
+import Error from './components/Page/404';
 import './styles/index.scss';
 
 const root = ReactDOM.createRoot(
@@ -43,15 +44,12 @@ const router = createBrowserRouter(
       <Route path="/DataProtection" element={<DataProtection />} />
       <Route path="/Connexion" element={<Connexion />} />
       <Route path="/Inscription" element={<Inscription />} />
-      {/* search à faire */}
       <Route path="/Search" element={<Search />} />
       <Route path="/profile/:id" element={<Profile />} />
-      {/* EditProfile à faire */}
       <Route path="/profile/EditProfile" element={<EditProfile />} />
-      {/* PetSitter/id en cours */}
       <Route path="/PetSitter/:id" element={<PetSitterProfile />} />
-      {/* Availability à faire */}
       <Route path="/Availability" element={<Availability />} />
+      <Route path="/*" element={<Error />} />
     </Route>
   )
 );

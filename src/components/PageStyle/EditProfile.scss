@@ -1,12 +1,16 @@
 @use '../../styles/variables' as v;
 
 .edit-container-inscription {
-  width: 50%;
+  min-width: 70%;
   margin: 0 auto;
   text-align: center;
   & h2 {
     font-size: 3rem;
     margin: 1rem;
+  }
+  & p {
+    padding: 2rem 0;
+    text-decoration-line: underline;
   }
   &-form {
     display: flex;
@@ -26,6 +30,36 @@
       border-radius: 1rem;
       border-color: v.$color-button;
       padding: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 463px) {
+  .edit-container-inscription {
+    width: 100%;
+    & h2 {
+      font-size: 1.7rem;
+    }
+    & p {
+      font-size: 0.8rem;
+      text-align: left;
+    }
+    &-form {
+      width: 85%;
+      margin: 0;
+    }
+  }
+}
+
+// media pour ecran tablette
+@media (min-width: 464px) and (max-width: 959px) {
+  .edit-container-inscription {
+    width: 80%;
+    & h2 {
+      font-size: 2rem;
+    }
+    &-form {
+      width: 80%;
     }
   }
 }

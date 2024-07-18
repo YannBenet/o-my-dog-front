@@ -89,6 +89,7 @@ function Search() {
       mobility: false,
       description: '',
       id: '',
+      url_img: '',
     },
   ]);
   const [formData, setFormData] = useState({
@@ -198,7 +199,7 @@ function Search() {
   const listSearch = data.map((petSitter) => (
     <article className="search-container-result-card" key={petSitter.id}>
       <div className="search-container-result-card-img">
-        <img src={profil} alt="profil" />
+        <img src={petSitter.url_img || profil} alt="profil" />
       </div>
       <div className="search-container-result-card-text">
         <h4>
@@ -211,7 +212,7 @@ function Search() {
         <div className="search-container-result-card-date">
           <h6>Disponibilités</h6>
           <p>
-            du <span>{formatDate(petSitter.date_start)}</span> au
+            du <span>{formatDate(petSitter.date_start) || ''}</span> au
             <span>{formatDate(petSitter.date_end)}</span>
           </p>
         </div>
@@ -238,6 +239,7 @@ function Search() {
       </div>
     </article>
   ));
+
   return (
     <section className="search">
       <section className="search-form-position">
@@ -285,10 +287,7 @@ function Search() {
         </form>
       </section>
       <section className="search-container">
-        <h3>
-          {' '}
-          Il y a {resultCount} pet-sitter correspondant à votre recherche
-        </h3>
+        <h3>Il y a {resultCount} pet-sitter correspondant à votre recherche</h3>
         <section className="search-container-result">{listSearch}</section>
       </section>
     </section>
