@@ -256,11 +256,12 @@ function EditProfile() {
           />
           {/* Espace pour message si erreur sur la page */}
           {error && <p className="error-message">{error}</p>}
+
           <button
             type="submit"
             className="edit-container-inscription-form-button"
           >
-            Validé
+            Valider
           </button>
         </form>
       </section>
