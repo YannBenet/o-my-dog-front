@@ -6,6 +6,7 @@ import {
   PetSitterResponseSchema,
   ListAnnouncementsSchema,
 } from '../../schema/petSitter.schema';
+import SearchBar from '../elements/Banner/Banner';
 import '../PageStyle/PersonalProfile.scss';
 import PhotoProfil from '../../../public/images/profil.jpg';
 
@@ -135,10 +136,10 @@ function Profile() {
     (announcement) => (
       <div className="profile-available-entrie-period" key={announcement.id}>
         <p className="profile-available-entrie-period-date profile-available-entrie-period-date-on">
-          du: {formatDate(announcement.date_start)}
+          du : {formatDate(announcement.date_start)}
         </p>
         <p className="profile-available-entrie-period-date profile-available-entries-period-date-off">
-          au: {formatDate(announcement.date_end)}
+          au : {formatDate(announcement.date_end)}
         </p>
         <p className="profile-available-entrie-description">
           {announcement.description}
@@ -184,6 +185,7 @@ function Profile() {
   const user = data?.petSitter;
   return (
     <section className="profile">
+      <SearchBar />
       <section className="profile-top">
         <section className="profile-container">
           <img

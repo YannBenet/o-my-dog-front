@@ -1,13 +1,20 @@
 @import '../../../styles/variables';
 .header {
   display: flex;
+<<<<<<< HEAD
   &-nav {
     display:flex;
     align-items: center;
     height: 100%;
+=======
+  background-color: v.$color-primary;
+  height: 7rem;
+  &-nav {
+    display: flex;
+>>>>>>> 7739b69b2e3400c38d88fb8259a7c90b39d3d962
     &-list-link a {
-      font-size:1.3rem;
-  }
+      font-size: 1.3rem;
+    }
   }
   &-link {
     display: flex;
@@ -15,8 +22,13 @@
     width: 7rem;
   }
   &-logo {
+<<<<<<< HEAD
     height:100%;
     width:100%;
+=======
+    height: 100%;
+    width: auto;
+>>>>>>> 7739b69b2e3400c38d88fb8259a7c90b39d3d962
   }
   &-positions {
     display: flex;
@@ -257,9 +269,15 @@
       display: flex;
     }
     &-logo {
-      height:100%;
-      width:auto;
+      height: 100%;
+      width: auto;
     }
+<<<<<<< HEAD
+=======
+    &-position-left {
+      display: flex;
+    }
+>>>>>>> 7739b69b2e3400c38d88fb8259a7c90b39d3d962
     &-nav {
       display: flex;
     }
@@ -271,7 +289,7 @@
     }
     // "home" link is hidden on small screens
     &-nav-list-link:first-of-type {
-      display: none; 
+      display: none;
     }
     &-positions-desktop-left {
       display:flex;
@@ -279,8 +297,17 @@
     &-positions-desktop-right {
       display: flex;
       padding: 0rem 0rem;
+<<<<<<< HEAD
     }
     &-buttons {
+=======
+      width: 50%;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    &-buttons {
+      padding-top: 0;
+>>>>>>> 7739b69b2e3400c38d88fb8259a7c90b39d3d962
       align-content: center;
       &-button {
         font-size: 0.75rem;
@@ -291,12 +318,16 @@
           height: 100%;
         }
       }
+<<<<<<< HEAD
     } 
   }
   .connect-navBar {
     right: 0rem;
     top: 5rem;
 
+=======
+    }
+>>>>>>> 7739b69b2e3400c38d88fb8259a7c90b39d3d962
   }
 }
 // Media query for tabletd between 768px & 959px
@@ -307,11 +338,16 @@
       display: flex;
     }
     &-logo {
-      height:100%;
-      width:auto;
+      height: 100%;
+      width: auto;
     }
+<<<<<<< HEAD
     &-positions-desktop-left {
       display:flex;
+=======
+    &-position-left {
+      display: flex;
+>>>>>>> 7739b69b2e3400c38d88fb8259a7c90b39d3d962
     }
     &-nav {
       display: flex;
@@ -323,6 +359,7 @@
       align-items: center;
     }
     // "home" link is hidden on small screens
+<<<<<<< HEAD
     //&-nav-list-link:first-of-type {
     //}
     &-positions-desktop-right {
@@ -330,6 +367,20 @@
       //padding: 0rem 1.5rem;
     }
     &-buttons {
+=======
+    &-nav-list-link:first-of-type {
+      display: none;
+    }
+    &-position-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0rem 0rem;
+      width: 50%;
+    }
+    &-buttons {
+      padding-top: 0;
+>>>>>>> 7739b69b2e3400c38d88fb8259a7c90b39d3d962
       align-content: center;
     }
   }

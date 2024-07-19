@@ -278,7 +278,7 @@ function Search() {
                 </select>
               </section>
               <button type="submit" className="search-form-button">
-                Validé
+                Valider
               </button>
             </section>
           </section>
