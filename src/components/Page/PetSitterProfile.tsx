@@ -85,6 +85,14 @@ function PetSitterProfile() {
             <span>adresse mail:</span>
             {user?.email}
           </h2>
+          <h2 className="profile-container-info-category">
+            <span>Ville:</span>
+            {user?.city}
+          </h2>
+          <h2 className="profile-container-info-category">
+            <span>Je peux garder:</span>
+            {user.animal_label?.join(', ')}
+          </h2>
         </div>
       </section>
       <section className="profile-available">

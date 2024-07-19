@@ -172,6 +172,7 @@ function EditProfile() {
   return (
     <section className="edit-container-inscription">
       <h2>Modifier mon profil</h2>
+      <p>Veuillez remplir que les champs que vous souhaitez modifier!</p>
       <section>
         <form
           onSubmit={handleSubmit}
