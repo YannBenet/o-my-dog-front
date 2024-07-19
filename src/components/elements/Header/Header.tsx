@@ -187,7 +187,7 @@ function Header() {
         ) : (
           <section className="header-positions-mobile">
             {/* Mobile headers buttons */}
-            <input className="burger-toggle" type="checkbox"></input>
+            <input id="burger-toggle" className="burger-toggle" type="checkbox"></input>
             <label 
               className="header-burger-menu" 
               htmlFor="burger-toggle"
@@ -195,21 +195,12 @@ function Header() {
             >
               <div className="burger-line"></div>
             </label>
-            {/* <button
-              type="button"
-              className="header-burger-menu"
-              onClick={() => setIsBurgerOpen(!isBurgerOpen)}
-            >
-              <div className="burger-line"></div>
-              <div className="burger-line"></div>
-              <div className="burger-line"></div>
-            </button> */}
           </section>
         )}
       </section>
-      {/* Burger if opened */}
-      {isBurgerOpen && (
-        <nav className="burger-nav">
+      {/* Burger nav if burger is opened */}
+      {isWindowWidth < 480 && (
+        <nav className={`burger-nav ${isBurgerOpen ? 'open' : ''}`}>
           <ul>
             <li>
               <NavLink
