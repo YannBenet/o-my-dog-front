@@ -15,6 +15,8 @@ function Header() {
   const location = useLocation();
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isBurgerOpen, setIsBurgerOpen] = useState<boolean>(false);
+  const [isWindowWidth, setIsWindowWidth] = useState<number>(window.innerWidth);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -71,80 +73,161 @@ function Header() {
     }
   }, [location]); // mise à jour lorsque changement de page
 
+  useEffect(() => {
+    const handleResize = () => setIsWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <header className="header">
       <NavLink to="/" className="header-link">
         <img src={logo} className="header-logo" alt="logo" />
       </NavLink>
-      <section className="header-position">
-        <section className="header-position-left">
-          <nav className="header-nav">
-            <ul className="header-nav-list">
-              <li className="header-nav-list-link">
-                <NavLink to="/" className="header-nav-list-link-dir">
-                  Accueil
-                </NavLink>
-              </li>
-              <li className="header-nav-list-link">
-                <NavLink to="/Search" className="header-nav-list-link-dir">
-                  Recherche
-                </NavLink>
-              </li>
-            </ul>
-          </nav>
-        </section>
-        <section className="header-position-right">
-          {!isLoggedIn && (
-            <div className="header-buttons">
-              <NavLink to="/Inscription" className="header-buttons-button">
-                inscription
-              </NavLink>
+      <section className="header-positions">
+        {/* Desktop headers buttons */}
+        {isWindowWidth >= 480 ? (
+          <section className="header-positions-desktop">
+            <section className="header-positions-desktop-left">
+              <nav className="header-nav">
+                <ul className="header-nav-list">
+                  <li className="header-nav-list-link">
+                    <NavLink to="/" className="header-nav-list-link-dir">
+                      Accueil
+                    </NavLink>
+                  </li>
+                  <li className="header-nav-list-link">
+                    <NavLink to="/Search" className="header-nav-list-link-dir">
+                      Recherche
+                    </NavLink>
+                  </li>
+                </ul>
+              </nav>
+            </section>
+            <section className="header-positions-desktop-right">
+              {!isLoggedIn && (
+                <div className="header-buttons">
+                  <NavLink to="/Inscription" className="header-buttons-button">
+                    Inscription
+                  </NavLink>
 
-              <NavLink to="/Connexion" className="header-buttons-button">
-                connexion
+                  <NavLink to="/Connexion" className="header-buttons-button">
+                    Connexion
+                  </NavLink>
+                </div>
+              )}
+              {isLoggedIn && (
+                <button
+                  type="button"
+                  className="header-buttons-button-picture"
+                  onClick={handleClick}
+                >
+                  <img src={profilePicture || photo} alt="profil" />
+                </button>
+              )}
+              {/* menu qui s'ouvre et se ferme suivant l'appui sur la photo de son profil dans le header */}
+              {isLoggedIn && (
+                <nav
+                  className={
+                    !isVisible ? 'connect-navBar' : 'connect-navBar-hidden'
+                  }
+                >
+                  <ul>
+                    <li>
+                      <NavLink to="/"
+                        className="connect-navBar-menu"
+                        onClick={() => handleClick()}
+                      >
+                        Accueil
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/Search"
+                        className="connect-navBar-menu"
+                        onClick={() => handleClick()}
+                      >
+                        Recherche
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to={`/Profile/${userId}`}
+                        className="connect-navBar-menu"
+                        onClick={() => handleClick()}
+                      >
+                        Mon profil
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/profile/editprofile"
+                        className="connect-navBar-menu"
+                        onClick={() => handleClick()}
+                      >
+                        Modification profil
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        to="/"
+                        className="connect-navBar-menu"
+                        onClick={() => {
+                          handleDeconnect(userId);
+                          handleClick();
+                        }}
+                      >
+                        Déconnexion
+                      </NavLink>
+                    </li>
+                  </ul>
+                </nav>
+              )}
+            </section>
+          </section>
+        ) : (
+          <section className="header-positions-mobile">
+            {/* Mobile headers buttons */}
+            <input id="burger-toggle" className="burger-toggle" type="checkbox"></input>
+            <label 
+              className="header-burger-menu" 
+              htmlFor="burger-toggle"
+              onClick={() => setIsBurgerOpen(!isBurgerOpen)}
+            >
+              <div className="burger-line"></div>
+            </label>
+          </section>
+        )}
+      </section>
+      {/* Burger nav if burger is opened */}
+      {isWindowWidth < 480 && (
+        <nav className={`burger-nav ${isBurgerOpen ? 'open' : ''}`}>
+          <ul>
+            <li>
+              <NavLink
+                to="/"
+                className="burger-nav-item"
+                onClick={() => setIsBurgerOpen(false)}
+              >
+                Accueil
               </NavLink>
-            </div>
-          )}
-          {isLoggedIn && (
-            <button
-              type="button"
-              className="header-buttons-button-picture"
-              onClick={handleClick}
-            >
-              <img src={profilePicture || photo} alt="profil" />
-            </button>
-          )}
-          {/* menu qui s'ouvre et se ferme suivant l'appui sur la photo de son profil dans le header */}
-          {isLoggedIn && (
-            <nav
-              className={
-                !isVisible ? 'connect-navBar' : 'connect-navBar-hidden'
-              }
-            >
-              <ul>
-                <li>
-                  <NavLink
-                    to="/"
-                    className="connect-navBar-menu"
-                    onClick={handleClick}
-                  >
-                    Accueil
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/Search"
-                    className="connect-navBar-menu"
-                    onClick={handleClick}
-                  >
-                    Recherche
-                  </NavLink>
-                </li>
+            </li>
+            <li>
+              <NavLink
+                to="/Search"
+                className="burger-nav-item"
+                onClick={() => setIsBurgerOpen(false)}
+              >
+                Recherche
+              </NavLink>
+            </li>
+            {isLoggedIn ? (
+              <div>
+                {/* Burger nav if connected */}
                 <li>
                   <NavLink
                     to={`/Profile/${userId}`}
-                    className="connect-navBar-menu"
-                    onClick={handleClick}
+                    className="burger-nav-item"
+                    onClick={() => setIsBurgerOpen(false)}
                   >
                     Mon profil
                   </NavLink>
@@ -152,29 +235,51 @@ function Header() {
                 <li>
                   <NavLink
                     to="/profile/editprofile"
-                    className="connect-navBar-menu"
-                    onClick={handleClick}
+                    className="burger-nav-item"
+                    onClick={() => setIsBurgerOpen(false)}
                   >
-                    Modification profil
+                    Modifier profil
                   </NavLink>
                 </li>
                 <li>
                   <NavLink
                     to="/"
-                    className="connect-navBar-menu"
+                    className="burger-nav-item"
                     onClick={() => {
+                      setIsBurgerOpen(false);
                       handleDeconnect(userId);
-                      handleClick();
                     }}
                   >
                     Déconnexion
                   </NavLink>
                 </li>
-              </ul>
-            </nav>
-          )}
-        </section>
-      </section>
+              </div>
+            ) : (
+              <div >
+                {/* Burger nav if disconnected */}
+                <li>
+                  <NavLink
+                    to="/Inscription"
+                    className="burger-nav-item"
+                    onClick={() => setIsBurgerOpen(false)}
+                  >
+                    Inscription
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/Connexion"
+                    className="burger-nav-item"
+                    onClick={() => setIsBurgerOpen(false)}
+                  >
+                    Connexion
+                  </NavLink>
+                </li>
+              </div>
+            )}
+          </ul>
+        </nav>
+      )}
     </header>
   );
 }
